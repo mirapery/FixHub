@@ -4,13 +4,15 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Services from "./components/Services";
 import Tours from "./components/Tours";
-import "./App.css";
+import Searchbar from "./components/Searchbar"
+//import "./App.css";
 
 function App() {
   return (
     <div>
       <Navbar />
       <Hero />
+      <Searchbar/>
       <About />
       <Services />
       <Tours />
