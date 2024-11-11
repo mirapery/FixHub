@@ -22,7 +22,7 @@ const Navbar = () => {
         </button>
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
           <PageLinks parentClass='md:flex'
-            itemClass='mr-6 p-1 text-fh_beige hover:text-fh_beige-light text-2xl' />
+            itemClass='mr-10 p-1 h-full border-radius-10px text-fh_beige hover:text-fh_beige-light hover:bg-fh_dgreen-light text-2xl' /> 
         </div>
       </header>
     </div>

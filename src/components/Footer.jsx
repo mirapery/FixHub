@@ -1,44 +1,16 @@
 import PageLinks from './PageLinks'
+import SocialLinks from './SocialLinks';
 
-function Footer() {
+const Footer = () => {
   return (
-    <footer className="section footer">
-      <PageLinks parentClass='footer-links' itemClass='footer-link' />
-      <ul className="footer-icons">
-        <li>
-          <a
-            href="https://www.facebook.com"
-            target="_blank"
-            rel="noreferrer"
-            className="footer-icon"
-          >
-            <i className="fab fa-facebook" />
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.twitter.com"
-            target="_blank"
-            rel="noreferrer"
-            className="footer-icon"
-          >
-            <i className="fab fa-twitter" />
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.squarespace.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="footer-icon"
-          >
-            <i className="fab fa-squarespace" />
-          </a>
-        </li>
-      </ul>
-      <p className="copyright">
-        copyright © travel tours company<span id="date">2024</span>. all rights
-        reserved
+    <footer className="flex items-center justify-between flex-wrap py-4 w-full bg-fh_dgreen">
+      <div className="pl-6 w-full md:w-auto  md:block" id="nav-content">
+        <SocialLinks parentClass='md:flex'
+          itemClass='mr-10 p-1 h-full text-fh_beige hover:text-fh_beige-light text-3xl' />
+      </div>
+      <p className="mr-10 p-1 text-xl h-full text-fh_beige">
+        Copyright © FixHub <span id="date">2024</span>. All rights
+        reserved.
       </p>
     </footer>
 
