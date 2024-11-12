@@ -42,8 +42,8 @@ export default {
 
     },
     fontFamily: {
-      sans: ['Roboto', 'sans-serif'],
-      serif: ['Roboto Slab', 'serif'],
+      'sans': ['Open Sans', 'sans-serif'],
+      'serif': ['Roboto Slab', 'serif'],
     },
 
     extend: {

@@ -4,10 +4,10 @@ import tour3 from "./assets/images/tour-3.jpeg";
 import tour4 from "./assets/images/tour-4.jpeg";
 
 export const pageLinks = [
-  { id: 1, href: "#FAQ", text: "FAQ" },
-  { id: 2, href: "#NOTIFICATIONS", text: "NOTIFICATIONS" },
-  { id: 3, href: "#ADD NEW ITEM", text: "ADD NEW ITEM" },
-  { id: 4, href: "#LOGIN", text: "LOGIN" },
+  { id: 1, href: "#about", text: "About" },
+  { id: 2, href: "#notifications", text: "Notifications" },
+  { id: 3, href: "#new item", text: "New Item" },
+  { id: 4, href: "#login", text: "Login" },
 ];
 
 export const socialLinks = [
