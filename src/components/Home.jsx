@@ -1,11 +1,11 @@
 import React from "react";
 import Hero from "./Hero";
-
+import Searchbar from "./Searchbar";
 function Home() {
     return (
         <>
             <Hero />
-            <div>This is Home</div>
+            <Searchbar/>
         </>
     );
 }
