@@ -4,7 +4,6 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Services from "./components/Services";
 import Tours from "./components/Tours";
-
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
