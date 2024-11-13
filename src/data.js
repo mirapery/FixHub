@@ -4,16 +4,16 @@ import tour3 from "./assets/images/tour-3.jpeg";
 import tour4 from "./assets/images/tour-4.jpeg";
 
 export const pageLinks = [
-  { id: 1, href: "#home", text: "home" },
-  { id: 2, href: "#about", text: "about" },
-  { id: 3, href: "#services", text: "services" },
-  { id: 4, href: "#tours", text: "tours" },
+  { id: 1, href: "#about", text: "About" },
+  { id: 2, href: "#notifications", text: "Notifications" },
+  { id: 3, href: "#new item", text: "New Item" },
+  { id: 4, href: "#login", text: "Login" },
 ];
 
 export const socialLinks = [
   { id: 1, href: "https://www.facebook.com", icon: "fab fa-facebook" },
-  { id: 2, href: "https://www.x.com", icon: "fab fa-x-twitter" },
-  { id: 3, href: "https://www.squarespace.com/", icon: "fab fa-squarespace" },
+  { id: 2, href: "https://www.instagram.com", icon: "fab fa-instagram" },
+  { id: 3, href: "https://www.tiktok.com/", icon: "fab fa-tiktok" },
 ];
 
 export const services = [

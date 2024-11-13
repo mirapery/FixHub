@@ -18,8 +18,6 @@ function Searchbar() {
         
         
 
-        
-
         <div className="flex justify-center mt-4">
           <ul className="flex justify-center w-full gap-6">
             <li className="flex flex-col items-center mx-6 hover:opacity-50">
