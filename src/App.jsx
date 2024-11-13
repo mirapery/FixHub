@@ -5,8 +5,6 @@ import Navbar from "./components/Navbar";
 import Services from "./components/Services";
 import Tours from "./components/Tours";
 
-import Searchbar from "./components/Searchbar"
-
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
