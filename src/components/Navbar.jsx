@@ -17,8 +17,8 @@ const Navbar = () => {
 
         <button
           id="nav-toggle" onClick={handleButton}
-          class="md:hidden p-2 mr-4 ml-6 my-2 border rounded border-gray-600 text-fh_beige hover:border-blue-200">
-          <i class="fas fa-bars fa-2x"></i>
+          className="md:hidden p-2 mr-4 ml-6 my-2 border rounded border-gray-600 text-fh_beige hover:border-blue-200">
+          <i className="fas fa-bars fa-2x"></i>
         </button>
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
           <PageLinks parentClass='md:flex'
