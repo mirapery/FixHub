@@ -4,19 +4,22 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Services from "./components/Services";
 import Tours from "./components/Tours";
-// import "./App.css";
+import NotFound from "./components/NotFound";
+import Layout from "./components/Layout";
+import Home from "./components/Home";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-  
-    <div>
-      <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Tours />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
