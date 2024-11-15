@@ -9,7 +9,7 @@ const ItemPage = () => {
 
         return (
             <div>
-                <Item itemData={dummyItem[0]}/>
+                <Item itemData={dummyItem[0]} className='bg-fh_white'/>
             </div>
         )
 }
