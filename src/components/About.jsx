@@ -1,4 +1,3 @@
-import image from '../assets/images/about.jpeg';
 
 const About = () => {
   return (
