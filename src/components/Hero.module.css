@@ -1,6 +1,6 @@
 
 .hero {
-    min-height: 100vh;
+    min-height: 40vh;
     background: var(--clr-primary-5);
     display: flex;
     justify-content: center;
@@ -40,8 +40,8 @@
 
 @media screen and (min-width: 768px) {
     .hero {
-        background: linear-gradient(rgb(44, 174, 186, 0.7), rgba(0, 0, 0, 0.7)),
-            url('../assets/images/main.jpeg') center/cover no-repeat;
+        background: 
+            url('../assets/images/hero.jpg') center/cover no-repeat;
     }
 
     .hero-banner {

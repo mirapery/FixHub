@@ -79,3 +79,7 @@ export const tours = [
     cost: 3300,
   },
 ];
+const images = {
+  hero: "./assets/images/hero.jpeg",
+}
+ 

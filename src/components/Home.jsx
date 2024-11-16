@@ -5,10 +5,10 @@ import Searchbar from "./Searchbar";
 
 function Home() {
     return (
-        <>
+        <div>
             <Hero />
             <Searchbar/>
-        </>
+        </div>
     );
 }
 

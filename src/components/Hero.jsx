@@ -1,21 +1,27 @@
-import React from 'react';
-import styles from './Hero.module.css'; // Import the CSS module
+import React from "react";
+import styles from "./Hero.module.css"; // Import the CSS module
 
 function Hero() {
   return (
     <section className={styles.hero} id="home">
-      <div className={styles['hero-banner']}>
-        <h1>backroads app</h1>
+      <div className= "flex text-center ">
+        <h1 className="text-4xl text-fh_beige left-20 top-20">
+        Get Your Items Repaired Easily For the Best Price 
+        <br/>or<br/> Fix Someone
+        Else's Broken Items and Earn Money
+        </h1>
+        <div className="ml-60  w-[30vh] h-[30vh] text-fh_beige bg-fh_dgreen bg-opacity-20 rounded-xl"> <h1 className="text-3xl mt-7">
+          BEST
+        </h1>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae explicabo
-          debitis est autem dicta.
+          most veri nise servise
         </p>
-        <a href="#tours" className={styles['hero-btn']}>
-          explore tours
-        </a>
+        <p className="mt-10 text-6xl">*****</p>
+          
+        </div>
+       
       </div>
     </section>
-
   );
 }
 
