@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ItemCard = ({ itemData }) => {
     return (
-        <div className="flex flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 hover:brightness-75 hover:cursor-pointer transition duration-300">
+        <Link to={"/item/" + itemData.id} className="flex flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300">
             <img
-                src={"src/assets/images/" + itemData.images[0]}
+                src={"/src/assets/images/" + itemData.images[0]}
                 alt={itemData.name}
                 className='w-full h-auto object-cover m-4 rounded-md'
             />
@@ -18,7 +19,7 @@ const ItemCard = ({ itemData }) => {
                 {itemData.location}
             </p>
 
-        </div>
+        </Link>
     )
 }
 

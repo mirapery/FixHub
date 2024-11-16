@@ -18,7 +18,7 @@ const ItemFull = ({ itemData }) => {
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
-                            src={"src/assets/images/" + itemData.images[currentImage]}
+                            src={"/src/assets/images/" + itemData.images[currentImage]}
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
@@ -27,7 +27,7 @@ const ItemFull = ({ itemData }) => {
                         {itemData.images.map((image, index) => {
                             return <img
                                 key={index}
-                                src={"src/assets/images/" + image}
+                                src={"/src/assets/images/" + image}
                                 alt={itemData.name + ' ' + index + '-pic-' + 1}
                                 onClick={() => setCurrentImage(index)}
                                 className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'
