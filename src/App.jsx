@@ -3,6 +3,7 @@ import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
 import Home from "./components/Home";
 import ItemPage from "./components/ItemPage";
+import UserPage from "./components/UserPage";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -13,7 +14,8 @@ function App() {
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />
           <Route path='about' element={<About />} />
-          <Route path='item' element={<ItemPage />} />
+          <Route path='item/:itemId' element={<ItemPage />} />
+          <Route path='user/:userId' element={<UserPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
