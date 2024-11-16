@@ -6,7 +6,7 @@ const ItemFull = ({ itemData }) => {
 
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
-            <div className="my-6 ">
+            <div className="my-2 ">
                 <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                     {itemData.name}
                 </h1>
@@ -60,9 +60,12 @@ const ItemFull = ({ itemData }) => {
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Location:
                             </h3>
-                            <p className="my-2 text-fh_black text-lg">
-                                {itemData.location}
-                            </p>
+                            <div className="flex flex-row my-2 text-fh_black text-lg">
+                                <i className="fa-solid fa-location-dot mr-2" />
+                                <p>
+                                    {itemData.location}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -15,5 +15,32 @@ export const socialLinks = [
 // dummy itemi
 
 export const dummyItem = [
-  {id: 1, userId: 27, name: "Kenkä", description: "Reikä on juu.", category: "Clothing", location: "Uusimaa, Helsinki, 00790", priceRange: "3e-5e", date_publish: "13/11/2024", images: ["kenkä.jpg", "kenkä2.jpg"]},
+  { id: 1, 
+    userId: 27, 
+    name: "Kenkä", 
+    description: "Reikä on juu.", 
+    category: "Clothing", 
+    location: "Uusimaa, Helsinki, 00790", 
+    priceRange: "3e-5e", 
+    date_publish: "13/11/2024", 
+    images: ["kenkä.jpg", "kenkä2.jpg"] 
+  },
+]
+
+export const dummyFixer = [
+  { id: 1, 
+    userName: "raica", 
+    name: "Raikka Pulkkinen", 
+    phone: "0401234567", 
+    email: "raica@hotmail.com", 
+    password: "Salasana123", 
+    image: "userPic1.jpg", 
+    creationTime: "01/01/2024", 
+    location:"31400, Somero, Varsinais-Suomi", 
+    isFixer: "true", 
+    about:"I like to fix things", 
+    reviewCount: 2, 
+    reviewAverage: 4.5, 
+    tags: ["cars", "electronics"], 
+    fixedCount:0}
 ]
