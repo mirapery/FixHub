@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
 
-const Item = ({ itemData }) => {
+const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
 
     return (
-        <div className="bg-fh_beige flex align-middle items-center flex-col justify-center min-h-screen w-full">
+        <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
             <div className="my-6 ">
                 <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                     {itemData.name}
@@ -71,4 +71,4 @@ const Item = ({ itemData }) => {
     )
 }
 
-export default Item;
+export default ItemFull;
