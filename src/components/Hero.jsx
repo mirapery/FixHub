@@ -1,3 +1,4 @@
+
 import React from "react";
 import styles from "./Hero.module.css"; // Import the CSS module
 
@@ -17,9 +18,7 @@ function Hero() {
           most veri nise servise
         </p>
         <p className="mt-10 text-6xl">*****</p>
-          
         </div>
-       
       </div>
     </section>
   );
