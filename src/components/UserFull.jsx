@@ -13,7 +13,6 @@ const UserFull = ({ userData }) => {
                 <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                     {userData.name}
                 </h1>
-
             </div>
             <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
                 <div className="flex flex-col items-center my-6">
@@ -53,8 +52,7 @@ const UserFull = ({ userData }) => {
                             </p>
                         </div>
                         <div>
-
-                            <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light drop-shadow-md my-4">
+                            <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
                                 Send Message
                             </button>
                         </div>
@@ -66,7 +64,6 @@ const UserFull = ({ userData }) => {
             <div>
                 tähän tulis sit se tabi alue
             </div>
-
         </div>
     )
 }

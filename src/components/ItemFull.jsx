@@ -52,7 +52,7 @@ const ItemFull = ({ itemData }) => {
                             <p className="my-2 text-fh_black text-lg">
                                 {itemData.priceRange}
                             </p>
-                            <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light drop-shadow-md my-4">
+                            <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
                                 Message item owner
                             </button>
                         </div>
