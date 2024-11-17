@@ -19,10 +19,10 @@ const SearchPage = () => {
   ];
 
   return (
-    <>
+    <div className="mt-20">
       <Searchbar />
       <ResultArea items={dummyItemList} />
-    </>
+    </div>
   );
 };
 export default SearchPage;

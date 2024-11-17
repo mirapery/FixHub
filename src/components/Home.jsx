@@ -34,8 +34,10 @@ function Home() {
     <>
       <Hero />
       <Searchbar />
+      <div className="transform scale-90">
       <CardArea itemsList={dummyItemList} />
       <CardArea itemsList={dummyUserList} />
+      </div>
     </>
   );
 }
