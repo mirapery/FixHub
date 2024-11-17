@@ -4,24 +4,28 @@ import furnitures from "../assets/images/furnitures.png";
 import electronics from "../assets/images/electronics.png";
 import guitar from "../assets/images/guitar.png";
 import sports from "../assets/images/sports.png";
-
-function Searchbar() {
+import { Link } from "react-router-dom";
+const Searchbar = () => {
   return (
     <div className="flex justify-center m-4">
       <div className="w-2/3">
-      <div className=" flex border-gray-900 rounded border-2">
-        <input
+        <form
+          onSubmit={<Link to="searhPage" />}
+          className=" flex border-gray-900 rounded border-2"
+        >
+          <input
             className="w-full p-4  focus:outline-none"
-
-          type="text"
-          placeholder="Search item"
-        />
-<button className=" bg-white
-"> <i className=" mr-3 fa-solid fa-magnifying-glass scale-150"></i></button>
-        </div>
-        
-        
-        
+            type="text"
+            placeholder="Search item"
+          />
+          <button
+            className=" bg-white
+"
+          >
+            {" "}
+            <i className=" mr-3 fa-solid fa-magnifying-glass scale-150"></i>
+          </button>
+        </form>
 
         <div className="flex  justify-center mt-4">
           <ul className="flex justify-center w-full gap-6">
@@ -72,6 +76,6 @@ function Searchbar() {
       </div>
     </div>
   );
-}
+};
 
 export default Searchbar;

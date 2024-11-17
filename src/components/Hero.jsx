@@ -7,9 +7,11 @@ function Hero() {
     <section className={styles.hero} id="home">
       <div className= "flex text-center ">
         <h1 className="text-4xl text-fh_beige left-20 top-20">
+          <div className=" bg-fh_dgreen-dark bg-opacity-20 rounded">
         Get Your Items Repaired Easily For the Best Price 
         <br/>or<br/> Fix Someone
         Else's Broken Items and Earn Money
+        </div>
         </h1>
         <div className="ml-60  w-[30vh] h-[30vh] text-fh_beige bg-fh_dgreen bg-opacity-20 rounded-xl"> <h1 className="text-3xl mt-7">
           BEST

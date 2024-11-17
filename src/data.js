@@ -3,7 +3,8 @@ export const pageLinks = [
   { id: 1, href: "/", text: "Home" },
   { id: 2, href: "about", text: "About" },
   // { id: 3, href: "new item", text: "New Item" },
-  { id: 4, href: "login", text: "Login" },
+  { id: 4, href: "searchPage", text: "Search" },
+  { id: 5, href: "login", text: "Login" },
 ];
 
 export const socialLinks = [
