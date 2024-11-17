@@ -6,8 +6,9 @@ function Hero() {
   return (
     <section className={styles.hero} id="home">
       <div className= "flex text-center ">
-        <h1 className="text-4xl text-fh_beige left-20 top-20">
-          <div className=" bg-fh_dgreen-dark bg-opacity-20 rounded">
+        <h1 className="text-4xl text-fh_beige lg:mr-60 md:mr-40">
+          <div className=" bg-fh_dgreen-dark bg-opacity-20 rounded-md
+          ">
         Get Your Items Repaired Easily For the Best Price 
         <br/>or<br/> Fix Someone
         Else's Broken Items and Earn Money

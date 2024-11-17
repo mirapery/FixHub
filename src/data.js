@@ -13,6 +13,16 @@ export const socialLinks = [
   { id: 3, href: "https://www.tiktok.com/", icon: "fab fa-tiktok" },
 ];
 
+
+export const categoryLinks =[
+  { id: 1, href: "hobby accesories", text: "Hobby accessories",icon:"fa-solid fa-table-tennis-paddle-ball scale-150" },
+  { id: 2, href: "clothes", text: "Clothes",icon:"fa-solid fa-tshirt scale-150" },
+  { id: 3, href: "furniture", text: "Furniture",icon:"fa-solid fa-couch scale-150" },
+  { id: 4, href: "electronics", text: "Electronics",icon:"fa-solid fa-tv scale-150" },
+  { id: 5, href: "vehicles", text: "Vehicles" ,icon:"fa-solid fa-car scale-150"},
+  { id: 6, href: "instruments", text: "Instruments",icon:"fa-solid fa-guitar scale-150" },
+]
+
 // dummy itemi
 
 
