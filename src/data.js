@@ -1,4 +1,3 @@
-
 export const pageLinks = [
   { id: 1, href: "/", text: "Home" },
   { id: 2, href: "about", text: "About" },
@@ -13,21 +12,85 @@ export const socialLinks = [
   { id: 3, href: "https://www.tiktok.com/", icon: "fab fa-tiktok" },
 ];
 
-
-export const categoryLinks =[
-  { id: 1, href: "hobby accesories", text: "Hobby accessories",icon:"fa-solid fa-table-tennis-paddle-ball scale-150" },
-  { id: 2, href: "clothes", text: "Clothes",icon:"fa-solid fa-tshirt scale-150" },
-  { id: 3, href: "furniture", text: "Furniture",icon:"fa-solid fa-couch scale-150" },
-  { id: 4, href: "electronics", text: "Electronics",icon:"fa-solid fa-tv scale-150" },
-  { id: 5, href: "vehicles", text: "Vehicles" ,icon:"fa-solid fa-car scale-150"},
-  { id: 6, href: "instruments", text: "Instruments",icon:"fa-solid fa-guitar scale-150" },
-]
+export const categoryLinks = [
+  {
+    id: 1,
+    href: "hobby accesories",
+    text: "Hobby accessories",
+    icon: "fa-solid fa-table-tennis-paddle-ball scale-150",
+  },
+  {
+    id: 2,
+    href: "clothes",
+    text: "Clothes",
+    icon: "fa-solid fa-tshirt scale-150",
+  },
+  {
+    id: 3,
+    href: "furniture",
+    text: "Furniture",
+    icon: "fa-solid fa-couch scale-150",
+  },
+  {
+    id: 4,
+    href: "electronics",
+    text: "Electronics",
+    icon: "fa-solid fa-tv scale-150",
+  },
+  {
+    id: 5,
+    href: "vehicles",
+    text: "Vehicles",
+    icon: "fa-solid fa-car scale-150",
+  },
+  {
+    id: 6,
+    href: "instruments",
+    text: "Instruments",
+    icon: "fa-solid fa-guitar scale-150",
+  },
+];
 
 // dummy itemi
 
+export const faqLinks = [
+  {
+    id: 1,
+    header: "Miksi rahani hävisivät?",
+    content: "Syynä saattaa olla huijaus tai sitten olet vain köyhä"
+  },
+  {
+    id: 2,
+    header: "Kuka omistaa FixLinkin?",
+    content:
+      "FixLinkin omistaa opiskelijaryhmä. Heillä on tarkka visio sovelluksesta ja aikovat menestyä sillä"
+  },
+  {
+    id: 3,
+    header: "Kuinka liityn fixaajaksi?",
+    content:
+      "Rekisteröidyt sisään käyttäjänä ja klikkaat aktiiviseksi kentän 'Olen korjaaja'. Tämän jälkeen saat käyttöösi kaikki korjaajien ominaisuudet"
+  },{
+    id: 4,
+    header: "Kuinka lisätä tuote?",
+    content:
+      "Ylä palkista löytyy 'lisää tuote' -osio.Tuotteen voi lisätä vasta rekisteröidyttyäsi palveluun."
+  },
+  {
+    id: 5,
+    header: "Kuinka rekisteröityä?",
+    content:
+      "Voit rekisteröityä palveluun klikkaamalla login ja tämän jälkeen valitsemalla, rekisteröidy palveluun"
+  },
+  {
+    id: 6,
+    header: "Onko palvelu turvallinen?",
+    content:
+      "Palvelu on erittäin turvallinen. Sinun täytyy vain luottaa toiseen ihmiseen"
+  }
+];
 
 export const dummyItem = [
-
   {
     id: 1,
     userId: 27,
@@ -39,13 +102,11 @@ export const dummyItem = [
     date_publish: "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: "false",
-    fixerId: "none"
-
+    fixerId: "none",
   },
-]
+];
 
 export const dummyFixer = [
-
   {
     id: 1,
     userName: "raica",
@@ -61,9 +122,9 @@ export const dummyFixer = [
     reviewCount: 2,
     reviewAverage: 4.5,
     tags: ["cars", "electronics"],
-    fixedCount: 0
-  }
-]
+    fixedCount: 0,
+  },
+];
 
 export const dummyUsers = [
   {
@@ -81,7 +142,7 @@ export const dummyUsers = [
     reviewCount: 2,
     reviewAverage: 4.5,
     tags: ["cars", "electronics"],
-    fixedCount: 0
+    fixedCount: 0,
   },
   {
     id: 2,
@@ -93,8 +154,8 @@ export const dummyUsers = [
     creationTime: "05/01/2024",
     location: "00100, Helsinki, Uusimaa",
     isFixer: "false",
-  }
-]
+  },
+];
 
 export const dummyReview = [
   {
@@ -102,7 +163,6 @@ export const dummyReview = [
     fixerId: 1,
     reviewerId: 2,
     rating: 4,
-    body: "Good work pölöplöplöplöö. Juupajuu, hehheh."
-  }
-]
-
+    body: "Good work pölöplöplöplöö. Juupajuu, hehheh.",
+  },
+];
