@@ -67,6 +67,14 @@ const ItemFull = ({ itemData }) => {
                                 </p>
                             </div>
                         </div>
+                        {/* <div> // tähän logiikka mil hakee userin
+                            <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+                                Owner:
+                            </h3>
+                            <p className="my-2 text-fh_black text-lg">
+                                {itemData.userId}
+                            </p>
+                        </div> */}
                     </div>
                 </div>
             </div>
