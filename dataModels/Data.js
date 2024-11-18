@@ -19,7 +19,7 @@ export const dummyReview = [
 
 export const dummyItem = [
   {
-    id: 1,
+    id: I00001,
     userId: 27,
     fixerId: "none",
     name: "Kenkä",
