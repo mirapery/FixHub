@@ -1,11 +1,22 @@
 import React from "react";
 import { useState } from "react";
+import ReviewArea from "./ReviewArea";
+import CardArea from "./CardArea";
+import { dummyItem, dummyReview } from "../data";
 
 const UserFull = ({ userData }) => {
 
     const formattedTags = userData.tags
         .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
         .join(", ");
+
+    const [activeTab, setActiveTab] = useState(0);
+
+    const tabs = ["Reviews", "Fixed items"]
+    const tabContent = [
+        <ReviewArea reviews={dummyReview}/>, // tähän sit oikee data muualta, pitäskö tulla UserPagesta jo?
+        <CardArea itemsList={dummyItem}/>
+    ];
 
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
@@ -61,8 +72,27 @@ const UserFull = ({ userData }) => {
                 </div>
             </div>
             <hr className="border-t-2 border-fh_dgreen my-2" />
-            <div>
-                tähän tulis sit se tabi alue
+            <div className="w-3/4 mx-auto mt-10">
+                {/* Tab Headers */}
+                <div className="flex border-b max-w-md">
+                    {tabs.map((tab, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setActiveTab(index)}
+                            className={`flex-1 py-2 text-center ${activeTab === index
+                                    ? "border-b-2 border-fh_dgreen text-fh_dgreen"
+                                    : "text-fh_black hover:text-fh_black-light"
+                                }`}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Tab Content */}
+                <div className="p-4 ">
+                    <div>{tabContent[activeTab]}</div>
+                </div>
             </div>
         </div>
     )
