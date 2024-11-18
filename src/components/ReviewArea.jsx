@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 
-import ItemCard from "./ItemCard";
+import Review from "./review";
 
-const CardArea = ({ itemsList }) => {
+const ReviewArea = ({ reviews }) => {
     const containerRef = useRef(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(false);
@@ -45,15 +45,14 @@ const CardArea = ({ itemsList }) => {
     };
 
     return (
-        <div className="relative w-full">
-
+        <div className="relative w-full h-80">
             <div ref={containerRef}
                 style={{ scrollBehavior: "smooth" }}
-                className=" w-full bg-fh_white flex overflow-x-scroll scrollbar-track-fh_beige-light scrollbar-thumb-fh_beige scrollbar-corner-fh_beige-dark transition rounded-md">
+                className=" w-full  flex overflow-x-scroll scrollbar-track-fh_beige-light scrollbar-thumb-fh_beige scrollbar-corner-fh_beige-dark transition">
 
-                {itemsList.map((item, index) => {
-                    return <ItemCard
-                        itemData={item}
+                {reviews.map((item, index) => {
+                    return <Review
+                        review={item}
                         key={index}
                         className="flex-none w-80"
                     // onClick={tähän koodi mil vaihtaa sivua}
@@ -61,26 +60,27 @@ const CardArea = ({ itemsList }) => {
                 })}
             </div>
             {/* Left Arrow */}
-      {showLeftArrow && (
-        <button
-          onClick={scrollLeft}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-fh_white opacity-50 hover:opacity-75 text-fh_black p-2 rounded-full shadow"
-        >
-          &larr;
-        </button>
-      )}
+            {showLeftArrow && (
+                <button
+                    onClick={scrollLeft}
+                    className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-fh_white opacity-50 hover:opacity-75 text-fh_black p-2 rounded-full shadow"
+                >
+                    &larr;
+                </button>
+            )}
 
-      {/* Right Arrow */}
-      {showRightArrow && (
-        <button
-          onClick={scrollRight}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-fh_white opacity-50 hover:opacity-75 text-fh_black p-2 rounded-full shadow"
-        >
-          &rarr;
-        </button>
-      )}
+            {/* Right Arrow */}
+            {showRightArrow && (
+                <button
+                    onClick={scrollRight}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-fh_white opacity-50 hover:opacity-75 text-fh_black p-2 rounded-full shadow"
+                >
+                    &rarr;
+                </button>
+            )}
+
         </div>
     )
 }
 
-export default CardArea;
+export default ReviewArea;
