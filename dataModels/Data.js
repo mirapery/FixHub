@@ -2,11 +2,12 @@
 
 export const dummyReview = [
     {
-      score: 1,
-      message: "Horrible experience, would not recommend!",
+      reviewId: "R15823",
       user_id: "U55432",
       fixer_id: "F13456",
       item_id: "I00001",
+      score: 1,
+      message: "Horrible experience, would not recommend!",
       date: "2023-11-15",
       images: [
         "image6.jpg",
@@ -20,6 +21,7 @@ export const dummyItem = [
   {
     id: 1,
     userId: 27,
+    fixerId: "none",
     name: "Kenkä",
     tags: [],
     description: "Reikä on juu.",
@@ -29,7 +31,6 @@ export const dummyItem = [
     date_publish: "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: false,
-    fixerId: "none",
     interested: 5
   },
 ]
