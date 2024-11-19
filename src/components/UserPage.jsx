@@ -12,12 +12,12 @@ const UserPage = () => {
     if (!user) {
         return (
             <div className="bg-fh_white">
-            <div className=" p-4">
-                <p className="text-fh_black text-2xl">
-                    User not found
-                </p>
+                <div className=" p-4">
+                    <p className="text-fh_black text-2xl">
+                        User not found
+                    </p>
+                </div>
             </div>
-        </div>
         )
     }
 

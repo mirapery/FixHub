@@ -5,12 +5,14 @@ import Home from "./components/Home";
 import ItemPage from "./components/ItemPage";
 import UserPage from "./components/UserPage";
 import SearchPage from "./components/SearchPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
     <BrowserRouter>
+    <ScrollToTop />
       <Routes>
         <Route path='/' element={<Layout />}>
           <Route index element={<Home />} />

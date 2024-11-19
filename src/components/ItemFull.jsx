@@ -1,8 +1,13 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import { dummyUsers } from "../data";
 
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
+
+    const user = dummyUsers.find((u) => u.userId === itemData.userId);
 
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
@@ -50,11 +55,9 @@ const ItemFull = ({ itemData }) => {
                                 Offer for fixing:
                             </h3>
                             <p className="my-2 text-fh_black text-lg">
-                                {itemData.priceRange}
+                                {(String(itemData.priceRange[0]) + " - " + String(itemData.priceRange[1]) + " €")}
                             </p>
-                            <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
-                                Message item owner
-                            </button>
+                            
                         </div>
                         <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
@@ -62,19 +65,28 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
+                                <p className="mr-2">
+                                    {itemData.location.province},
+                                </p>
+                                <p className="mr-2">
+                                    {itemData.location.city},
+                                </p>
                                 <p>
-                                    {itemData.location}
+                                    {itemData.location.postalcode}
                                 </p>
                             </div>
                         </div>
-                        {/* <div> // tähän logiikka mil hakee userin
+                        <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Owner:
                             </h3>
-                            <p className="my-2 text-fh_black text-lg">
-                                {itemData.userId}
+                            <p className="my-2 text-fh_dgreen text-lg underline">
+                                <Link to={`/user/${user.userName}`}>{user.userName}</Link> {/* Create link to user's page */}
                             </p>
-                        </div> */}
+                            <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
+                                Message item owner
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

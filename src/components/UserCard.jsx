@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// tätä ei visiin enää tarvita
+// tätä ei visiin enää tarvita mihinkään
 
 const UserCard = ({ userData }) => {
 
