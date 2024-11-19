@@ -4,30 +4,30 @@ import Hero from "./Hero";
 import Searchbar from "./Searchbar";
 
 import ItemCard from "./ItemCard";
-import { dummyFixer, dummyItem } from "../data.js";
+import { dummyUsers, dummyItems } from "../data.js";
 import CardArea from "./CardArea.jsx";
 
 function Home() {
   //testingiin
   const dummyItemList = [
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
   ];
 
   const dummyUserList = [
-    dummyFixer[0],
-    dummyFixer[0],
-    dummyFixer[0],
-    dummyFixer[0],
-    dummyFixer[0],
-    dummyFixer[0],
-    dummyFixer[0],
+    dummyUsers[0],
+    dummyUsers[0],
+    dummyUsers[0],
+    dummyUsers[0],
+    dummyUsers[0],
+    dummyUsers[0],
+    dummyUsers[0],
   ];
 
   return (
@@ -35,8 +35,14 @@ function Home() {
       <Hero />
       <Searchbar />
       <div className="transform scale-90 md:mx-48">
-      <CardArea itemsList={dummyItemList} />
-      <CardArea itemsList={dummyUserList} />
+        <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
+          Featured items:
+        </h1>
+        <CardArea itemsList={dummyItems} />
+        <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
+          Featured Fixers:
+        </h1>
+        <CardArea itemsList={dummyUsers.filter(user => user.isFixer)} />
       </div>
     </>
   );

@@ -4,18 +4,18 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import Searchbar from "./Searchbar.jsx";
 import ResultArea from "./ResultArea.jsx";
 
-import { dummyItem } from "../data.js";
+import { dummyItems } from "../data.js";
 import { inventory } from "../data.js";
 const SearchPage = () => {
   const defaultItems = [
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
-    dummyItem[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
+    dummyItems[0],
   ];
   const [searchParams] = useSearchParams(); // Hakee query-parametrit
 
