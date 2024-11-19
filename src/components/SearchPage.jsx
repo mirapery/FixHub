@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 import { Link } from "react-router-dom";
-import Searchbar from "./Searchbar";
-import ResultArea from "./ResultArea";
+import Searchbar from "./Searchbar.jsx";
+import ResultArea from "./ResultArea.jsx";
 
-import { dummyItem } from "../data.js"
-
+import { dummyItem } from "../data.js";
+import { inventory } from "../data.js";
 const SearchPage = () => {
-  const dummyItemList = [
+  const defaultItems = [
     dummyItem[0],
     dummyItem[0],
     dummyItem[0],
@@ -17,11 +17,23 @@ const SearchPage = () => {
     dummyItem[0],
     dummyItem[0],
   ];
+  const [Items, setItems] = useState(defaultItems);
+  const [ItemName, setItemName] = useState();
+
+
+  //Function gets item from inventory
+  const handleSearch = (itemName) => {
+    setItemName(itemName)
+    const results = [...inventory].filter((item) =>
+      item.name.toLowerCase().includes(itemName.toLowerCase())
+    );
+    setItems(results);
+  };
 
   return (
     <div className="mt-20">
-      <Searchbar />
-      <ResultArea items={dummyItemList} />
+      <Searchbar onSearch={handleSearch} />
+      <ResultArea itemName={ItemName} items={Items} />
     </div>
   );
 };

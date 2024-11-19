@@ -2,7 +2,7 @@ export const pageLinks = [
   { id: 1, href: "/", text: "Home" },
   { id: 2, href: "about", text: "About" },
   // { id: 3, href: "new item", text: "New Item" },
-  { id: 4, href: "searchPage", text: "Search" },
+  { id: 4, href: "search", text: "Search" },
   { id: 5, href: "login", text: "Login" },
 ];
 
@@ -166,3 +166,72 @@ export const dummyReview = [
     body: "Good work pölöplöplöplöö. Juupajuu, hehheh.",
   },
 ];
+
+
+export const inventory =[
+  {
+    id: 1,
+    userId: 2,
+    name: "Kenkä",
+    description: "Reikä on juu.",
+    category: "Clothing",
+    location: "Uusimaa, Helsinki, 00790",
+    priceRange: "3e-5e",
+    date_publish: "13/11/2024",
+    images: ["kenkä.jpg", "kenkä2.jpg"],
+    isFixed: "false",
+    fixerId: "none",
+  }, {
+    id: 2,
+    userId: 2,
+    name: "Kitara",
+    description: "Reikä on juu.",
+    category: "Clothing",
+    location: "Uusimaa, Helsinki, 00790",
+    priceRange: "3e-5e",
+    date_publish: "13/11/2024",
+    images: ["kenkä.jpg", "kenkä2.jpg"],
+    isFixed: "false",
+    fixerId: "none",
+  },
+  {
+    id: 3,
+    userId: 2,
+    name: "Pallo",
+    description: "Reikä on juu.",
+    category: "Clothing",
+    location: "Uusimaa, Helsinki, 00790",
+    priceRange: "3e-5e",
+    date_publish: "13/11/2024",
+    images: ["kenkä.jpg", "kenkä2.jpg"],
+    isFixed: "false",
+    fixerId: "none",
+  }, {
+    id: 4,
+    userId: 2,
+    name: "Kenkä",
+    description: "Reikä on juu.",
+    category: "Clothing",
+    location: "Uusimaa, Helsinki, 00790",
+    priceRange: "3e-5e",
+    date_publish: "13/11/2024",
+    images: ["kenkä.jpg", "kenkä2.jpg"],
+    isFixed: "false",
+    fixerId: "none",
+  }, {
+    id: 5,
+    userId: 2,
+    name: "Sukka",
+    description: "Reikä on juu.",
+    category: "Clothing",
+    location: "Uusimaa, Helsinki, 00790",
+    priceRange: "3e-5e",
+    date_publish: "13/11/2024",
+    images: ["kenkä.jpg", "kenkä2.jpg"],
+    isFixed: "false",
+    fixerId: "none",
+  },
+
+
+
+]

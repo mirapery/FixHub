@@ -1,30 +1,23 @@
-import vehicle from "../assets/images/vehicles.png";
-import clothes from "../assets/images/clothes.png";
-import furnitures from "../assets/images/furnitures.png";
-import electronics from "../assets/images/electronics.png";
-import guitar from "../assets/images/guitar.png";
-import sports from "../assets/images/sports.png";
-
-
-
 import CategoryItem from "./CategoryItem";
 import { categoryLinks } from "../data";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const handleSubmit = (e) => {
+const Searchbar = ({ onSearch }) => {
+  const [searchItem, setSearchItem] = useState();
+  const [itemName, setItemName] = useState();
   const navigate = useNavigate();
-  e.preventDefault();
-  if (searchItem) {
-    navigate(`/searchPage/${searchItem}`);
-  }
-};
 
-const Searchbar = () => {
+
   
-  const [searchItem, setSearchitem] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/search/${itemName}`);
+    setSearchItem(itemName);
+    onSearch(itemName); 
 
+  };
   return (
     <div className="flex justify-center m-4">
       <div className="w-2/3">
@@ -36,8 +29,8 @@ const Searchbar = () => {
             className="w-full p-4  focus:outline-none"
             type="text"
             placeholder="Search item"
-            value={searchItem}
-            onChange={(e) => setSearchitem(e.target.value)}
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
           />
           <button className="bg-white">
             <i className=" mr-3 fa-solid fa-magnifying-glass scale-150"></i>
