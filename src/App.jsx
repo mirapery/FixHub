@@ -19,7 +19,7 @@ function App() {
           <Route path='search'element={<SearchPage />} />
           <Route path='search/:itemName'element={<SearchPage />} />
           <Route path='item/:itemId' element={<ItemPage />} />
-          <Route path='user/:userId' element={<UserPage />} />
+          <Route path='user/:userName' element={<UserPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -12,7 +12,7 @@ const ItemCard = ({ itemData }) => {
 
     const itemLink = () => {
         if (itemData.isFixer) {
-            return "/user/" + itemData.id
+            return "/user/" + itemData.userName
         } else {
             return "/item/" + itemData.id
         }
