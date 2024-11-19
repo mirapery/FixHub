@@ -5,7 +5,7 @@ import Searchbar from "./Searchbar.jsx";
 import ResultArea from "./ResultArea.jsx";
 
 import { dummyItems } from "../data.js";
-import { inventory } from "../data.js";
+// import { inventory } from "../data.js";
 const SearchPage = () => {
   const defaultItems = [
     dummyItems[0],

@@ -372,12 +372,66 @@ export const dummyUsers = [
 
 export const dummyReviews = [
   {
-    "reviewId": "R95739",
-    "userId": "U95846",
-    "fixerId": "U69666",
-    "itemId": "I93872",
-    "score": 4,
-    "message": "Good work pölöplöplöplöö. Juupajuu, hehheh.",
-    "date": "27/6/2024"
+    reviewId: "R95739", // tää oli testireview, ei johda tuotteeseen
+    userId: "U95846",
+    fixerId: "U69666",
+    itemId: "I00006",
+    score: 4,
+    message: "Good work pölöplöplöplöö. Juupajuu, hehheh.",
+    date: "27/6/2024"
   },
+  {
+    reviewId: "R15223",
+    userId: "U69666",
+    fixerId: "U13456",
+    itemId: "I00001",
+    score: 1,
+    message: "Horrible experience, would not recommend!",
+    date: "15/11/2023",
+    images: [
+      "image1.jpg"
+    ]
+  },
+  {
+    reviewId: "R26623",
+    userId: "U93257",
+    fixerId: "U33456",
+    itemId: "I00008",
+    score: 5,
+    message: "Excellent service, highly recommended!",
+    date: "15/11/2023",
+    images: [
+      "image1.jpg"
+    ]
+  },
+  {
+    reviewId: "R13892",
+    userId: "U93257",
+    fixerId: "U57432",
+    itemId: "I00001",
+    score: 4,
+    message: "Good service but could improve communication.",
+    date: "15/11/2023",
+    images: []
+  },
+  {
+    reviewId: "R15823",
+    userId: "U12257",
+    fixerId: "U13456",
+    itemId: "I00001",
+    score: 1,
+    message: "Horrible experience, would not recommend!",
+    date: "15/11/2023",
+    images: []
+  },
+  {
+    reviewId: "R15923",
+    userId: "U93262",
+    fixerId: "U13456",
+    itemId: "I00008",
+    score: 5,
+    message: "Did a great job on fixing my item",
+    date: "15/11/2023",
+    images: []
+  }
 ];
