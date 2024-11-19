@@ -104,7 +104,7 @@ export const dummyItems = [
     category: "Clothing",
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00790" },
     priceRange: [5, 10], //start and finish
-    dateOfPublish: "13/11/2024",
+    dateOfPublish: new Date("2023-11-15"),
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: true,
     interested: 1
@@ -119,7 +119,7 @@ export const dummyItems = [
     category: "instruments",
     location: { province: "Uusimaa", city: "Espoo", postalcode: "02100" },
     priceRange: [50, 100],
-    dateOfPublish: "20/11/2024",
+    dateOfPublish: new Date("2022-10-12"),
     images: ["trumpetti.jpg"],
     isFixed: true,
     interested: 1
@@ -134,7 +134,7 @@ export const dummyItems = [
     category: "vehicles",
     location: { province: "Pirkanmaa", city: "Tampere", postalcode: "33100" },
     priceRange: [2000, 4000],
-    dateOfPublish: "21/11/2024",
+    dateOfPublish: new Date("2023-10-20"),
     images: ["turbiini.jpg"],
     isFixed: true,
     interested: 1
@@ -149,7 +149,7 @@ export const dummyItems = [
     category: "jewelry",
     location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     priceRange: [20, 40],
-    dateOfPublish: "22/11/2024",
+    dateOfPublish: new Date("2023-03-05"),
     images: ["rannekello.jpg"],
     isFixed: false,
     interested: 1
@@ -164,7 +164,7 @@ export const dummyItems = [
     category: "Hobby Supplies",
     location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
     priceRange: [10, 30],
-    dateOfPublish: "22/11/2024",
+    dateOfPublish: new Date("2024-03-07"),
     images: ["pensseli.jpg"],
     isFixed: false,
     interested: 4
@@ -178,7 +178,7 @@ export const dummyItems = [
     category: "vehicle",
     location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
     priceRange: [10, 30],
-    dateOfPublish: "23/11/2024",
+    dateOfPublish: new Date("2024-09-30"),
     images: ["polkupyora.jpg"],
     isFixed: false,
     interested: 2
@@ -192,7 +192,7 @@ export const dummyItems = [
   category: "electronics",
   location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
   priceRange: [10, 20],
-  dateOfPublish: "24/11/2024",
+  dateOfPublish: new Date("2024-06-30"),
   images: ["coffeemaker.jpg"],
   isFixed: false,
   interested: 1
@@ -206,7 +206,7 @@ export const dummyItems = [
   category: "instruments",
   location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
   priceRange: [50, 100],
-  dateOfPublish: "25/11/2024",
+  dateOfPublish: new Date("2024-02-04"),
   images: ["guitar.jpg"],
   isFixed: false,
   interested: 3
@@ -275,7 +275,7 @@ export const dummyUsers = [
     email: "miguz@gmail.com",
     password: "Salasana123",
     image: "miguel.jpeg",
-    creationTime: "15/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00730" },
     favouriteFixers: [], //fixer IDs
     isFixer: true,
@@ -295,7 +295,7 @@ export const dummyUsers = [
     email: "jarkko.vuori@metropolia.fi",
     password: "EiAinakaanSouthPark",
     image: "jarkko.jpg",
-    creationTime: "15/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00710" },
     favouriteFixers: [], //fixer IDs
     isFixer: true,
@@ -314,7 +314,7 @@ export const dummyUsers = [
     email: "janniinak@gmail.com",
     password: "höpölöpö132",
     image: "janniina.jpg",
-    creationTime: "1/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
     favouriteFixers: [], //fixer IDs
     isFixer: true,
@@ -333,7 +333,7 @@ export const dummyUsers = [
     email: "keijukainen@gmail.com",
     password: "Keijuliina980",
     image: "keiju.jpg",
-    creationTime: "15/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00740" },
     favouriteFixers: ["U57432"], //fixer IDs
     isFixer: false
@@ -346,7 +346,7 @@ export const dummyUsers = [
     email: "isomarko@gmail.com",
     password: "vasarajanaul0ja",
     image: "haukka.jpg",
-    creationTime: "15/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00790" },
     favouriteFixers: ["U33456"], //fixer IDs
     isFixer: false
@@ -359,7 +359,7 @@ export const dummyUsers = [
     email: "laura.laine@gmail.com",
     password: "quickfixpass789",
     image: "lalala.jpg",
-    creationTime: "18/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     favouriteFixers: ["U69666"], //fixer IDs
     isFixer: false
@@ -372,7 +372,7 @@ export const dummyUsers = [
     email: "kalle.kello@gmail.com",
     password: "watchpassword123",
     image: "kellokalle.jpg",
-    creationTime: "19/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     favouriteFixers: [],
     isFixer: false
@@ -385,7 +385,7 @@ export const dummyUsers = [
     email: "anna.taiteilija@gmail.com",
     password: "artpassword456",
     image: "artsygirl.jpg",
-    creationTime: "20/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
     favouriteFixers: [],
     isFixer: false
@@ -394,18 +394,63 @@ export const dummyUsers = [
 
 export const dummyReviews = [
   {
-    "reviewId": "R95739",
-    "userId": "U95846",
-    "fixerId": "U69666",
-    "itemId": "I93872",
-    "score": 4,
-    "message": "Good work pölöplöplöplöö. Juupajuu, hehheh.",
-    "date": "27/6/2024"
+    reviewId: "R15823",
+    userId: "U55432",
+    fixerId: "U13456",
+    itemId: "I00001",
+    score: 1,
+    message: "Horrible experience, would not recommend!",
+    dateOfPublish: new Date("2024-01-15"),
+    images: [
+      "image1.jpg"
+    ]
   },
+  {
+    reviewId: "R26623",
+    userId: "U12345",
+    fixerId: "U67890",
+    itemId: "I21223",
+    score: 5,
+    message: "Excellent service, highly recommended!",
+    dateOfPublish: new Date("2024-01-15"),
+    images: [
+      "image1.jpg"
+    ]
+  },
+  {
+    reviewId: "R13892",
+    userId: "U55432",
+    fixerId: "U13456",
+    itemId: "I00001",
+    score: 4,
+    message: "Good service but could improve communication.",
+    dateOfPublish: new Date("2024-01-15"),
+    images: []
+  },
+  {
+    reviewId: "R15823",
+    userId: "U55432",
+    fixerId: "U13456",
+    itemId: "I00001",
+    score: 1,
+    message: "Horrible experience, would not recommend!",
+    dateOfPublish: new Date("2024-01-15"),
+    images: []
+  },
+  {
+    reviewId: "R15823",
+    userId: "U55432",
+    fixerId: "U13456",
+    itemId: "I00001",
+    score: 5,
+    message: "Did a great job on fixing my item",
+    dateOfPublish: new Date("2024-01-15"),
+    images: []
+  }
 ];
 
 
-
+/*
 
 
 export const inventory = [
@@ -417,7 +462,7 @@ export const inventory = [
     category: "Clothing",
     location: "Uusimaa, Helsinki, 00790",
     priceRange: "3e-5e",
-    date_publish: "13/11/2024",
+    dateOfPublish: new Date( "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: "false",
     fixerId: "none",
@@ -429,7 +474,7 @@ export const inventory = [
     category: "Clothing",
     location: "Uusimaa, Helsinki, 00790",
     priceRange: "3e-5e",
-    date_publish: "13/11/2024",
+    dateOfPublish: new Date( "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: "false",
     fixerId: "none",
@@ -442,7 +487,7 @@ export const inventory = [
     category: "Clothing",
     location: "Uusimaa, Helsinki, 00790",
     priceRange: "3e-5e",
-    date_publish: "13/11/2024",
+    dateOfPublish: new Date( "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: "false",
     fixerId: "none",
@@ -454,7 +499,7 @@ export const inventory = [
     category: "Clothing",
     location: "Uusimaa, Helsinki, 00790",
     priceRange: "3e-5e",
-    date_publish: "13/11/2024",
+    dateOfPublish: new Date( "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: "false",
     fixerId: "none",
@@ -466,7 +511,7 @@ export const inventory = [
     category: "Clothing",
     location: "Uusimaa, Helsinki, 00790",
     priceRange: "3e-5e",
-    date_publish: "13/11/2024",
+    dateOfPublish: new Date( "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: "false",
     fixerId: "none",
@@ -475,3 +520,4 @@ export const inventory = [
 
 
 ]
+  */
