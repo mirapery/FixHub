@@ -16,8 +16,10 @@ function App() {
           <Route index element={<Home />} />
           <Route path='about' element={<About />} />
           <Route path='search'element={<SearchPage />} />
+          <Route path='login'element={<SearchPage />} />
           <Route path='item/:itemId' element={<ItemPage />} />
           <Route path='user/:userName' element={<UserPage />} />
+          
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

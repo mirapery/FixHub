@@ -19,7 +19,7 @@ const ItemCard = ({ itemData }) => {
     }
 
     return (
-        <Link to={itemLink()} className="flex flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300">
+        <Link to={itemLink()} className="flex  flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige-light min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300">
             <img
                 src={"/src/assets/images/" + (itemData.images?.[0] || itemData.image)}
                 alt={itemData.name}
