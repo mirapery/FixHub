@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link,useParams } from "react-router-dom";
 import Searchbar from "./Searchbar.jsx";
 import ResultArea from "./ResultArea.jsx";
 
@@ -17,8 +17,9 @@ const SearchPage = () => {
     dummyItem[0],
     dummyItem[0],
   ];
+  const { ItemNameURL } = useParams();
   const [Items, setItems] = useState(defaultItems);
-  const [ItemName, setItemName] = useState();
+  const [ItemName, setItemName] = useState(ItemNameURL);
 
 
   //Function gets item from inventory
