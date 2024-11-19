@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
   },
   isFixer: { 
     type: Boolean, 
-    required: true 
+    required: false 
   },
   about: { 
     type: String, 
@@ -57,7 +57,8 @@ const userSchema = new mongoose.Schema({
   },
   reviewCount: { 
     type: Number, 
-    required: false }
+    required: false 
+  }
 }, { timestamps: true });
 
 export default mongoose.model("User", userSchema);
