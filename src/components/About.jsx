@@ -1,17 +1,19 @@
-import { faqLinks } from "../data";
+import aboutImage from "../assets/images/about.jpg";
+import Hero from "./Hero";
+import AboutText from "./AboutText";
+import FaqContents from "./FaqContents";
 
-import FaqContent from "./FaqContent";
+import ContactUs from "./ContactUs";
 const About = () => {
   return (
-    <>
-      <div className="grid justify-center my-10 ">
-        
-        {faqLinks.map((item) => {
-          return <FaqContent item = {item} key = {item.id}/>
-
-        })}
+    <div>
+      <Hero />
+      <div className=" my-3 flex flex-col justify-center items-center ">
+      <AboutText />
+      <FaqContents />
+      <ContactUs />
       </div>
-    </>
+    </div>
   );
 };
 export default About;
