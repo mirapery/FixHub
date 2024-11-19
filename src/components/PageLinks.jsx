@@ -9,11 +9,9 @@ const PageLinks = ({ parentClass, itemClass, openModal, loginName }) => {
         return <PageLink key={link.id} link={link} itemClass={itemClass} />;
       })}
       <li>
-        <a className={itemClass}>
-          <Link to="#" onClick={() => openModal()}>
-            {loginName}
-          </Link>
-        </a>
+        <Link to="#" className={itemClass} onClick={() => openModal()}>
+          {loginName}
+        </Link>
       </li>
     </ul>
   );

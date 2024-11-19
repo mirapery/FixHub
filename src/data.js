@@ -60,7 +60,7 @@ export const faqLinks = [
   },
   {
     id: 2,
-    header: "Kuka omistaa FixLinkin?",
+    header: "Kuka omistaa FixHubin?",
     content:
       "FixLinkin omistaa opiskelijaryhmä. Heillä on tarkka visio sovelluksesta ja aikovat menestyä sillä"
   },

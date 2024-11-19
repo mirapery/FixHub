@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import SingUp from "./SingUp"
 let registeredUsers = [
   { id: 1, name: "ville", email: "ville", password: "Ville" },
 ];
@@ -17,14 +16,12 @@ const createUser = (name, email, password) => {
   console.log("new user created:" + newUser);
 };
 
-function Login({ isModalOpen, closeModal, loginName }) {
+const SingUp = ({isModalOpen, closeModal, setRegisterUser}) => {
   const nameInputRef = useRef(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const inputElement = document.getElementById("password-input");
-  const [registerUser, setRegisterUser] = useState(false);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -58,36 +55,31 @@ function Login({ isModalOpen, closeModal, loginName }) {
       setUserLoggedIn(true);
       loginName(name);
       closeModal();
-    }
-    else if (wrongPassword) {
-        passwordInputRef.current.setCustomValidity("Väärä salasana!");
-        passwordInputRef.current.reportValidity();
+    } else if (wrongPassword) {
+      passwordInputRef.current.setCustomValidity("Väärä salasana!");
+      passwordInputRef.current.reportValidity();
     }
   };
 
+//   const handleRegister = () => {
+//     setRegisterUser(true);
+//   };
 
-  const handleRegister=()=>{ 
-    setRegisterUser(true)
+  const handleClose = () =>{
+      closeModal()
+      setRegisterUser(false);
   }
 
- if(registerUser){
-    return(
-         <SingUp isModalOpen={isModalOpen} closeModal={closeModal} setRegisterUser={setRegisterUser} />
-    )
- }
-else{
-
   return (
-    isModalOpen && (
     <section
       className={` fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
     >
       <div className="flex flex-col bg-fh_beige-light shadow-lg h-2/5 w-[30vw] rounded-sm">
-      <div className="flex rounded-t-sm bg-fh_lgreen justify-between p-3">
-            <h1 className="text-xl ">Kirjaudu</h1>
+      <div className="flex  bg-fh_lgreen justify-between p-3 rounded-t-sm">
+            <h1 className="text-xl ">Rekisteröidy</h1>
             <button
               type="button"
-              onClick={() => closeModal()}
+              onClick={handleClose}
               className="text-fh_black-dark text-xl hover:text-fh_beige-dark "
             >
               <i className="fa-solid fa-xmark"></i>
@@ -97,7 +89,7 @@ else{
           className="text-center flex flex-col h-full w-full"
           onSubmit={handleSubmit}
         >
-          
+         
 
           <h1 className="flex items-center my-2 p-3 justify-between ">
             Käyttäjätunnus:
@@ -135,16 +127,16 @@ else{
           </div>
           <div className=" flex flex-col items-center mt-5">
             <p>Eikö sinulla ole käyttäjätunnusta?</p>
-            <button onClick={handleRegister} className="p-4 bg-fh_lgreen rounded-sm mt-2 w-1/2 hover:bg-fh_lgreen-light">
+            <button
+            
+              className="p-4 bg-fh_lgreen rounded-sm mt-2 w-1/2 hover:bg-fh_lgreen-light"
+            >
               Rekisteröidy
             </button>
           </div>
         </form>
       </div>
-      
-    </section>)
-    
-  );}
- }
-
-export default Login;
+    </section>
+  );
+};
+export default SingUp;

@@ -1,21 +1,28 @@
 import PageLinks from "./PageLinks";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Login from "./LogIn";
 
 const Navbar = () => {
-  const [isModalOpen, setIsModalOpen] = useState("invisible");
-  const [loginName, setLoginName] = useState("Login");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loginName, setLoginName] = useState(
+    /*localStorage.getItem("loginName") ||*/ "Login" // Get name from local storage
+  );
+
+// useEffect(()=>{
+// localStorage.setItem("loginName",loginName);
+
+// },[loginName])
 
   // Function to open modal
   const openModal = () => {
-    setIsModalOpen("visible");
+    setIsModalOpen(true);
   };
 
   // Function to close modal
   const closeModal = () => {
-    setIsModalOpen("invisible");
+    setIsModalOpen(false);
   };
   function handleButton() {
     document.getElementById("nav-content").classList.toggle("hidden");
