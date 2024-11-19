@@ -168,7 +168,49 @@ export const dummyItems = [
     images: ["pensseli.jpg"],
     isFixed: false,
     interested: 4
-  },
+  }, {
+    itemId: "I00006",
+    userId: "U93260",
+    fixerId: "none",
+    name: "Polkupyörä",
+    tags: ["kulkuvälineet", "pyörä"],
+    description: "Polkupyörän ketju on katkennut.",
+    category: "vehicle",
+    location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
+    priceRange: [10, 30],
+    dateOfPublish: "23/11/2024",
+    images: ["polkupyora.jpg"],
+    isFixed: false,
+    interested: 2
+}, {
+  itemId: "I00007",
+  userId: "U93260",
+  fixerId: "none",
+  name: "Kahvinkeitin",
+  tags: ["kodinkone", "elektroniikka"],
+  description: "Kahvinkeitin ei käynnisty.",
+  category: "electronics",
+  location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
+  priceRange: [10, 20],
+  dateOfPublish: "24/11/2024",
+  images: ["coffeemaker.jpg"],
+  isFixed: false,
+  interested: 1
+},{
+  itemId: "I00008",
+  userId: "U93260",
+  fixerId: "none",
+  name: "Sähkökitara",
+  tags: ["kitara", "soitin"],
+  description: "Sähkökitaran kieli on katkennut.",
+  category: "instruments",
+  location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
+  priceRange: [50, 100],
+  dateOfPublish: "25/11/2024",
+  images: ["guitar.jpg"],
+  isFixed: false,
+  interested: 3
+}
 ];
 
 // export const dummyFixer = [
