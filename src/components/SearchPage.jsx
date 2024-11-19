@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { Link,useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import Searchbar from "./Searchbar.jsx";
 import ResultArea from "./ResultArea.jsx";
 
@@ -17,24 +17,36 @@ const SearchPage = () => {
     dummyItem[0],
     dummyItem[0],
   ];
-  const { ItemNameURL } = useParams();
-  const [Items, setItems] = useState(defaultItems);
-  const [ItemName, setItemName] = useState(ItemNameURL);
+  const [searchParams] = useSearchParams(); // Hakee query-parametrit
 
+  const query = searchParams.get("query") || ""; // Lukee "query"-parametrin
+
+  const [items, setItems] = useState(defaultItems);
+  const [itemCount, setItemCount] = useState("");
 
   //Function gets item from inventory
-  const handleSearch = (itemName) => {
-    setItemName(itemName)
-    const results = [...inventory].filter((item) =>
-      item.name.toLowerCase().includes(itemName.toLowerCase())
-    );
-    setItems(results);
+  const handleSearch = (searchTerm) => {
+    if (searchTerm) {
+      const results = [...inventory].filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      setItems(results);
+      setItemCount(results.length);
+    } else {
+      setItems(defaultItems);
+      setItemCount("");
+    }
   };
 
+useEffect(()=>{
+  handleSearch(query);
+},[query])
+
   return (
-    <div className="mt-20">
+    <div className="mt-20 ">
       <Searchbar onSearch={handleSearch} />
-      <ResultArea itemName={ItemName} items={Items} />
+      <ResultArea itemCount={itemCount} items={items} />
     </div>
   );
 };
