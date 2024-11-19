@@ -8,7 +8,7 @@ const Review = ({ review }) => {
                 {[...Array(5)].map((_, index) => (
                     <i
                         key={index}
-                        className={index < review.rating ? "fa-solid fa-star" : "fa-regular fa-star"}
+                        className={index < review.score ? "fa-solid fa-star" : "fa-regular fa-star"}
                     />
                 ))}
             </div>
