@@ -294,7 +294,7 @@ export const dummyUsers = [
     phone: "0452247261",
     email: "jarkko.vuori@metropolia.fi",
     password: "EiAinakaanSouthPark",
-    image: "jarkko.jpg",
+    image: "jarkko.png",
     creationTime: "15/11/2023",
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00710" },
     favouriteFixers: [], //fixer IDs
