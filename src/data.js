@@ -93,7 +93,7 @@ export const faqLinks = [
 export const dummyItem = [
   {
     id: 1,
-    userId: 27,
+    userId: 2,
     name: "Kenkä",
     description: "Reikä on juu.",
     category: "Clothing",
@@ -137,7 +137,7 @@ export const dummyUsers = [
     image: "userPic1.jpg",
     creationTime: "01/01/2024",
     location: "31400, Somero, Varsinais-Suomi",
-    isFixer: "true",
+    isFixer: true,
     about: "I like to fix things",
     reviewCount: 2,
     reviewAverage: 4.5,
@@ -153,9 +153,9 @@ export const dummyUsers = [
     password: "Passwurd666",
     creationTime: "05/01/2024",
     location: "00100, Helsinki, Uusimaa",
-    isFixer: "false",
-  },
-];
+    isFixer: false,
+  }
+]
 
 export const dummyReview = [
   {
