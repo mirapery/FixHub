@@ -1,9 +1,8 @@
 import React from "react";
-import { useState } from "react";
-import { styles } from "./LoginPageStyle";
+import { useState, useRef, useEffect } from "react";
 
 let registeredUsers = [
-  { id: 1, name: "ville", email: "ville", password: "V1lleee>ee" },
+  { id: 1, name: "ville", email: "ville", password: "Ville" },
 ];
 let currentId = 1;
 
@@ -19,18 +18,20 @@ const createUser = (name, email, password) => {
 };
 
 function Login({ isModalOpen, closeModal, loginName }) {
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [loginVariable, setLoginVariable] = useState("Login");
-  const [showEmailField, setShowEmailField] = useState(false);
+  const nameInputRef = useRef(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const [pwFieldVariable, setPwFieldVariable] = useState("Give password");
-  const [errorMessage, setErrorMessage] = useState("");
+  const inputElement = document.getElementById("password-input");
 
+  useEffect(() => {
+    if (isModalOpen) {
+      nameInputRef.current?.focus();
+    }
+  }, [isModalOpen]);
 
   const handleSubmit = (e) => {
-    setErrorMessage("");
     e.preventDefault();
     const wrongPassword = registeredUsers.some(
       (user) => user.name === name && user.password !== password
@@ -45,120 +46,87 @@ function Login({ isModalOpen, closeModal, loginName }) {
 
     const testEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-    if (!testPassword.test(password)&&!wrongPassword) {
-      setErrorMessage(
-        "Password must contain at least 10 characters, one uppercase, one lowercase, one number and one special character"
-      );
-      setPassword("");
-      return;
+    // if (!testPassword.test(password) && !wrongPassword) {
+    //   setErrorMessage(
+    //     "Password must contain at least 10 characters, one uppercase, one lowercase, one number and one special character"
+    //   );
+    //   setPassword("");
+    //   return;
+    // }
+    if (accesGranted) {
+      setUserLoggedIn(true);
+      loginName(name);
+      closeModal();
     }
-
-    if (showEmailField && !testEmail.test(email)) {
-    
-      setEmail("");
-      return;
-    }
-
-    switch (true) {
-      //if user enters wrong password message is shown in text field
-      case !userLoggedIn && wrongPassword:
-        setErrorMessage("Wrong password!");
-        setPassword("");
-        break;
-      //after user pressed logout button, next time modal is log in
-      case userLoggedIn:
-        setPwFieldVariable("Give password");
-        setShowEmailField(false);
-        setEmail("");
-        setLoginVariable("Login");
-        setUserLoggedIn(false);
-        loginName("Login");
-        closeModal();
-        break;
-
-      //after registration
-      case !userLoggedIn && showEmailField:
-        createUser(name, email, password);
-        closeModal();
-        loginName(name);
-        setUserLoggedIn(true);
-        setShowEmailField(false);
-        setLoginVariable("Log Out " + name);
-        break;
-      //if user not found, show email input-field for registration
-      case !userLoggedIn && !accesGranted:
-    
-        setLoginVariable("Sign In");
-        setShowEmailField(true);
-        break;
-
-      //if user is not logged in and login accesGranted next time modal is for logout
-      case !userLoggedIn:
-        closeModal();
-        loginName(name);
-        setUserLoggedIn(true);
-        setLoginVariable("Log Out " + name);
-        break;
+    else if (wrongPassword) {
+        passwordInputRef.current.setCustomValidity("Väärä salasana!");
+        passwordInputRef.current.reportValidity();
     }
   };
 
   return (
-    <div className={`${styles.loginBody} ${isModalOpen}`}>
-      <form className={styles.formBody} onSubmit={handleSubmit}>
-        <div className={styles.closeButtonElement}>
-          <button
-            type="button"
-            onClick={() => closeModal()}
-            className={styles.closeButton}
-          >
-            x
-          </button>
-        </div>
-        <h1 className={styles.h1}>{loginVariable}</h1>
+    <section
+      className={` fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
+    >
+      <div className="flex flex-col bg-fh_beige-light shadow-lg h-2/5 w-[30vw] rounded-sm">
+        <form
+          className="text-center rounded-sm flex flex-col"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex  bg-fh_lgreen justify-between p-3">
+            <h1 className="text-xl ">Kirjaudu</h1>
+            <button
+              type="button"
+              onClick={() => closeModal()}
+              className="text-fh_black-dark text-xl hover:text-fh_beige-dark "
+            >
+              <i className="fa-solid fa-xmark"></i>
+            </button>
+          </div>
 
-        {showEmailField && (
+          <h1 className="flex items-center my-2 p-3 justify-between ">
+            Käyttäjätunnus:
+          </h1>
           <input
-            className={styles.input}
-            value={email}
+            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
+            ref={nameInputRef}
+            value={name}
             type="text"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        )}
-        {!userLoggedIn && (
-          <>
-            <input
-              className={styles.input}
-              value={name}
-              type="text"
-              placeholder="User Name"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <input
-              className={styles.input}
-              value={password}
-              type="text"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button className={styles.loginButton} type="submit">
-              Ok
+            required
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+
+          <h1 className="flex items-center p-3 my-2 justify-between">
+            Salasana:
+          </h1>
+          <input
+            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
+            value={password}
+            id="password-input"
+            type="text"
+            onChange={(e) => setPassword(e.target.value)}
+          ></input>
+          <div className="flex flex-wrap items-center p-3">
+            <button
+              className="p-4 bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
+              type="submit"
+            >
+              Kirjaudu
             </button>
-            <p className={styles.errorMessage}>{errorMessage}</p>
-          </>
-        )}
-        {userLoggedIn && (
-          <>
-            <button className={styles.logoutButton} type="submit">
-              Ok
+            <div className="flex">
+              <input className=" ml-2" type="checkbox"></input>
+              <p className="ml-2">Muista kirjautumiseni</p>
+            </div>
+          </div>
+          <div className=" flex flex-col items-center mt-5">
+            <p>Eikö sinulla ole käyttäjätunnusta?</p>
+            <button className="p-4 bg-fh_lgreen rounded-sm mt-2 w-1/2 hover:bg-fh_lgreen-light">
+              Rekisteröidy
             </button>
-            
-            </>
-        )}
-          
-          
-      </form>
-    </div>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 }
 
