@@ -3,68 +3,69 @@ import React, { useRef, useState, useEffect } from "react";
 import ItemCard from "./ItemCard";
 
 const CardArea = ({ itemsList }) => {
-    const containerRef = useRef(null);
-    const [showLeftArrow, setShowLeftArrow] = useState(false);
-    const [showRightArrow, setShowRightArrow] = useState(false);
+  const containerRef = useRef(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
 
-    useEffect(() => {
-        const container = containerRef.current;
+  useEffect(() => {
+    const container = containerRef.current;
 
-        const updateArrows = () => {
-            if (!container) return;
+    const updateArrows = () => {
+      if (!container) return;
 
-            // Show the left arrow if not scrolled all the way to the left
-            setShowLeftArrow(container.scrollLeft > 0);
+      // Show the left arrow if not scrolled all the way to the left
+      setShowLeftArrow(container.scrollLeft > 0);
 
-            // Show the right arrow if not scrolled all the way to the right
-            setShowRightArrow(
-                container.scrollWidth > container.clientWidth + container.scrollLeft
-            );
-        };
-
-        // Initial check
-        updateArrows();
-
-        // Add event listeners for scroll and resize
-        container.addEventListener("scroll", updateArrows);
-        window.addEventListener("resize", updateArrows);
-
-        return () => {
-            // Clean up event listeners
-            container.removeEventListener("scroll", updateArrows);
-            window.removeEventListener("resize", updateArrows);
-        };
-    }, []);
-
-    const scrollLeft = () => {
-        containerRef.current.scrollBy({ left: -200, behavior: "smooth" });
+      // Show the right arrow if not scrolled all the way to the right
+      setShowRightArrow(
+        container.scrollWidth > container.clientWidth + container.scrollLeft
+      );
     };
 
-    const scrollRight = () => {
-        containerRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    // Initial check
+    updateArrows();
+
+    // Add event listeners for scroll and resize
+    container.addEventListener("scroll", updateArrows);
+    window.addEventListener("resize", updateArrows);
+
+    return () => {
+      // Clean up event listeners
+      container.removeEventListener("scroll", updateArrows);
+      window.removeEventListener("resize", updateArrows);
     };
+  }, []);
 
-    return (
-        <div className="relative w-full">
+  const scrollLeft = () => {
+    containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+  };
 
-            <div ref={containerRef}
-                style={{ scrollBehavior: "smooth" }}
-                className=" w-full bg-fh_white flex overflow-x-scroll scrollbar-hide transition rounded-md">
+  const scrollRight = () => {
+    containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+  };
 
-                {itemsList.map((item, index) => {
-                    return <ItemCard
-                        itemData={item}
-                        key={index}
-                        className="flex-none w-80"
-                    // onClick={tähän koodi mil vaihtaa sivua}
-                    />
-                })}
-            </div>
-            {/* Left Arrow */}
+  return (
+    <div className="relative w-full">
+
+      <div ref={containerRef}
+        style={{ scrollBehavior: "smooth" }}
+        className=" w-full bg-fh_white flex overflow-x-scroll scrollbar-hide  transition rounded-md"
+      >
+
+        {itemsList.map((item, index) => {
+          return <ItemCard
+            itemData={item}
+            key={index}
+            className="flex-none w-80"
+          />
+        })}
+      </div>
+      {/* Left Arrow */}
       {showLeftArrow && (
         <button
           onClick={scrollLeft}
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-fh_white opacity-50 hover:opacity-75 text-fh_black p-2 rounded-full shadow"
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-fh_beige hover:opacity-75 text-fh_black p-2 rounded-full shadow"
+          style={{ marginLeft: '-4rem' }}
         >
           &larr;
         </button>
@@ -74,13 +75,14 @@ const CardArea = ({ itemsList }) => {
       {showRightArrow && (
         <button
           onClick={scrollRight}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-fh_white opacity-50 hover:opacity-75 text-fh_black p-2 rounded-full shadow"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-fh_beige  hover:opacity-75 text-fh_black p-2 rounded-full shadow"
+          style={{ marginRight: '-4rem' }}
         >
           &rarr;
         </button>
       )}
-        </div>
-    )
+    </div>
+  )
 }
 
 export default CardArea;
