@@ -34,7 +34,7 @@ function Home() {
     <>
       <Hero />
       <Searchbar />
-      <div className="transform scale-90 mx-48">
+      <div className="transform scale-90 md:mx-48">
       <CardArea itemsList={dummyItemList} />
       <CardArea itemsList={dummyUserList} />
       </div>
