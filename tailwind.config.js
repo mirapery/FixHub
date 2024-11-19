@@ -30,9 +30,9 @@ export default {
         dark:'#c88b2a',
       },
       'fh_beige': {
-        DEFAULT:'#d6c69a',
-        dark:'#c5a972', 
-        light:'#e6ddc2',
+        DEFAULT:'#e6ddc2',
+        dark:'#d6c69a', 
+        light:'#f3efe1',
       },
       'fh_white': {
         DEFAULT:'#efefe8',
