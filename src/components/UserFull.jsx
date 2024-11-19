@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import ReviewArea from "./ReviewArea";
 import CardArea from "./CardArea";
-import { dummyItem, dummyReview } from "../data";
+import { dummyItem, dummyReview } from "../data"; // nämä korvataa listoilla dummydatasta
 
 const UserFull = ({ userData }) => {
 
@@ -14,12 +14,13 @@ const UserFull = ({ userData }) => {
     if (userData.isFixer) {
         tabs.push("Reviews", "Fixed items")
         tabContent.push(
-            <ReviewArea reviews={dummyReview} />,
-            <CardArea itemsList={dummyItem} />)
-    } else if (true) { //tähän siis kysely et onko itemeitä userin id:llä, sit vois olla pelkkä if ni saa fixerisivulle kans
+            <ReviewArea reviews={dummyReview.filter(r => r.fixerId === userData.userId)} />,
+            <CardArea itemsList={dummyItem.filter(item => item.fixerId === userData.userId)} />
+    )} else if (true) {
         tabs.push("Items")
         tabContent.push(
-            <CardArea itemsList={dummyItem} />)
+            <CardArea itemsList={dummyItem.filter(item => item.userId === userData.userId)} />
+        )
     }
 
 
