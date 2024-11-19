@@ -14,7 +14,7 @@ const Review = ({ review }) => {
             </div>
             <div className="min-h-20 max-h-70 m-2 w-3/4 justify-center flex-grow">
                 <p>
-                    {review.body}
+                    {review.message}
                 </p>
             </div>
             <div className="flex flex-row m-2 justify-evenly items-center">

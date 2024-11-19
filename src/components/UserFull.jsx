@@ -55,7 +55,13 @@ const UserFull = ({ userData }) => {
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
                                 <p>
-                                    {userData.location}
+                                    {userData.location.province},
+                                </p>
+                                <p>
+                                    {userData.location.city},
+                                </p>
+                                <p>
+                                    {userData.location.postalcode}
                                 </p>
                             </div>
                             <div>
@@ -131,8 +137,14 @@ const UserFull = ({ userData }) => {
                             </div>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
+                                <p className="mr-2">
+                                    {userData.location.province},
+                                </p>
+                                <p className="mr-2">
+                                    {userData.location.city},
+                                </p>
                                 <p>
-                                    {userData.location}
+                                    {userData.location.postalcode}
                                 </p>
                             </div>
                             <div>

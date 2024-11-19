@@ -50,7 +50,7 @@ const ItemFull = ({ itemData }) => {
                                 Offer for fixing:
                             </h3>
                             <p className="my-2 text-fh_black text-lg">
-                                {itemData.priceRange}
+                                {(String(itemData.priceRange[0]) + " - " + String(itemData.priceRange[1]) + " €")}
                             </p>
                             <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
                                 Message item owner
@@ -62,8 +62,14 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
+                                <p className="mr-2">
+                                    {itemData.location.province}, 
+                                </p>
+                                <p className="mr-2">
+                                    {itemData.location.city}, 
+                                </p>
                                 <p>
-                                    {itemData.location}
+                                    {itemData.location.postalcode}
                                 </p>
                             </div>
                         </div>

@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 
 const ItemCard = ({ itemData }) => {
     let formattedTags;
+    let formattedPrice;
 
     if ("tags" in itemData) {
         formattedTags = itemData.tags
             .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
             .join(", ");
+    }
+
+    if ("priceRange" in itemData) {
+        formattedPrice = (String(itemData.priceRange[0]) + " - " + String(itemData.priceRange[1]) + " €")
     }
 
     const itemLink = () => {
@@ -29,12 +34,15 @@ const ItemCard = ({ itemData }) => {
                 {itemData.name}
             </h2>
             <p className="text-fh_black m-1">
-                {itemData.priceRange || formattedTags}
+                {formattedPrice || formattedTags}
             </p >
             <div className="flex flex-row my-2 text-fh_black text-lg">
                 <i className="fa-solid fa-location-dot mr-2" />
+                <p className="mr-1">
+                    {itemData.location.province}, 
+                </p>
                 <p>
-                    {itemData.location}
+                     {itemData.location.city}
                 </p>
             </div>
 

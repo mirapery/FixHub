@@ -91,83 +91,88 @@ export const faqLinks = [
 ];
 
 export const dummyItem = [
-  {
-    id: "U95846",
-    userId: 2,
-    fixerId:"none",
-    name: "Kenkä",
-    tags: [],
-    description: "Reikä on juu.",
-    category: "Clothing",
-    location: "Uusimaa, Helsinki, 00790",
-    priceRange: [5, 10],
-    date_publish: "13/11/2024",
-    images: ["kenkä.jpg", "kenkä2.jpg"],
-    isFixed: false,
-    interested: 5
+{
+    "itemId": "I93872",
+    "userId": "U95846",
+    "fixerId":"U69666",
+    "name": "Kenkä",
+    "tags": [],
+    "description": "Reikä on juu.",
+    "category": "Clothing",
+    "location": {"province":"Uusimaa", "city": "Helsinki", "postalcode" : "00790"},
+    "priceRange": [5, 10],
+    "dateOfPublish": "13/11/2024",
+    "images": ["kenkä.jpg", "kenkä2.jpg"],
+    "isFixed": false,
+    "interested": 5
   },
 ];
 
-// export const dummyFixer = [
-//   {
-//     id: 1,
-//     userName: "raica",
-//     name: "Raikka Pulkkinen",
-//     phone: "0401234567",
-//     email: "raica@hotmail.com",
-//     password: "Salasana123",
-//     image: "userPic1.jpg",
-//     creationTime: "01/01/2024",
-//     location: "31400, Somero, Varsinais-Suomi",
-//     isFixer: "true",
-//     about: "I like to fix things",
-//     reviewCount: 2,
-//     reviewAverage: 4.5,
-//     tags: ["cars", "electronics"],
-//     fixedCount: 0,
-//   },
-// ];
+export const dummyFixer = [
+  {
+    "userId": "U69666",
+    "userName": "raica",
+    "name": "Raikka Pulkkinen",
+    "phone": "0401234567",
+    "email": "raica@hotmail.com",
+    "password": "Salasana123",
+    "image": "userPic1.jpg",
+    "creationTime": "01/01/2024",
+    "location": {"province": "Varsinais-Suomi", "city": "Somero", "postalcode" : "31400"},
+    "favouriteFixers": [],
+    "isFixer": true,
+    "about": "I like to fix things",
+    "reviewCount": 2,
+    "reviewAverage": 4.5,
+    "tags": ["cars", "electronics"],
+    "fixedCount": 1,
+    "interestedIn": ["I00001", "I04234"] //item IDs
+  },
+];
 
 export const dummyUsers = [
   {
-    id: "U69666",
-    userName: "raica",
-    name: "Raikka Pulkkinen",
-    phone: "0401234567",
-    email: "raica@hotmail.com",
-    password: "Salasana123",
-    image: "userPic1.jpg",
-    creationTime: "01/01/2024",
-    location: "31400, Somero, Varsinais-Suomi",
-    isFixer: true,
-    about: "I like to fix things",
-    reviewCount: 2,
-    reviewAverage: 4.5,
-    tags: ["cars", "electronics"],
-    fixedCount: 1,
-    interestedIn: ["I00001", "I04234"] //item IDs
+    "userId": "U69666",
+    "userName": "raica",
+    "name": "Raikka Pulkkinen",
+    "phone": "0401234567",
+    "email": "raica@hotmail.com",
+    "password": "Salasana123",
+    "image": "userPic1.jpg",
+    "creationTime": "01/01/2024",
+    "location": {"province": "Varsinais-Suomi", "city": "Somero", "postalcode" : "31400"},
+    "favouriteFixers": [],
+    "isFixer": true,
+    "about": "I like to fix things",
+    "reviewCount": 2,
+    "reviewAverage": 4.5,
+    "tags": ["cars", "electronics"],
+    "fixedCount": 1,
+    "interestedIn": ["I00001", "I04234"] //item IDs
   },
-  {
-    id: "U95846",
-    userName: "juuseri",
-    name: "Pertti Eräreikä",
-    phone: "0406664242",
-    email: "pertti@hotmail.com",
-    password: "Passwurd666",
-    creationTime: "05/01/2024",
-    location: "00100, Helsinki, Uusimaa",
-    isFixer: false,
-    favouriteFixers: ["U69666"]
+   {
+    "userId": "U95846",
+    "userName": "juuseri",
+    "name": "Pertti Eräreikä",
+    "phone": "0406664242",
+    "email": "pertti@hotmail.com",
+    "password": "Passwurd666",
+    "creationTime": "05/01/2024",
+    "location": {"province": "Uusimaa", "city": "Helsinki", "postalcode" : "00100"},
+    "isFixer": false,
+    "favouriteFixers": ["U69666"]
   }
 ]
 
 export const dummyReview = [
   {
-    id: "R95739",
-    fixerId: "U69666",
-    reviewerId: "U95846",
-    rating: 4,
-    body: "Good work pölöplöplöplöö. Juupajuu, hehheh.",
+    "reviewId": "R95739",
+    "userId": "U95846",
+    "fixerId": "U69666",
+    "itemId": "I93872",
+    "score": 4,
+    "message": "Good work pölöplöplöplöö. Juupajuu, hehheh.",
+    "date": "27/6/2024"
   },
 ];
 
