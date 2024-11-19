@@ -70,7 +70,7 @@ export const faqLinks = [
     header: "Kuinka liityn fixaajaksi?",
     content:
       "Rekisteröidyt sisään käyttäjänä ja klikkaat aktiiviseksi kentän 'Olen korjaaja'. Tämän jälkeen saat käyttöösi kaikki korjaajien ominaisuudet"
-  },{
+  }, {
     id: 4,
     header: "Kuinka lisätä tuote?",
     content:
@@ -102,7 +102,7 @@ export const dummyItems = [
     tags: [],
     description: "Reikä on juu.",
     category: "Clothing",
-    location: {province:"Uusimaa", city: "Helsinki", postalcode : "00790"},
+    location: { province: "Uusimaa", city: "Helsinki", postalcode: "00790" },
     priceRange: [5, 10], //start and finish
     dateOfPublish: "13/11/2024",
     images: ["kenkä.jpg", "kenkä2.jpg"],
@@ -117,7 +117,7 @@ export const dummyItems = [
     tags: ["musiikki", "soitin"],
     description: "Trumpetti, jossa on pieniä kolhuja.",
     category: "instruments",
-    location: {province: "Uusimaa", city: "Espoo", postalcode: "02100"},
+    location: { province: "Uusimaa", city: "Espoo", postalcode: "02100" },
     priceRange: [50, 100],
     dateOfPublish: "20/11/2024",
     images: ["trumpetti.jpg"],
@@ -132,7 +132,7 @@ export const dummyItems = [
     tags: ["airplain", "turbine"],
     description: "Pelikaani lensi turbiiniin, turbiini meni rikki.",
     category: "vehicles",
-    location: {province: "Pirkanmaa", city: "Tampere", postalcode: "33100"},
+    location: { province: "Pirkanmaa", city: "Tampere", postalcode: "33100" },
     priceRange: [2000, 4000],
     dateOfPublish: "21/11/2024",
     images: ["turbiini.jpg"],
@@ -147,7 +147,7 @@ export const dummyItems = [
     tags: ["kellot", "korut"],
     description: "Kellon viisari on lopettanut tikittämästä/liikkumasta.",
     category: "jewelry",
-    location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
+    location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     priceRange: [20, 40],
     dateOfPublish: "22/11/2024",
     images: ["rannekello.jpg"],
@@ -162,7 +162,7 @@ export const dummyItems = [
     tags: ["harrastus", "maalaus"],
     description: "Maalaustarvikkeita, osa siveltimistä kuluneita.",
     category: "Hobby Supplies",
-    location: {province: "Varsinais-Suomi", city: "Turku", postalcode: "20100"},
+    location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
     priceRange: [10, 30],
     dateOfPublish: "22/11/2024",
     images: ["pensseli.jpg"],
@@ -203,7 +203,7 @@ export const dummyUsers = [
     "password": "Salasana123",
     "image": "userPic1.jpg",
     "creationTime": "01/01/2024",
-    "location": {"province": "Varsinais-Suomi", "city": "Somero", "postalcode" : "31400"},
+    "location": { "province": "Varsinais-Suomi", "city": "Somero", "postalcode": "31400" },
     "favouriteFixers": [],
     "isFixer": true,
     "about": "I like to fix things",
@@ -213,7 +213,7 @@ export const dummyUsers = [
     "fixedCount": 1,
     "interestedIn": ["I00001", "I04234"] //item IDs
   },
-   {
+  {
     "userId": "U95846",
     "userName": "juuseri",
     "name": "Pertti Eräreikä",
@@ -221,7 +221,7 @@ export const dummyUsers = [
     "email": "pertti@hotmail.com",
     "password": "Passwurd666",
     "creationTime": "05/01/2024",
-    "location": {"province": "Uusimaa", "city": "Helsinki", "postalcode" : "00100"},
+    "location": { "province": "Uusimaa", "city": "Helsinki", "postalcode": "00100" },
     "isFixer": false,
     "favouriteFixers": ["U69666"]
   },
@@ -234,7 +234,7 @@ export const dummyUsers = [
     password: "Salasana123",
     image: "miguel.jpeg",
     creationTime: "15/11/2023",
-    location: {province:"Uusimaa", city: "Helsinki", postalcode : "00730"},
+    location: { province: "Uusimaa", city: "Helsinki", postalcode: "00730" },
     favouriteFixers: [], //fixer IDs
     isFixer: true,
     about: "I'm  A skilled professional specializing in repairing, restoring, and maintaining furniture and musical instruments.",
@@ -244,45 +244,45 @@ export const dummyUsers = [
     fixedCount: 1,
     interestedIn: ["I00001", "I04234"] //item IDs
   }
-,
-{
-  userId: "U33456",
-  userName: "jacquesbergelius",
-  name: "Jarkko Vuori",
-  phone: "0452247261",
-  email: "jarkko.vuori@metropolia.fi",
-  password: "EiAinakaanSouthPark",
-  image: "jarkko.jpg",
-  creationTime: "15/11/2023",
-  location: {province:"Uusimaa", city: "Helsinki", postalcode : "00710"},
-  favouriteFixers: [], //fixer IDs
-  isFixer: true,
-  about: "I love fixing airplane turbines, it's my passion. Also I'm good at fixing electronics.",
-  reviewCount: 2,
-  reviewAverage: 4.5,
-  tags: ["vehicles", "electronics"],
-  fixedCount: 4,
-  interestedIn: ["I00001", "I04234"] //item IDs
-},
-{
-  userId: "U57432",
-  userName: "JannuliUwU",
-  name: "Janniina Kallio",
-  phone: "044226145",
-  email: "janniinak@gmail.com",
-  password: "höpölöpö132",
-  image: "janniina.jpg",
-  creationTime: "1/11/2023",
-  location: {province: "Varsinais-Suomi", city: "Turku", postalcode: "20100"},
-  favouriteFixers: [], //fixer IDs
-  isFixer: true,
-  about: "27-year-old clothing designer with a passion for repairing and restoring clothing. Also have some experience with fixing hobby accessories, like tents and hiking-boots.",
-  reviewCount: 1,
-  reviewAverage: 4,
-  tags: ["clothes", "hobby accessories"],
-  fixedCount: 1,
-  interestedIn: ["I00001", "I04234"] //item IDs
-},
+  ,
+  {
+    userId: "U33456",
+    userName: "jacquesbergelius",
+    name: "Jarkko Vuori",
+    phone: "0452247261",
+    email: "jarkko.vuori@metropolia.fi",
+    password: "EiAinakaanSouthPark",
+    image: "jarkko.jpg",
+    creationTime: "15/11/2023",
+    location: { province: "Uusimaa", city: "Helsinki", postalcode: "00710" },
+    favouriteFixers: [], //fixer IDs
+    isFixer: true,
+    about: "I love fixing airplane turbines, it's my passion. Also I'm good at fixing electronics.",
+    reviewCount: 2,
+    reviewAverage: 4.5,
+    tags: ["vehicles", "electronics"],
+    fixedCount: 4,
+    interestedIn: ["I00001", "I04234"] //item IDs
+  },
+  {
+    userId: "U57432",
+    userName: "JannuliUwU",
+    name: "Janniina Kallio",
+    phone: "044226145",
+    email: "janniinak@gmail.com",
+    password: "höpölöpö132",
+    image: "janniina.jpg",
+    creationTime: "1/11/2023",
+    location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
+    favouriteFixers: [], //fixer IDs
+    isFixer: true,
+    about: "27-year-old clothing designer with a passion for repairing and restoring clothing. Also have some experience with fixing hobby accessories, like tents and hiking-boots.",
+    reviewCount: 1,
+    reviewAverage: 4,
+    tags: ["clothes", "hobby accessories"],
+    fixedCount: 1,
+    interestedIn: ["I00001", "I04234"] //item IDs
+  },
   {
     userId: "U12257",
     userName: "Pikkukeiju",
@@ -292,7 +292,7 @@ export const dummyUsers = [
     password: "Keijuliina980",
     image: "keiju.jpg",
     creationTime: "15/11/2023",
-    location: {province :"Uusimaa", city : "Helsinki", postalcode : "00740"},
+    location: { province: "Uusimaa", city: "Helsinki", postalcode: "00740" },
     favouriteFixers: ["U57432"], //fixer IDs
     isFixer: false
   },
@@ -305,7 +305,7 @@ export const dummyUsers = [
     password: "vasarajanaul0ja",
     image: "haukka.jpg",
     creationTime: "15/11/2023",
-    location: {province :"Uusimaa", city : "Helsinki", postalcode : "00790"},
+    location: { province: "Uusimaa", city: "Helsinki", postalcode: "00790" },
     favouriteFixers: ["U33456"], //fixer IDs
     isFixer: false
   },
@@ -318,36 +318,36 @@ export const dummyUsers = [
     password: "quickfixpass789",
     image: "lalala.jpg",
     creationTime: "18/11/2023",
-    location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
+    location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     favouriteFixers: ["U69666"], //fixer IDs
     isFixer: false
-},
-{
-  userId: "U93261",
-  userName: "WatchLover",
-  name: "Kalle Kello",
-  phone: "0401234567",
-  email: "kalle.kello@gmail.com",
-  password: "watchpassword123",
-  image: "kellokalle.jpg",
-  creationTime: "19/11/2023",
-  location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
-  favouriteFixers: [],
-  isFixer: false
-},
-{
-  userId: "U93262",
-  userName: "ArtFan",
-  name: "Anna Taiteilija",
-  phone: "0509876543",
-  email: "anna.taiteilija@gmail.com",
-  password: "artpassword456",
-  image: "artsygirl.jpg",
-  creationTime: "20/11/2023",
-  location: {province: "Varsinais-Suomi", city: "Turku", postalcode: "20100"},
-  favouriteFixers: [],
-  isFixer: false
-}
+  },
+  {
+    userId: "U93261",
+    userName: "WatchLover",
+    name: "Kalle Kello",
+    phone: "0401234567",
+    email: "kalle.kello@gmail.com",
+    password: "watchpassword123",
+    image: "kellokalle.jpg",
+    creationTime: "19/11/2023",
+    location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
+    favouriteFixers: [],
+    isFixer: false
+  },
+  {
+    userId: "U93262",
+    userName: "ArtFan",
+    name: "Anna Taiteilija",
+    phone: "0509876543",
+    email: "anna.taiteilija@gmail.com",
+    password: "artpassword456",
+    image: "artsygirl.jpg",
+    creationTime: "20/11/2023",
+    location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
+    favouriteFixers: [],
+    isFixer: false
+  }
 ]
 
 export const dummyReviews = [
@@ -366,7 +366,7 @@ export const dummyReviews = [
 
 
 
-export const inventory =[
+export const inventory = [
   {
     id: 1,
     userId: 2,
