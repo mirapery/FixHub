@@ -49,7 +49,7 @@ const CardArea = ({ itemsList }) => {
 
             <div ref={containerRef}
                 style={{ scrollBehavior: "smooth" }}
-                className=" w-full bg-fh_white flex overflow-x-scroll scrollbar-hide scrollbar-track-fh_beige-light scrollbar-thumb-fh_beige scrollbar-corner-fh_beige-dark transition rounded-md">
+                className=" w-full bg-fh_white flex overflow-x-scroll scrollbar-hide transition rounded-md">
 
                 {itemsList.map((item, index) => {
                     return <ItemCard
