@@ -2,8 +2,6 @@ import express from "express";
 import { getAllUsers, createUser, getUserById, updateUser, deleteUser } from "../controllers/userController";
 import validateUserId from "../middleware/validateUserId";
 
-const app = express();
-
 const router = express.Router();
 
 // GET /api/users
