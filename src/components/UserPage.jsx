@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 
 
 const UserPage = () => {
-    const { userId } = useParams();
-    const user = dummyUsers.find((u) => u.id === parseInt(userId, 10));
+    const { userName } = useParams();
+    const user = dummyUsers.find((u) => u.userName === userName);
 
     if (!user) {
         return (
