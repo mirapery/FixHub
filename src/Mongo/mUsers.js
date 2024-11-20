@@ -1,13 +1,7 @@
 import mongoose from 'mongoose';
 import { dummyUsers } from '../data.js';
 
-/*
-dotenv.config(); // Load environment variables from .env file
-
-const mongoURI = process.env.MONGO_URI;
-*/
 const mongoURI = 'mongodb://localhost:27017/FixHub'; // Local MongoDB URI
-console.log('MONGO_URI:', mongoURI); // Debugging line
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected successfully!'))
@@ -33,7 +27,13 @@ const Users = mongoose.model('users', userSchema);
 
 Users.insertMany(dummyUsers)
     .then(() => console.log('Multiple users added successfully!'))
-    .catch(err => console.error('Error adding users:', err));
+    .catch(err => {
+        if (err.code === 11000) {
+            console.error('Duplicate key error:', err.message);
+        } else {
+            console.error('Error adding users:', err);
+        }
+    });
 
 
 
