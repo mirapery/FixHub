@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
-import SingUp from "./SingUp"
+import SignUp from "./SignUp"
 let registeredUsers = [
   { id: 1, name: "ville", email: "ville", password: "Ville" },
 ];
@@ -19,11 +19,11 @@ const createUser = (name, email, password) => {
 
 function Login({ isModalOpen, closeModal, loginName }) {
   const nameInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  const inputElement = document.getElementById("password-input");
   const [registerUser, setRegisterUser] = useState(false);
 
   useEffect(() => {
@@ -72,77 +72,78 @@ function Login({ isModalOpen, closeModal, loginName }) {
 
  if(registerUser){
     return(
-         <SingUp isModalOpen={isModalOpen} closeModal={closeModal} setRegisterUser={setRegisterUser} />
+         <SignUp isModalOpen={isModalOpen} closeModal={closeModal} setRegisterUser={setRegisterUser} />
     )
  }
 else{
 
   return (
     isModalOpen && (
-    <section
-      className={` fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
+      <section
+      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
     >
-      <div className="flex flex-col bg-fh_beige-light shadow-lg h-2/5 w-[30vw] rounded-sm">
-      <div className="flex rounded-t-sm bg-fh_lgreen justify-between p-3">
-            <h1 className="text-xl ">Kirjaudu</h1>
-            <button
-              type="button"
-              onClick={() => closeModal()}
-              className="text-fh_black-dark text-xl hover:text-fh_beige-dark "
-            >
-              <i className="fa-solid fa-xmark"></i>
-            </button>
-          </div>
+      <div className="flex flex-col bg-fh_beige-light shadow-lg w-[90vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw] xl-[20vw] h-auto rounded-sm">
+        <div className="flex rounded-t-sm bg-fh_lgreen justify-between p-3">
+          <h1 className="text-xl">Kirjaudu</h1>
+          <button
+            type="button"
+            onClick={() => closeModal()}
+            className="text-fh_black-dark text-xl hover:text-fh_beige-dark"
+          >
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        </div>
         <form
-          className="text-center flex flex-col h-full w-full"
+          className="text-center p-4 sm:p-6 flex flex-col h-full w-full"
           onSubmit={handleSubmit}
         >
-          
-
-          <h1 className="flex items-center my-2 p-3 justify-between ">
+          <label className="flex items-center justify-between text-lg mb-2">
             Käyttäjätunnus:
-          </h1>
+          </label>
           <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
+            className="w-full sm:w-3/4 mb-4 p-3 bg-fh_beige rounded-sm"
             ref={nameInputRef}
             value={name}
             type="text"
             required
             onChange={(e) => setName(e.target.value)}
-          ></input>
-
-          <h1 className="flex items-center p-3 my-2 justify-between">
+          />
+    
+          <label className="flex items-center justify-between text-lg mb-2">
             Salasana:
-          </h1>
+          </label>
           <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
+            className="w-full sm:w-3/4 mb-6 p-3 bg-fh_beige rounded-sm"
             value={password}
             id="password-input"
-            type="text"
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
-          ></input>
-          <div className="flex flex-wrap items-center p-3">
+          />
+          <div className="flex flex-col sm:flex-row items-center sm:justify-between">
             <button
-              className="p-4 bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
+              className="w-1/2 flex justify-center sm:w-1/3 px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
               type="submit"
             >
               Kirjaudu
             </button>
-            <div className="flex">
-              <input className=" ml-2" type="checkbox"></input>
-              <p className="ml-2">Muista kirjautumiseni</p>
+            <div className="flex mt-4 items-center">
+              <input className="mr-2" type="checkbox" />
+              <p className="text-sm ">Muista kirjautumiseni</p>
             </div>
           </div>
-          <div className=" flex flex-col items-center mt-5">
-            <p>Eikö sinulla ole käyttäjätunnusta?</p>
-            <button onClick={handleRegister} className="p-4 bg-fh_lgreen rounded-sm mt-2 w-1/2 hover:bg-fh_lgreen-light">
+          <div className="flex flex-col items-center mt-10">
+            <p className="text-sm sm:text-base">Eikö sinulla ole käyttäjätunnusta?</p>
+            <button
+              onClick={handleRegister}
+              className="flex justify-center  w-1/2 sm:w-1/3 px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
+            >
               Rekisteröidy
             </button>
           </div>
         </form>
       </div>
-      
-    </section>)
+    </section>
+    )
     
   );}
  }
