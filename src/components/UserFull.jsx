@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import ReviewArea from "./ReviewArea";
 import CardArea from "./CardArea";
-import { dummyItem, dummyReview } from "../data";
+import { dummyItems, dummyReviews } from "../data"; // nämä korvataa listoilla dummydatasta
 
 const UserFull = ({ userData }) => {
 
@@ -14,12 +14,13 @@ const UserFull = ({ userData }) => {
     if (userData.isFixer) {
         tabs.push("Reviews", "Fixed items")
         tabContent.push(
-            <ReviewArea reviews={dummyReview} />,
-            <CardArea itemsList={dummyItem} />)
-    } else if (true) { //tähän siis kysely et onko itemeitä userin id:llä, sit vois olla pelkkä if ni saa fixerisivulle kans
+            <ReviewArea reviews={dummyReviews.filter(r => r.fixerId === userData.userId)} />,
+            <CardArea itemsList={dummyItems.filter(item => item.fixerId === userData.userId)} />
+    )} else if (true) {
         tabs.push("Items")
         tabContent.push(
-            <CardArea itemsList={dummyItem} />)
+            <CardArea itemsList={dummyItems.filter(item => item.userId === userData.userId)} />
+        )
     }
 
 
@@ -55,7 +56,13 @@ const UserFull = ({ userData }) => {
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
                                 <p>
-                                    {userData.location}
+                                    {userData.location.province},
+                                </p>
+                                <p>
+                                    {userData.location.city},
+                                </p>
+                                <p>
+                                    {userData.location.postalcode}
                                 </p>
                             </div>
                             <div>
@@ -131,8 +138,14 @@ const UserFull = ({ userData }) => {
                             </div>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
+                                <p className="mr-2">
+                                    {userData.location.province},
+                                </p>
+                                <p className="mr-2">
+                                    {userData.location.city},
+                                </p>
                                 <p>
-                                    {userData.location}
+                                    {userData.location.postalcode}
                                 </p>
                             </div>
                             <div>

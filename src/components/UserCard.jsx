@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// tätä ei visiin enää tarvita
+// tätä ei visiin enää tarvita mihinkään
 
 const UserCard = ({ userData }) => {
 
@@ -10,7 +10,7 @@ const UserCard = ({ userData }) => {
         .join(", ");
 
     return (
-        <Link to={"/user/" + userData.id} className="flex flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300">
+        <Link to={"/user/" + userData.userName} className="flex flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300">
             <img
                 src={"/src/assets/images/" + userData.image}
                 alt={userData.name}
@@ -28,7 +28,6 @@ const UserCard = ({ userData }) => {
                     {userData.location}
                 </p>
             </div>
-
         </Link>
     )
 }
