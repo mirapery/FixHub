@@ -1,5 +1,5 @@
 import Item from "../models/itemModel";
-import handleError from "../utils/errorHandler";
+import handleError from "../middleware/handleError";
 
 // GET /items
 const getAllItems = async (req, res) => {

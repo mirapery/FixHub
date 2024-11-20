@@ -1,5 +1,5 @@
 import User from "../models/userModel";
-import handleError from "../utils/errorHandler";
+import handleError from "../middleware/handleError";
 
 // GET /users
 const getAllUsers = async (req, res) => {

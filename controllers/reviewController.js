@@ -1,5 +1,5 @@
 import Review from "../models/reviewModel";
-import handleError from "../utils/errorHandler";
+import handleError from "../middleware/handleError";
 
 // GET /reviews
 const getAllReviews = async (req, res) => {
