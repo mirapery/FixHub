@@ -121,7 +121,7 @@ else{
           />
           <div className="flex flex-col sm:flex-row items-center sm:justify-between">
             <button
-              className="w-1/2 flex justify-center sm:w-1/3 px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
+              className="flex justify-center px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
               type="submit"
             >
               Kirjaudu
@@ -135,7 +135,7 @@ else{
             <p className="text-sm sm:text-base">Eikö sinulla ole käyttäjätunnusta?</p>
             <button
               onClick={handleRegister}
-              className="flex justify-center  w-1/2 sm:w-1/3 px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
+              className="flex justify-center  px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
             >
               Rekisteröidy
             </button>
