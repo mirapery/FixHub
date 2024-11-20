@@ -176,96 +176,74 @@ export const dummyItems = [
     tags: ["kulkuvälineet", "pyörä"],
     description: "Polkupyörän ketju on katkennut.",
     category: "vehicle",
-    location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
+    location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     priceRange: [10, 30],
     dateOfPublish: new Date("2024-09-30"),
     images: ["polkupyora.jpg"],
     isFixed: false,
     interested: 2
-}, {
-  itemId: "I00007",
-  userId: "U93260",
-  fixerId: "none",
-  name: "Kahvinkeitin",
-  tags: ["kodinkone", "elektroniikka"],
-  description: "Kahvinkeitin ei käynnisty.",
-  category: "electronics",
-  location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
-  priceRange: [10, 20],
-  dateOfPublish: new Date("2024-06-30"),
-  images: ["coffeemaker.jpg"],
-  isFixed: false,
-  interested: 1
-},{
-  itemId: "I00008",
-  userId: "U93260",
-  fixerId: "none",
-  name: "Sähkökitara",
-  tags: ["kitara", "soitin"],
-  description: "Sähkökitaran kieli on katkennut.",
-  category: "instruments",
-  location: {province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100"},
-  priceRange: [50, 100],
-  dateOfPublish: new Date("2024-02-04"),
-  images: ["guitar.jpg"],
-  isFixed: false,
-  interested: 3
-}
+  }, {
+    itemId: "I00007",
+    userId: "U93260",
+    fixerId: "none",
+    name: "Kahvinkeitin",
+    tags: ["kodinkone", "elektroniikka"],
+    description: "Kahvinkeitin ei käynnisty.",
+    category: "electronics",
+    location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
+    priceRange: [10, 20],
+    dateOfPublish: "24/11/2024",
+    images: ["coffeemaker.jpg"],
+    isFixed: false,
+    interested: 1
+  }, {
+    itemId: "I00008",
+    userId: "U93260",
+    fixerId: "none",
+    name: "Sähkökitara",
+    tags: ["kitara", "soitin"],
+    description: "Sähkökitaran kieli on katkennut.",
+    category: "instruments",
+    location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
+    priceRange: [50, 100],
+    dateOfPublish: "25/11/2024",
+    images: ["guitar.jpg"],
+    isFixed: false,
+    interested: 3
+  }
 ];
-
-// export const dummyFixer = [
-//   {
-//     "userId": "U69666",
-//     "userName": "raica",
-//     "name": "Raikka Pulkkinen",
-//     "phone": "0401234567",
-//     "email": "raica@hotmail.com",
-//     "password": "Salasana123",
-//     "image": "userPic1.jpg",
-//     "creationTime": "01/01/2024",
-//     "location": {"province": "Varsinais-Suomi", "city": "Somero", "postalcode" : "31400"},
-//     "favouriteFixers": [],
-//     "isFixer": true,
-//     "about": "I like to fix things",
-//     "reviewCount": 2,
-//     "reviewAverage": 4.5,
-//     "tags": ["cars", "electronics"],
-//     "fixedCount": 1,
-//     "interestedIn": ["I00001", "I04234"] //item IDs
-//   },
-// ];
 
 export const dummyUsers = [
   {
-    "userId": "U69666",
-    "userName": "raica",
-    "name": "Raikka Pulkkinen",
-    "phone": "0401234567",
-    "email": "raica@hotmail.com",
-    "password": "Salasana123",
-    "image": "userPic1.jpg",
-    "creationTime": "01/01/2024",
-    "location": { "province": "Varsinais-Suomi", "city": "Somero", "postalcode": "31400" },
-    "favouriteFixers": [],
-    "isFixer": true,
-    "about": "I like to fix things",
-    "reviewCount": 2,
-    "reviewAverage": 4.5,
-    "tags": ["cars", "electronics"],
-    "fixedCount": 1,
-    "interestedIn": ["I00001", "I04234"] //item IDs
+    userId: "U69666",
+    userName: "raica",
+    name: "Raikka Pulkkinen",
+    phone: "0401234567",
+    email: "raica@hotmail.com",
+    password: "Salasana123",
+    image: "userPic1.jpg",
+    creationTime: "01/01/2024",
+    location: { "province": "Varsinais-Suomi", "city": "Somero", "postalcode": "31400" },
+    favouriteFixers: [],
+    isFixer: true,
+    about: "I like to fix things",
+    reviewCount: 2,
+    reviewAverage: 4.5,
+    tags: ["electronics"],
+    fixedCount: 1,
+    interestedIn: ["I00001", "I04234"] //item IDs
   },
   {
-    "userId": "U95846",
-    "userName": "juuseri",
-    "name": "Pertti Eräreikä",
-    "phone": "0406664242",
-    "email": "pertti@hotmail.com",
-    "password": "Passwurd666",
-    "creationTime": "05/01/2024",
-    "location": { "province": "Uusimaa", "city": "Helsinki", "postalcode": "00100" },
-    "isFixer": false,
-    "favouriteFixers": ["U69666"]
+    userId: "U95846",
+    userName: "juuseri",
+    name: "Pertti Eräreikä",
+    phone: "0406664242",
+    email: "pertti@hotmail.com",
+    password: "Passwurd666",
+    creationTime: "05/01/2024",
+    location: { "province": "Uusimaa", "city": "Helsinki", "postalcode": "00100" },
+    isFixer: false,
+    favouriteFixers: ["U69666"]
   },
   {
     userId: "U13456",
@@ -294,8 +272,8 @@ export const dummyUsers = [
     phone: "0452247261",
     email: "jarkko.vuori@metropolia.fi",
     password: "EiAinakaanSouthPark",
-    image: "jarkko.jpg",
-    creationTime: new Date("2022-01-15"),
+    image: "jarkko.png",
+    creationTime: "15/11/2023",
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00710" },
     favouriteFixers: [], //fixer IDs
     isFixer: true,
@@ -368,7 +346,7 @@ export const dummyUsers = [
     userId: "U93261",
     userName: "WatchLover",
     name: "Kalle Kello",
-    phone: "0401234567",
+    phone: "0401234569",
     email: "kalle.kello@gmail.com",
     password: "watchpassword123",
     image: "kellokalle.jpg",
@@ -394,130 +372,66 @@ export const dummyUsers = [
 
 export const dummyReviews = [
   {
-    reviewId: "R15823",
-    userId: "U55432",
+    reviewId: "R95739", // tää oli testireview, ei johda tuotteeseen
+    userId: "U95846",
+    fixerId: "U69666",
+    itemId: "I00006",
+    score: 4,
+    message: "Good work pölöplöplöplöö. Juupajuu, hehheh.",
+    date: "27/6/2024"
+  },
+  {
+    reviewId: "R15223",
+    userId: "U69666",
     fixerId: "U13456",
     itemId: "I00001",
     score: 1,
     message: "Horrible experience, would not recommend!",
-    dateOfPublish: new Date("2024-01-15"),
+    date: "15/11/2023",
     images: [
       "image1.jpg"
     ]
   },
   {
     reviewId: "R26623",
-    userId: "U12345",
-    fixerId: "U67890",
-    itemId: "I21223",
+    userId: "U93257",
+    fixerId: "U33456",
+    itemId: "I00008",
     score: 5,
     message: "Excellent service, highly recommended!",
-    dateOfPublish: new Date("2024-01-15"),
+    date: "15/11/2023",
     images: [
       "image1.jpg"
     ]
   },
   {
     reviewId: "R13892",
-    userId: "U55432",
-    fixerId: "U13456",
+    userId: "U93257",
+    fixerId: "U57432",
     itemId: "I00001",
     score: 4,
     message: "Good service but could improve communication.",
-    dateOfPublish: new Date("2024-01-15"),
+    date: "15/11/2023",
     images: []
   },
   {
     reviewId: "R15823",
-    userId: "U55432",
+    userId: "U12257",
     fixerId: "U13456",
     itemId: "I00001",
     score: 1,
     message: "Horrible experience, would not recommend!",
-    dateOfPublish: new Date("2024-01-15"),
+    date: "15/11/2023",
     images: []
   },
   {
-    reviewId: "R15823",
-    userId: "U55432",
+    reviewId: "R15923",
+    userId: "U93262",
     fixerId: "U13456",
-    itemId: "I00001",
+    itemId: "I00008",
     score: 5,
     message: "Did a great job on fixing my item",
-    dateOfPublish: new Date("2024-01-15"),
+    date: "15/11/2023",
     images: []
   }
 ];
-
-
-/*
-
-
-export const inventory = [
-  {
-    id: 1,
-    userId: 2,
-    name: "Kenkä",
-    description: "Reikä on juu.",
-    category: "Clothing",
-    location: "Uusimaa, Helsinki, 00790",
-    priceRange: "3e-5e",
-    dateOfPublish: new Date( "13/11/2024",
-    images: ["kenkä.jpg", "kenkä2.jpg"],
-    isFixed: "false",
-    fixerId: "none",
-  }, {
-    id: 2,
-    userId: 2,
-    name: "Kitara",
-    description: "Reikä on juu.",
-    category: "Clothing",
-    location: "Uusimaa, Helsinki, 00790",
-    priceRange: "3e-5e",
-    dateOfPublish: new Date( "13/11/2024",
-    images: ["kenkä.jpg", "kenkä2.jpg"],
-    isFixed: "false",
-    fixerId: "none",
-  },
-  {
-    id: 3,
-    userId: 2,
-    name: "Pallo",
-    description: "Reikä on juu.",
-    category: "Clothing",
-    location: "Uusimaa, Helsinki, 00790",
-    priceRange: "3e-5e",
-    dateOfPublish: new Date( "13/11/2024",
-    images: ["kenkä.jpg", "kenkä2.jpg"],
-    isFixed: "false",
-    fixerId: "none",
-  }, {
-    id: 4,
-    userId: 2,
-    name: "Kenkä",
-    description: "Reikä on juu.",
-    category: "Clothing",
-    location: "Uusimaa, Helsinki, 00790",
-    priceRange: "3e-5e",
-    dateOfPublish: new Date( "13/11/2024",
-    images: ["kenkä.jpg", "kenkä2.jpg"],
-    isFixed: "false",
-    fixerId: "none",
-  }, {
-    id: 5,
-    userId: 2,
-    name: "Sukka",
-    description: "Reikä on juu.",
-    category: "Clothing",
-    location: "Uusimaa, Helsinki, 00790",
-    priceRange: "3e-5e",
-    dateOfPublish: new Date( "13/11/2024",
-    images: ["kenkä.jpg", "kenkä2.jpg"],
-    isFixed: "false",
-    fixerId: "none",
-  },
-
-
-
-]
-  */

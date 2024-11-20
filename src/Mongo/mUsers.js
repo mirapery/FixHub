@@ -3,7 +3,7 @@ import { dummyUsers } from '../data.js';
 
 const mongoURI = 'mongodb://localhost:27017/FixHub'; // Local MongoDB URI
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(mongoURI)
     .then(() => console.log('MongoDB connected successfully!'))
     .catch(err => console.error('MongoDB connection error:', err));
 
@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema({
 
 const Users = mongoose.model('users', userSchema);
 
+dummyUsers.forEach(user => {
+    if (typeof user.creationTime === 'string') {
+        user.creationTime = new Date(user.creationTime.split('/').reverse().join('-'));
+    }
+});
+
 Users.insertMany(dummyUsers)
     .then(() => console.log('Multiple users added successfully!'))
     .catch(err => {
@@ -34,7 +40,3 @@ Users.insertMany(dummyUsers)
             console.error('Error adding users:', err);
         }
     });
-
-
-
-

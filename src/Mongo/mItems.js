@@ -25,6 +25,13 @@ const itemSchema = new mongoose.Schema({
 
 const Items = mongoose.model('Items', itemSchema);
 
+// Muunna päivämäärät oikeaan muotoon
+dummyItems.forEach(item => {
+    if (typeof item.dateOfPublish === 'string') {
+        item.dateOfPublish = new Date(item.dateOfPublish.split('/').reverse().join('-'));
+    }
+});
+
 Items.insertMany(dummyItems)
     .then(() => console.log('Multiple items added successfully!'))
     .catch(err => {

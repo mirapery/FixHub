@@ -9,7 +9,7 @@ function ScrollToTop() {
   }, [pathname]);
 
   function smoothScrollToTop() {
-    const scrollDuration = 300; // ms
+    const scrollDuration = 100; // ms
     const scrollStep = -window.scrollY / (scrollDuration / 15);
 
     const scrollInterval = setInterval(() => {

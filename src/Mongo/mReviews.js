@@ -20,6 +20,13 @@ const reviewSchema = new mongoose.Schema({
 
 const Reviews = mongoose.model('Reviews', reviewSchema);
 
+// Muunna päivämäärät oikeaan muotoon
+dummyReviews.forEach(review => {
+    if (typeof review.date === 'string') {
+        review.date = new Date(review.date.split('/').reverse().join('-'));
+    }
+});
+
 Reviews.insertMany(dummyReviews)
     .then(() => console.log('Multiple reviews added successfully!'))
     .catch(err => {

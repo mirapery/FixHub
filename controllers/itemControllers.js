@@ -1,4 +1,4 @@
-const Item = require("../itemLib");
+const Item = require("../itemLib.js");
 
 // GET /items
 const getAllItems = (req, res) => {

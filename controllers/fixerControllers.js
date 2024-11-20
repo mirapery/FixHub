@@ -1,4 +1,4 @@
-const Fixer = require("../fixerLib");
+const Fixer = require("../fixerLib.js");
 
 // GET /fixers
 const getAllFixers = (req, res) => {
@@ -56,9 +56,9 @@ const deleteFixer = (req, res) => {
 };
 
 module.exports = {
-  getAllFixers,
-  getFixerById,
-  createFixer,
-  updateFixer,
-  deleteFixer,
-};
+    getAllFixers,
+    createFixer,
+    getFixerById,
+    updateFixer,
+    deleteFixer,
+  };
