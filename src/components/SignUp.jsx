@@ -1,10 +1,12 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
+
+//for testing
 let registeredUsers = [
   { id: 1, name: "ville", email: "ville", password: "Ville" },
 ];
 let currentId = 1;
-
+//testing
 const createUser = (name, email, password) => {
   const newUser = {
     id: currentId++,
@@ -16,7 +18,7 @@ const createUser = (name, email, password) => {
   console.log("new user created:" + newUser);
 };
 
-const SingUp = ({isModalOpen, closeModal, setRegisterUser}) => {
+const SignUp = ({isModalOpen, closeModal, setRegisterUser}) => {
   const nameInputRef = useRef(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -139,4 +141,4 @@ const SingUp = ({isModalOpen, closeModal, setRegisterUser}) => {
     </section>
   );
 };
-export default SingUp;
+export default SignUp;

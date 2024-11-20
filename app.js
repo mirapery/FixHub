@@ -30,7 +30,8 @@ app.use('/api/users', userRoutes);
 app.use(notFound);
 app.use(handleError);
 
+const port =  4000;
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
