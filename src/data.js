@@ -3,7 +3,6 @@ export const pageLinks = [
   { id: 2, href: "about", text: "About" },
   // { id: 3, href: "new item", text: "New Item" },
   { id: 4, href: "search", text: "Search" },
-  { id: 5, href: "login", text: "Login" },
 ];
 
 export const socialLinks = [
@@ -61,7 +60,7 @@ export const faqLinks = [
   },
   {
     id: 2,
-    header: "Kuka omistaa FixLinkin?",
+    header: "Kuka omistaa FixHubin?",
     content:
       "FixLinkin omistaa opiskelijaryhmä. Heillä on tarkka visio sovelluksesta ja aikovat menestyä sillä"
   },
