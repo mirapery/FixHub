@@ -1,32 +1,36 @@
-const express = require('express');
+import express from 'express';
+import { PORT } from './config/config';
+import connectDB from "./config/db"
+import morgan from 'morgan';
+import cors from 'cors';
+import userRoutes from './routes/userRoutes';
+import itemRoutes from './routes/itemRoutes';
+import reviewRoutes from './routes/reviewRoutes';
+import logger from "./middleware/logger";
+import notFound from "./middleware/handleNotFound";
+import handleError from './middleware/handleError';
+
 const app = express();
-const fixerRouter = require('./routes/fixerRouter');
-const itemRouter = require('./routes/itemRouter');
-const userRouter = require('./routes/userRouter');
-const { middleware1, middleware2 } = require("./middleware/customMiddlewares");
-const logger = require("./middleware/logger");
-const notFound = require("./middleware/notFound");
 
+// Connect to database
+connectDB();
 
-// Middleware to parse JSON
+// Middleware
+app.use(morgan("dev"));     // HTTP request logging
 app.use(express.json());
-
-// Custom middleware for logging
 app.use(logger);
+app.use(cors());            // Enable Cross-Origin Resource Sharing
 
-// Use the xRouter for all /xs routes
-app.use('/fixers', fixerRouter);
-app.use('/items', itemRouter);
-app.use('/users', userRouter);
+// API Routes
+app.use('/api/items', itemRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/users', userRoutes);
 
-// Example usage, korvaa myöhemmin jollain oikealla
-app.get("/", middleware1 ,(req, res) => res.send("API Running!"));
-
-// Handles any requests that do not match any route and returns a 404 status
+// Error handling middleware
 app.use(notFound);
+app.use(handleError);
 
-const port = 4000;
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
