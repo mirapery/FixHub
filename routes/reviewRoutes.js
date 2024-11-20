@@ -1,21 +1,21 @@
 import express from 'express';
-import { getAllFixers, getFixerById, createFixer, updateFixer, deleteFixer} from '../controllers/fixerControllers';
+import { getAllReviews, getReviewById, createReview, updateReview, deleteReview } from '../controllers/reviewController.js';
 
 const router = express.Router();
 
-// GET /api/fixers
-router.get('/', getAllFixers);
+// GET /api/reviews
+router.get('/', getAllReviews);
 
-// POST /api/fixers
-router.post('/', createFixer);
+// POST /api/reviews
+router.post('/', createReview);
 
-// GET /api/fixers/:fixerId
-router.get('/:fixerId', getFixerById);
+// GET /api/reviews/:reviewId
+router.get('/:reviewId', getReviewById);
 
-// PUT /api/fixers/:fixerId
-router.put('/:fixerId', updateFixer);
+// PUT /api/reviews/:reviewId
+router.put('/:reviewId', updateReview);
 
-// DELETE /api/fixers/:fixerId
-router.delete('/:fixerId', deleteFixer);
+// DELETE /api/reviews/:reviewId
+router.delete('/:reviewId', deleteReview);
 
 export default router;

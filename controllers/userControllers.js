@@ -1,4 +1,4 @@
-const User = require("../userLib");
+const User = require("../userLib.js");
 
 // GET /users
 const getAllUsers = (req, res) => {

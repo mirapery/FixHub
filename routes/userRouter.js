@@ -6,21 +6,21 @@ const {
   createUser,
   updateUser,
   deleteUser,
-} = require('../controllers/userControllers');
+} = require('../controllers/userControllers.js');
 
 // GET /users
-router.get('/', getAllUsers);
+router.get('/users', getAllUsers);
 
 // POST /users
-router.post('/', createUser);
+router.post('/users', createUser);
 
 // GET /users/:userId
-router.get('/:userId', getUserById);
+router.get('/users/:userId', getUserById);
 
 // PUT /users/:userId
-router.put('/:userId', updateUser);
+router.put('/users/:userId', updateUser);
 
 // DELETE /users/:userId
-router.delete('/:userId', deleteUser);
+router.delete('/users/:userId', deleteUser);
 
 module.exports = router;

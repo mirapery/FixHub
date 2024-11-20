@@ -1,14 +1,14 @@
 import express from 'express';
-import { PORT } from './config/config';
-import connectDB from "./config/db"
+//import { PORT } from './config/config';
+import connectDB from "./config/db.js"
 import morgan from 'morgan';
 import cors from 'cors';
-import userRoutes from './routes/userRoutes';
-import itemRoutes from './routes/itemRoutes';
-import reviewRoutes from './routes/reviewRoutes';
-import logger from "./middleware/logger";
-import notFound from "./middleware/handleNotFound";
-import handleError from './middleware/handleError';
+import userRoutes from './routes/userRoutes.js';
+import itemRoutes from './routes/itemRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import logger from "./middleware/logger.js";
+import notFound from "./middleware/handleNotFound.js";
+import handleError from './middleware/handleError.js';
 
 const app = express();
 
@@ -30,7 +30,8 @@ app.use('/api/users', userRoutes);
 app.use(notFound);
 app.use(handleError);
 
+const port =  4000;
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

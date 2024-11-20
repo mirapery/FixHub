@@ -1,5 +1,5 @@
-import User from "../models/userModel";
-import handleError from "../middleware/handleError";
+import User from "../models/userModel.js";
+import handleError from "../middleware/handleError.js";
 
 // GET /users
 const getAllUsers = async (req, res) => {
@@ -62,7 +62,7 @@ const deleteUser = async (req, res) => {
     try {
         const deletedUser = await User.findOneAndDelete({ _id: userId });
         if (deletedUser) {
-            res.status(204).send();
+            res.status(204).send({message: "User deleted successfully."});
         } else {
             res.status(404).json({ message: "User not found." });
         }
