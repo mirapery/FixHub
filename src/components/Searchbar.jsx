@@ -5,18 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Searchbar = ({ onSearch }) => {
-  const [searchItem, setSearchItem] = useState();
-  const [itemName, setItemName] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
+
   const navigate = useNavigate();
 
-
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search/${itemName}`);
-    setSearchItem(itemName);
-    onSearch(itemName); 
-
+    navigate(`/search?query=${searchTerm}`); // Päivittää URL:n query-parametrilla
+    onSearch(searchTerm); // Suorittaa haun
   };
   return (
     <div className="flex justify-center m-4">
@@ -28,15 +24,16 @@ const Searchbar = ({ onSearch }) => {
           <input
             className="w-full p-4  focus:outline-none"
             type="text"
+            required
             placeholder="Search item"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button className="bg-white">
             <i className=" mr-3 fa-solid fa-magnifying-glass scale-150"></i>
           </button>
         </form>
-        <ul className="flex mt-4 lg:gap-8 flex-wrap justify-center  ">
+        <ul className="flex mt-8 lg:gap-8 flex-wrap justify-center  ">
           {categoryLinks.map((item, index) => {
             return <CategoryItem item={item} key={index} />;
           })}
