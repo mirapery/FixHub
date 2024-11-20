@@ -62,7 +62,7 @@ const deleteItem = async (req, res) => {
     try {
         const deletedItem = await Item.findOneAndDelete({ _id: itemId });
         if (deletedItem) {
-            res.status(204).send();
+            res.status(200).send({ message: "Item deleted successfully" });
         } else {
             res.status(404).json({ message: "Item not found." });
         }

@@ -103,7 +103,7 @@ export const dummyItems = [
     category: "Clothing",
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00790" },
     priceRange: [5, 10], //start and finish
-    dateOfPublish: "13/11/2024",
+    dateOfPublish: new Date("2023-11-15"),
     images: ["kenkä.jpg", "kenkä2.jpg"],
     isFixed: true,
     interested: 1
@@ -118,7 +118,7 @@ export const dummyItems = [
     category: "instruments",
     location: { province: "Uusimaa", city: "Espoo", postalcode: "02100" },
     priceRange: [50, 100],
-    dateOfPublish: "20/11/2024",
+    dateOfPublish: new Date("2022-10-12"),
     images: ["trumpetti.jpg"],
     isFixed: true,
     interested: 1
@@ -133,7 +133,7 @@ export const dummyItems = [
     category: "vehicles",
     location: { province: "Pirkanmaa", city: "Tampere", postalcode: "33100" },
     priceRange: [2000, 4000],
-    dateOfPublish: "21/11/2024",
+    dateOfPublish: new Date("2023-10-20"),
     images: ["turbiini.jpg"],
     isFixed: true,
     interested: 1
@@ -148,7 +148,7 @@ export const dummyItems = [
     category: "jewelry",
     location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     priceRange: [20, 40],
-    dateOfPublish: "22/11/2024",
+    dateOfPublish: new Date("2023-03-05"),
     images: ["rannekello.jpg"],
     isFixed: false,
     interested: 1
@@ -163,7 +163,7 @@ export const dummyItems = [
     category: "Hobby Supplies",
     location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
     priceRange: [10, 30],
-    dateOfPublish: "22/11/2024",
+    dateOfPublish: new Date("2024-03-07"),
     images: ["pensseli.jpg"],
     isFixed: false,
     interested: 4
@@ -177,7 +177,7 @@ export const dummyItems = [
     category: "vehicle",
     location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     priceRange: [10, 30],
-    dateOfPublish: "23/11/2024",
+    dateOfPublish: new Date("2024-09-30"),
     images: ["polkupyora.jpg"],
     isFixed: false,
     interested: 2
@@ -252,7 +252,7 @@ export const dummyUsers = [
     email: "miguz@gmail.com",
     password: "Salasana123",
     image: "miguel.jpeg",
-    creationTime: "15/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00730" },
     favouriteFixers: [], //fixer IDs
     isFixer: true,
@@ -291,7 +291,7 @@ export const dummyUsers = [
     email: "janniinak@gmail.com",
     password: "höpölöpö132",
     image: "janniina.jpg",
-    creationTime: "1/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
     favouriteFixers: [], //fixer IDs
     isFixer: true,
@@ -310,7 +310,7 @@ export const dummyUsers = [
     email: "keijukainen@gmail.com",
     password: "Keijuliina980",
     image: "keiju.jpg",
-    creationTime: "15/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00740" },
     favouriteFixers: ["U57432"], //fixer IDs
     isFixer: false
@@ -323,7 +323,7 @@ export const dummyUsers = [
     email: "isomarko@gmail.com",
     password: "vasarajanaul0ja",
     image: "haukka.jpg",
-    creationTime: "15/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Uusimaa", city: "Helsinki", postalcode: "00790" },
     favouriteFixers: ["U33456"], //fixer IDs
     isFixer: false
@@ -336,7 +336,7 @@ export const dummyUsers = [
     email: "laura.laine@gmail.com",
     password: "quickfixpass789",
     image: "lalala.jpg",
-    creationTime: "18/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     favouriteFixers: ["U69666"], //fixer IDs
     isFixer: false
@@ -345,11 +345,11 @@ export const dummyUsers = [
     userId: "U93261",
     userName: "WatchLover",
     name: "Kalle Kello",
-    phone: "0401234567",
+    phone: "0401234569",
     email: "kalle.kello@gmail.com",
     password: "watchpassword123",
     image: "kellokalle.jpg",
-    creationTime: "19/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Pohjois-Pohjanmaa", city: "Oulu", postalcode: "90100" },
     favouriteFixers: [],
     isFixer: false
@@ -362,7 +362,7 @@ export const dummyUsers = [
     email: "anna.taiteilija@gmail.com",
     password: "artpassword456",
     image: "artsygirl.jpg",
-    creationTime: "20/11/2023",
+    creationTime: new Date("2022-01-15"),
     location: { province: "Varsinais-Suomi", city: "Turku", postalcode: "20100" },
     favouriteFixers: [],
     isFixer: false

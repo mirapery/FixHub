@@ -5,18 +5,18 @@ import validateUserId from "../middleware/validateUserId.js";
 const router = express.Router();
 
 // GET /api/users
-router.get('/users', getAllUsers);
+router.get('/', getAllUsers);
 
 // POST /api/users
-router.post('/users', createUser);
+router.post('/', createUser);
 
 // GET /api/users/:userId
-router.get('/users/:userId', validateUserId, getUserById);
+router.get('/:userId', validateUserId, getUserById);
 
 // PUT /api/users/:userId
-router.put('/users/:userId', validateUserId, updateUser);
+router.put('/:userId', validateUserId, updateUser);
 
 // DELETE /api/users/:userId
-router.delete('/users/:userId', validateUserId, deleteUser);
+router.delete('/:userId', validateUserId, deleteUser);
 
 export default router;
