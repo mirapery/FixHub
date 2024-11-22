@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import Login from "./LogIn";
+import NewItem from "./NewItem";
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,10 +11,19 @@ const Navbar = () => {
     /*localStorage.getItem("loginName") ||*/ "Login" // Get name from local storage
   );
 
-// useEffect(()=>{
-// localStorage.setItem("loginName",loginName);
+  const [isNewItemOpen, setNewItemOpen] = useState(false)
 
-// },[loginName])
+  const openNewItem = () => {
+    setNewItemOpen(true);
+  }
+  const closeNewItem = () => {
+    setNewItemOpen(false);
+  }
+
+  // useEffect(()=>{
+  // localStorage.setItem("loginName",loginName);
+
+  // },[loginName])
 
   // Function to open modal
   const openModal = () => {
@@ -24,6 +34,7 @@ const Navbar = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   function handleButton() {
     document.getElementById("nav-content").classList.toggle("hidden");
   }
@@ -47,6 +58,14 @@ const Navbar = () => {
         >
           <i className="fas fa-bars fa-2x"></i>
         </button>
+
+        {/* testingiin, Ville laittaa tän sit fiksumpaan paikkaan :) */}
+        <button
+          className="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
+          onClick={openNewItem}>
+          New Item
+        </button>
+
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
           <PageLinks
             parentClass="md:flex"
@@ -60,6 +79,11 @@ const Navbar = () => {
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         loginName={setLoginName}
+      />
+
+      <NewItem
+        isOpen={isNewItemOpen}
+        closeNewItem={closeNewItem}
       />
     </div>
   );
