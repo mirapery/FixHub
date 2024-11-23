@@ -4,11 +4,6 @@ import useTags from "./useTags";
 import { categoryLinks } from "../data";
 import datasetsFiPostalcodes from "datasets-fi-postalcodes";
 
-const addItem = () => {
-
-};
-
-
 const NewItem = ({ isOpen, closeNewItem }) => {
 
     const categories = categoryLinks.map((c) => c.text);
@@ -57,13 +52,65 @@ const NewItem = ({ isOpen, closeNewItem }) => {
         }
 
         // Limit the total number of images
-        const newImages = validFiles.slice(0, 5 - images.length);
+        const newImages = validFiles.slice(0, 4 - images.length);
         setImages((prev) => [...prev, ...newImages]);
     };
 
     const removeImage = (index) => {
         setImages((prev) => prev.filter((_, i) => i !== index));
     };
+
+    const moveImageToFirst = (index) => {
+        setImages((prevImages) => {
+            const updatedImages = [...prevImages];
+            const [selectedImage] = updatedImages.splice(index, 1); // Remove the clicked image
+            updatedImages.unshift(selectedImage); // Add it to the start
+            return updatedImages;
+        });
+    };
+
+    const addItem = () => {
+        const newItem = {
+            itemId: "",
+            userId: "",
+            fixerId: "",
+            name: name,
+            tags: tags,
+            description: description,
+            category: category,
+            location: {
+                province: "",
+                city: postalCodes[postalCode],
+                postalcode: postalCode,
+            },
+            priceRange: [priceFrom, priceTo],
+            dateOfPublish: new Date().getDate, // tämä kusee, muuta stringiksi
+            images: images, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+            isFixed: false,
+            interested: 0,
+        }
+        for (const key in newItem) {
+            console.log(`${key}: ${newItem[key]}`)
+        }
+        //console.log(newItem)
+
+        //tähän yhteys databaseen!
+
+        clearItem();
+    };
+
+    const clearItem = () => {
+
+        setName('');
+        resetTags();
+        setDescription('');
+        setCategory('');
+        setPostalCode('');
+        setPriceFrom('');
+        setPriceTo('');
+        setImages([])
+    }
+
 
     // const handleSubmit = () => {
     //     const formData = new FormData();
@@ -102,8 +149,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                         <div className="flex flex-col m-2 w-1/2">
                             <div className="flex flex-col m-2 space-y-2">
 
-                                <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Add images:</label>
-
+                                <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Add images (max 4):</label>
 
                                 <input
                                     type="file"
@@ -122,29 +168,46 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                 </button>
 
                                 {error && <p className="text-lg text-fh_red font-bold m-1">{error}</p>}
-                                <div>
-                                    {images.map((image, index) => (
-                                        <div key={index} style={{ display: 'inline-block', margin: '10px' }}>
-                                            <img
-                                                src={URL.createObjectURL(image)}
-                                                alt={`preview-${index}`}
-                                                className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'
-                                            />
-                                            <div className=" flex w-32 p-0 border items-center justify-center border-fh_black-light m-2 rounded-md text-md bg-fh_white-dark hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                                <div className="flex flex-col items-center my-6">
+
+                                    <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Main image:</label>
+
+
+                                    <div className="min-h-80 align-middle">
+                                        {images[0] && <img
+                                            src={URL.createObjectURL(images[0])}
+                                            alt={`preview-main`}
+                                            className='w-80 h-auto m-4 rounded-md'
+                                        />}
+                                    </div>
+
+                                    <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Additional images:</label>
+
+                                    <div className="">
+                                        {images.map((image, index) => (
+                                            <div key={index} className="justify-center inline-block m-2"
                                             >
-                                                <button
-
-                                                    onClick={() => removeImage(index)}
+                                                <div className="flex w-32 h-32 items-center justify-center">
+                                                    <img
+                                                        src={URL.createObjectURL(image)}
+                                                        alt={`preview-${index}`}
+                                                        className='max-w-32 max-h-32 h-auto w-auto hover:brightness-75 mb-1 hover:cursor-pointer transition duration-300 rounded-md m-2'
+                                                        onClick={() => moveImageToFirst(index)}
+                                                    />
+                                                </div>
+                                                <div className=" flex w-32 p-0 mt-2 border items-center justify-center border-fh_black-light rounded-md text-md bg-fh_white-dark hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
                                                 >
-                                                    Remove
-                                                </button>
+                                                    <button
+                                                        onClick={() => removeImage(index)}
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                    ))}
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
                         {/* Muut kentät */}
@@ -188,9 +251,9 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                             </div>
 
                             {/* Tags 
-                    - rajoita kentän merkkimäärä
-                    - estä sama tagi
-                    */}
+                            - rajoita kentän merkkimäärä
+                            - estä sama tagi
+                            */}
                             <div className="flex flex-col m-2 space-y-2">
                                 <label htmlFor="itemTags" className="text-xl text-fh_black font-bold m-1">Add Tags:</label>
                                 <div className="flex flex-row mx-1">
@@ -258,8 +321,8 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                             </div>
 
                             {/* Price range 
-                    - halutaanko määritellä ylärajaa?
-                    */}
+                            - halutaanko määritellä ylärajaa?
+                            */}
                             <div className="flex flex-col m-2 space-y-2">
                                 <label className="text-xl text-fh_black font-bold m-1">Give your price range:</label>
                                 <div className="flex flex-row m-2">
@@ -276,7 +339,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                         onChange={(e) => handleNumberChange(e, setPriceFrom)}
                                         placeholder="0"
                                         maxLength={6}
-                                        className=" w-1/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
+                                        className=" w-1/12 min-w-15 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                                     />
                                     <label
                                         className="flex items-center w-1/12 text-xl text-fh_black-light m-2"
@@ -314,10 +377,10 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                         name="postalcode"
                                         id="postalCode"
                                         value={postalCode}
-                                        onChange={(e) => handleNumberChange(e, setPostalCode)}
+                                        onChange={(e) => handleNumberChange(e, setPostalCode)} // ehkä kuitenkin searchinappi tähän?
                                         placeholder="Postal Code"
                                         maxLength={5}
-                                        className=" w-2/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
+                                        className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                                         required
                                     />
 
@@ -327,8 +390,47 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Varmistusnapit */}
+                            <div className="flex flex-row justify-evenly mt-4">
+                                <div className=" w-1/5 flex flex-col m-2">
+                                    <button
+                                        className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                                        onClick={() => addItem()}
+                                    >
+                                        Add item
+                                    </button>
+                                </div>
+                                <div className="w-1/5 flex flex-col m-2">
+                                    <button
+                                        className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                                        onClick={() => clearItem()}
+                                    >
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {/* Varmistusnapit */}
+                    {/* <div className="flex flex-row justify-evenly">
+                        <div className=" w-1/12 flex flex-col m-2">
+                            <button
+                                className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+
+                            >
+                                Add item
+                            </button>
+                        </div>
+                        <div className="w-1/12 flex flex-col m-2">
+                            <button
+                                className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div> */}
                 </div>
             </div>
         )

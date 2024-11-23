@@ -13,7 +13,7 @@ const useTags = (initialList = []) => {
     }
 
     const resetTags = () => {
-        setList(initialTags);
+        setList([]);
     }
 
     return { list, addTag, removeTag, resetTags };
