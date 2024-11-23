@@ -39,6 +39,11 @@ export default {
         light:'#f8f8f4',
         dark:'#dcdccc',
       },
+      'fh_red': {
+        DEFAULT:'#e73d13',
+        light:'#f2551d4',
+        dark:'#bd2a11',
+      }
 
     },
     fontFamily: {
