@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import useTags from "./useTags";
 import { categoryLinks } from "../data";
 import datasetsFiPostalcodes from "datasets-fi-postalcodes";
@@ -17,16 +17,15 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     const [priceFrom, setPriceFrom] = useState("");
     const [priceTo, setPriceTo] = useState("");
     const [postalCode, setPostalCode] = useState("");
+    const [city, setCity] = useState('')
     const [images, setImages] = useState([]);
 
-
+    // for images, vois nimetä paremmin
     const [error, setError] = useState('');
 
-    const numberRegex = /^\d+$/;
-
-    const handleNumberChange = (e, setter, compareValue, compareSetter) => {
+    // for number fields, allows only numbers
+    const handleNumberChange = (e, setter) => {
         const inputValue = e.target.value;
-
         const sanitizedValue = inputValue.replace(/[^0-9]/g, '');
         setter(sanitizedValue);
     }
@@ -39,6 +38,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
         return true;
     };
 
+    // check image type
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         const validFiles = files.filter((file) =>
@@ -51,7 +51,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
             setError('');
         }
 
-        // Limit the total number of images
+        // Limit the number of images
         const newImages = validFiles.slice(0, 4 - images.length);
         setImages((prev) => [...prev, ...newImages]);
     };
@@ -60,45 +60,51 @@ const NewItem = ({ isOpen, closeNewItem }) => {
         setImages((prev) => prev.filter((_, i) => i !== index));
     };
 
+    // for selecting main image
     const moveImageToFirst = (index) => {
         setImages((prevImages) => {
             const updatedImages = [...prevImages];
-            const [selectedImage] = updatedImages.splice(index, 1); // Remove the clicked image
-            updatedImages.unshift(selectedImage); // Add it to the start
+            const [selectedImage] = updatedImages.splice(index, 1);
+            updatedImages.unshift(selectedImage);
             return updatedImages;
         });
     };
 
+    // form submit
     const addItem = () => {
+
+        //validaatiot tähän
+
         const newItem = {
-            itemId: "",
-            userId: "",
-            fixerId: "",
+            itemId: "", // tämä backendistä?
+            userId: "", // tämä kirjautumistiedoista
+            fixerId: "", // tämä oikeastikin tyhjä
             name: name,
             tags: tags,
             description: description,
             category: category,
             location: {
-                province: "",
-                city: postalCodes[postalCode],
+                province: "", // tästä ei mitään ideaa miten tekisi
+                city: city,
                 postalcode: postalCode,
             },
             priceRange: [priceFrom, priceTo],
-            dateOfPublish: new Date().getDate, // tämä kusee, muuta stringiksi
+            dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
             images: images, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
             isFixed: false,
             interested: 0,
         }
-        for (const key in newItem) {
-            console.log(`${key}: ${newItem[key]}`)
-        }
-        //console.log(newItem)
+
+        console.log(newItem)
 
         //tähän yhteys databaseen!
 
         clearItem();
+
+        //reitti sivulle id:n mukaan
     };
 
+    // clear fields and images
     const clearItem = () => {
 
         setName('');
@@ -108,9 +114,12 @@ const NewItem = ({ isOpen, closeNewItem }) => {
         setPostalCode('');
         setPriceFrom('');
         setPriceTo('');
-        setImages([])
+        setImages([]);
+        setCity('');
     }
 
+
+    // TARVITAAN EHKÄ MYÖHEMMIN !!! kuville
 
     // const handleSubmit = () => {
     //     const formData = new FormData();
@@ -218,7 +227,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                 <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Item Name:</label>
                                 <input
                                     type="text"
-                                    name="name"
+                                    //name="name"
                                     id="itemName"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
@@ -251,7 +260,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                             </div>
 
                             {/* Tags 
-                            - rajoita kentän merkkimäärä
+                            - rajoita kentän merkkimäärä ja rajaa yhteen sanaan
                             - estä sama tagi
                             */}
                             <div className="flex flex-col m-2 space-y-2">
@@ -259,7 +268,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                 <div className="flex flex-row mx-1">
                                     <input
                                         type="text"
-                                        name="name"
+                                        //name="name"
                                         id="itemTags"
                                         value={tag}
                                         onChange={(e) => setTag(e.target.value)}
@@ -320,9 +329,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                 />
                             </div>
 
-                            {/* Price range 
-                            - halutaanko määritellä ylärajaa?
-                            */}
+                            {/* Price range */}
                             <div className="flex flex-col m-2 space-y-2">
                                 <label className="text-xl text-fh_black font-bold m-1">Give your price range:</label>
                                 <div className="flex flex-row m-2">
@@ -369,7 +376,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                             <div className="flex flex-col m-2 space-y-2">
                                 <label className="text-xl text-fh_black font-bold m-1">Item Location:</label>
                                 <div className="flex flex-row m-2">
-                                    <label className="flex items-center text-xl text-fh_black-light m-2">
+                                    <label className="w-1/5 flex items-center text-xl text-fh_black-light m-2">
                                         Postal Code:
                                     </label>
                                     <input
@@ -377,15 +384,25 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                         name="postalcode"
                                         id="postalCode"
                                         value={postalCode}
-                                        onChange={(e) => handleNumberChange(e, setPostalCode)} // ehkä kuitenkin searchinappi tähän?
+                                        onChange={(e) => {
+                                            handleNumberChange(e, setPostalCode);
+                                            setCity('')
+                                        }
+                                        }
                                         placeholder="Postal Code"
                                         maxLength={5}
                                         className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                                         required
                                     />
+                                    <button
+                                        className=" h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                                        onClick={() => setCity(postalCodes[postalCode])}
+                                    >
+                                        Search
+                                    </button>
 
-                                    <div className="w-1/2 flex items-center align-middle justify-center text-xl text-fh_dgreen m-2">
-                                        {postalCodes[postalCode] ? (postalCode + ', ' + postalCodes[postalCode]) : ''}
+                                    <div className="w-5/12 flex items-center align-middle justify-center text-xl text-fh_dgreen m-2">
+                                        {city ? (postalCode + ', ' + city) : ''}
 
                                     </div>
                                 </div>
@@ -412,30 +429,10 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                             </div>
                         </div>
                     </div>
-                    {/* Varmistusnapit */}
-                    {/* <div className="flex flex-row justify-evenly">
-                        <div className=" w-1/12 flex flex-col m-2">
-                            <button
-                                className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-
-                            >
-                                Add item
-                            </button>
-                        </div>
-                        <div className="w-1/12 flex flex-col m-2">
-                            <button
-                                className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div> */}
                 </div>
-            </div>
+            </div >
         )
     )
 }
-
 
 export default NewItem;
