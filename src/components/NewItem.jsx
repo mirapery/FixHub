@@ -3,6 +3,7 @@ import { useState } from "react";
 import useTags from "./useTags";
 import { categoryLinks } from "../data";
 import datasetsFiPostalcodes from "datasets-fi-postalcodes";
+import Alert from "./Alert";
 
 const NewItem = ({ isOpen, closeNewItem }) => {
 
@@ -19,9 +20,21 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     const [postalCode, setPostalCode] = useState("");
     const [city, setCity] = useState('')
     const [images, setImages] = useState([]);
+    const [isAlertOpen, setIsAlertOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState([])
 
     // for images, vois nimetä paremmin
     const [error, setError] = useState('');
+
+    const openAlert = () => {
+        setIsAlertOpen(true);
+        console.log('alert open')
+    };
+
+    const closeAlert = () => {
+        setIsAlertOpen(false);
+        setAlertMessage([]);
+    };
 
     // for number fields, allows only numbers
     const handleNumberChange = (e, setter) => {
@@ -70,38 +83,61 @@ const NewItem = ({ isOpen, closeNewItem }) => {
         });
     };
 
+    // for alerts
+    const showAlert = (type, msg) => {
+        setAlertConfig({ isVisible: true, message: msg, alertType: type });
+
+        setTimeout(() => {
+            setAlertConfig({ ...alertConfig, isVisible: false });
+        }, 3000);
+    };
+
     // form submit
     const addItem = () => {
 
         //validaatiot tähän
+        if (!name || !category || !description || !city || images.length() == 0) {
 
-        const newItem = {
-            itemId: "", // tämä backendistä?
-            userId: "", // tämä kirjautumistiedoista
-            fixerId: "", // tämä oikeastikin tyhjä
-            name: name,
-            tags: tags,
-            description: description,
-            category: category,
-            location: {
-                province: "", // tästä ei mitään ideaa miten tekisi
-                city: city,
-                postalcode: postalCode,
-            },
-            priceRange: [priceFrom, priceTo],
-            dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
-            images: images, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
-            isFixed: false,
-            interested: 0,
+            console.log('incomplete form')
+
+            // lisää rivejä alertmessageen
+            setAlertMessage([...alertMessage, 'Alert!'])
+
+            // pitäskö olla usestate? tarvis ehkä taas customi hookin
+            // avaa alertti
+            openAlert();
+
+            return
+        } else {
+
+            const newItem = {
+                itemId: "", // tämä backendistä?
+                userId: "", // tämä kirjautumistiedoista
+                fixerId: "", // tämä oikeastikin tyhjä
+                name: name,
+                tags: tags,
+                description: description,
+                category: category,
+                location: {
+                    province: "", // tästä ei mitään ideaa miten tekisi
+                    city: city,
+                    postalcode: postalCode,
+                },
+                priceRange: [priceFrom, priceTo],
+                dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
+                images: images, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+                isFixed: false,
+                interested: 0,
+            }
+
+            console.log(newItem)
+
+            //tähän yhteys databaseen!
+
+            clearItem();
+
+            //reitti sivulle id:n mukaan
         }
-
-        console.log(newItem)
-
-        //tähän yhteys databaseen!
-
-        clearItem();
-
-        //reitti sivulle id:n mukaan
     };
 
     // clear fields and images
@@ -144,6 +180,11 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                 className="fixed inset-0 z-50 flex items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
                 onClick={closeNewItem}
             >
+                <Alert
+                    isOpen={isAlertOpen}
+                    closeAlert={closeAlert}
+                    message={alertMessage}
+                />
                 <div
                     className="w-4/5 p-5 bg-fh_beige rounded-lg shadow-lg overflow-y-auto max-h-[90vh]"
                     onClick={(e) => e.stopPropagation()}
