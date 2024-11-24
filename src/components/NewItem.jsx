@@ -53,20 +53,40 @@ const NewItem = ({ isOpen, closeNewItem }) => {
 
     // check image type
     const handleFileChange = (e) => {
+        const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
         const files = Array.from(e.target.files);
-        const validFiles = files.filter((file) =>
-            ['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)
-        );
 
-        if (validFiles.length !== files.length) {
-            setError('Only JPG and PNG images are allowed.');
-        } else {
-            setError('');
-        }
+        const validFiles = files.filter((file) => {
+            if (!['image/jpeg', 'image/png', 'image/jpg'].includes(file.type)) {
+                setError('Only JPG and PNG images are allowed.');
+                return false;
+            }
+
+            if (file.size > maxSizeInBytes) {
+                setError(`File size should not exceed ${maxSizeInBytes / (1024 * 1024)} MB.`);
+                return false;
+            }
+
+            return true;
+        });
+
+        if (validFiles.length === 0) return; // Stop if no valid files
 
         // Limit the number of images
         const newImages = validFiles.slice(0, 4 - images.length);
-        setImages((prev) => [...prev, ...newImages]);
+        if (newImages.length < validFiles.length) {
+            setError(`You can upload up to 4 images only.`);
+        }
+
+        // Rename images
+        const renamedFiles = newImages.map((file, index) => {
+            const timestamp = Date.now();
+            const newFileName = `image_${timestamp}_${index + 1}.${file.name.split('.').pop()}`; //tähän alkuun vielä itemin id sit jostain
+            return new File([file], newFileName, { type: file.type });
+        });
+
+        // Update images
+        setImages((prev) => [...prev, ...renamedFiles]);
     };
 
     const removeImage = (index) => {
@@ -93,22 +113,28 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     };
 
     // form submit
-    const addItem = () => {
+    const addItem = async () => {
 
-        //validaatiot tähän
-        if (!name || !category || !description || !city || images.length() == 0) {
+        if (!name || !category || !description || !postalCode || !city || images.length == 0) {
 
-            console.log('incomplete form')
+            setAlertMessage((prev) => {
+                const newMessages = [];
+                if (!name) newMessages.push("Item must have a Name!");
+                if (!category) newMessages.push("Item must have a Category");
+                if (!description) newMessages.push("Please add a Description of the item.");
+                if (!postalCode) newMessages.push("Please add the location of your item.");
+                if (!city && postalCode) newMessages.push("Invalid Postal Code!");
+                if (images.length === 0) newMessages.push("Please add at least 1 image of the item.");
+                return [...prev, ...newMessages];
+            });
 
-            // lisää rivejä alertmessageen
-            setAlertMessage([...alertMessage, 'Alert!'])
-
-            // pitäskö olla usestate? tarvis ehkä taas customi hookin
-            // avaa alertti
             openAlert();
 
             return
         } else {
+            const imageNames = [];
+
+            images.forEach((image) => imageNames.push(image.name))
 
             const newItem = {
                 itemId: "", // tämä backendistä?
@@ -125,18 +151,42 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                 },
                 priceRange: [priceFrom, priceTo],
                 dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
-                images: images, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+                images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
                 isFixed: false,
                 interested: 0,
             }
 
             console.log(newItem)
 
-            //tähän yhteys databaseen!
+            //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
+            try {
+                const response = await fetch("/api/items", { // tähän oikee osote
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newItem),
+                });
 
+                if (!response.ok) {
+                    throw new Error("Failed to add item");
+                }
+
+                const addedItem = await response.json();
+                console.log("Item added:", addedItem);
+                navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
+            } catch (error) {
+                console.error("Error adding item:", error);
+                alert("Failed to add item");
+            }
+
+            // Tähän kuvien lisääminen serverille
+
+
+            // tyhjennä formi
             clearItem();
 
-            //reitti sivulle id:n mukaan
+            //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
         }
     };
 
@@ -155,7 +205,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     }
 
 
-    // TARVITAAN EHKÄ MYÖHEMMIN !!! kuville
+    // TARVITAAN EHKÄ MYÖHEMMIN !!! kuvien lataaminen 
 
     // const handleSubmit = () => {
     //     const formData = new FormData();

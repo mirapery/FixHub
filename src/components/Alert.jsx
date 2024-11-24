@@ -2,8 +2,6 @@ import React, { useState } from "react";
 
 const Alert = ({ isOpen, closeAlert, message =[] }) => {
 
-    console.log("isOpen: " + isOpen)
-
     return (
         isOpen && (
             <div
@@ -11,14 +9,19 @@ const Alert = ({ isOpen, closeAlert, message =[] }) => {
                 onClick={(e) => e.stopPropagation()}
             >
                 <div
-                    className="flex items-center justify-center w-1/2 p-5 bg-fh_white rounded-xl shadow-lg"
+                    className="flex items-center flex-col justify-center w-1/2 p-5 bg-fh_white rounded-xl shadow-lg"
                     
                 >
-                    {console.log('alert message: ' + message)}
+                    <h2
+                    className="m-2 text-xl text-fh_black font-bold"
+                    >
+                        Failed to add new item!
+                    </h2>
+
                     {message.map((text, index) => {
                         return <p
                             key={index}
-                            className=""
+                            className="m-2 text-lg text-fh_red font-bold"
                         >
                             {text}
                         </p>
