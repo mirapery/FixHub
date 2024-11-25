@@ -5,7 +5,21 @@ import { categoryLinks } from "../data";
 import datasetsFiPostalcodes from "datasets-fi-postalcodes";
 import Alert from "./Alert";
 
-const NewItem = ({ isOpen, closeNewItem }) => {
+
+// itemData jos muokataan olemassa olevaa itemiä
+const NewItem = ({ isOpen, closeNewItem, itemData }) => {
+
+    if (itemData) {
+        setName(itemData.name);
+        setCategory(itemData.category);
+        addTagList(itemData.tags);
+        setDescription(itemData.description);
+        setPriceFrom(itemData.priceRange[0]);
+        setPriceTo(itemData.priceRange[1]);
+        setPostalCode(itemData.location.postalCode);
+        setCity(postalCodes[itemData.location.postalCode]);
+        setImages(itemData.images);
+    }
 
     const categories = categoryLinks.map((c) => c.text);
     const postalCodes = datasetsFiPostalcodes;
@@ -13,7 +27,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
     const [tag, setTag] = useState("")
-    const { list: tags, addTag, removeTag, resetTags } = useTags([]);
+    const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
     const [description, setDescription] = useState("");
     const [priceFrom, setPriceFrom] = useState("");
     const [priceTo, setPriceTo] = useState("");
@@ -45,7 +59,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
 
     const validatePriceRange = () => {
         if (priceFrom && priceTo && parseInt(priceTo) < parseInt(priceFrom)) {
-            alert('"To" price must be greater than or equal to "From" price.');
+            //alert('"To" price must be greater than or equal to "From" price.');
             return false;
         }
         return true;
@@ -115,7 +129,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     // form submit
     const addItem = async () => {
 
-        if (!name || !category || !description || !postalCode || !city || images.length == 0) {
+        if (!name || !category || !description || !postalCode || !city || images.length == 0 || !validatePriceRange) {
 
             setAlertMessage((prev) => {
                 const newMessages = [];
@@ -125,6 +139,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                 if (!postalCode) newMessages.push("Please add the location of your item.");
                 if (!city && postalCode) newMessages.push("Invalid Postal Code!");
                 if (images.length === 0) newMessages.push("Please add at least 1 image of the item.");
+                if (validatePriceRange) newMessages.push('"To" price must be greater than or equal to "From" price.')
                 return [...prev, ...newMessages];
             });
 
@@ -132,61 +147,107 @@ const NewItem = ({ isOpen, closeNewItem }) => {
 
             return
         } else {
-            const imageNames = [];
 
+            const imageNames = [];
             images.forEach((image) => imageNames.push(image.name))
 
-            const newItem = {
-                itemId: "", // tämä backendistä?
-                userId: "", // tämä kirjautumistiedoista
-                fixerId: "", // tämä oikeastikin tyhjä
-                name: name,
-                tags: tags,
-                description: description,
-                category: category,
-                location: {
-                    province: "", // tästä ei mitään ideaa miten tekisi
-                    city: city,
-                    postalcode: postalCode,
-                },
-                priceRange: [priceFrom, priceTo],
-                dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
-                images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
-                isFixed: false,
-                interested: 0,
-            }
+            if (itemData) {
 
-            console.log(newItem)
+                const updatedStats = {}
 
-            //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
-            try {
-                const response = await fetch("/api/items", { // tähän oikee osote
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(newItem),
-                });
+                if (itemData.name !== name) updatedStats = { ...updatedStats, name: name };
+                if (itemData.tags !== tags) updatedStats = { ...updatedStats, tags: tags };
+                if (itemData.description !== description) updatedStats = { ...updatedStats, description: description };
+                if (itemData.category !== category) updatedStats = { ...updatedStats, category: category };
+                if (itemData.location.postalCode !== postalCode) updatedStats = { ...updatedStats, location: { ...itemData.location, postalCode: postalCode } };
+                if (itemData.priceRange[0] !== priceFrom || itemData.priceRange[1] !== priceTo) updatedStats = { ...updatedStats, priceRange: [priceFrom, priceTo] };
+                if (itemData.images !== imageNames) updatedStats = { ...updatedStats, images: imageNames };
 
-                if (!response.ok) {
-                    throw new Error("Failed to add item");
+                console.log(updatedStats);
+
+                //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
+                try {
+                    const response = await fetch(`/api/items/${itemData.itemId}`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(updatedStats),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to update item");
+                    }
+
+                    const updatedItem = await response.json();
+                    console.log("Item updated:", updatedItem);
+                    navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
+                } catch (error) {
+                    console.error("Error updating item:", error);
+                    alert("Failed to update item");
                 }
 
-                const addedItem = await response.json();
-                console.log("Item added:", addedItem);
-                navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
-            } catch (error) {
-                console.error("Error adding item:", error);
-                alert("Failed to add item");
+                // Tähän kuvien lisääminen serverille
+
+                // tyhjennä formi
+                clearItem();
+
+                //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
+
+            } else {
+
+                const newItem = {
+                    itemId: "", // tämä backendistä?
+                    userId: "", // tämä kirjautumistiedoista
+                    fixerId: "", // tämä oikeastikin tyhjä
+                    name: name,
+                    tags: tags,
+                    description: description,
+                    category: category,
+                    location: {
+                        province: "", // tästä ei mitään ideaa miten tekisi
+                        city: city,
+                        postalcode: postalCode,
+                    },
+                    priceRange: [priceFrom, priceTo],
+                    dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
+                    images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+                    isFixed: false,
+                    interested: 0,
+                }
+
+                console.log(newItem)
+
+                //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
+                try {
+                    const response = await fetch("/api/items", { // tähän oikee osote
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(newItem),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to add item");
+                    }
+
+                    const addedItem = await response.json();
+                    console.log("Item added:", addedItem);
+                    navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
+                } catch (error) {
+                    console.error("Error adding item:", error);
+                    alert("Failed to add item");
+                }
+
+                // Tähän kuvien lisääminen serverille
+
+
+                // tyhjennä formi
+                clearItem();
+
+                //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
             }
-
-            // Tähän kuvien lisääminen serverille
-
-
-            // tyhjennä formi
-            clearItem();
-
-            //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
         }
     };
 
@@ -240,7 +301,9 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="flex items-center justify-center ">
-                        <h2 className="text-2xl text-fh_black font-bold">Add New Item</h2>
+                        <h2 className="text-2xl text-fh_black font-bold">
+                            {itemData ? "Edit Item" : "Add New Item"}
+                        </h2>
                     </div>
 
                     <div className="flex flex-row m-2">
@@ -506,16 +569,25 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                                         className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
                                         onClick={() => addItem()}
                                     >
-                                        Add item
+                                        {itemData ? "Edit item" : "Add item"}
                                     </button>
                                 </div>
                                 <div className="w-1/5 flex flex-col m-2">
-                                    <button
-                                        className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                                        onClick={() => clearItem()}
-                                    >
-                                        Clear
-                                    </button>
+                                    {itemData ?
+                                        <button
+                                            className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                                            onClick={() => closeNewItem()}
+                                        >
+                                            Cancel
+                                        </button>
+                                        :
+                                        <button
+                                            className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                                            onClick={() => clearItem()}
+                                        >
+                                            Clear
+                                        </button>
+                                    }
                                 </div>
                             </div>
                         </div>

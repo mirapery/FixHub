@@ -16,7 +16,11 @@ const useTags = (initialList = []) => {
         setList([]);
     }
 
-    return { list, addTag, removeTag, resetTags };
+    const addTagList = (t) => {
+        t.array.forEach(element => {addTag(element)});
+    }
+
+    return { list, addTag, removeTag, resetTags, addTagList };
 }
 
 export default useTags;
