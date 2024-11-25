@@ -4,6 +4,7 @@ import useTags from "./useTags";
 import { categoryLinks } from "../data";
 import datasetsFiPostalcodes from "datasets-fi-postalcodes";
 import Alert from "./Alert";
+import { useNavigate } from "react-router-dom";
 
 
 // itemData jos muokataan olemassa olevaa itemiä
@@ -39,6 +40,8 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
 
     // for images, vois nimetä paremmin
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     const openAlert = () => {
         setIsAlertOpen(true);
@@ -153,7 +156,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
 
             if (itemData) {
 
-                const updatedStats = {}
+                let updatedStats = {}
 
                 if (itemData.name !== name) updatedStats = { ...updatedStats, name: name };
                 if (itemData.tags !== tags) updatedStats = { ...updatedStats, tags: tags };
@@ -297,9 +300,16 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                     message={alertMessage}
                 />
                 <div
-                    className="w-4/5 p-5 bg-fh_beige rounded-lg shadow-lg overflow-y-auto max-h-[90vh]"
+                    className="w-4/5 p-5 bg-fh_beige rounded-lg shadow-lg overflow-y-auto max-h-[90vh] relative"
                     onClick={(e) => e.stopPropagation()}
                 >
+                    <button
+                        className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95" 
+                        onClick={closeNewItem}
+                    >
+                        <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
+                    </button>
+
                     <div className="flex items-center justify-center ">
                         <h2 className="text-2xl text-fh_black font-bold">
                             {itemData ? "Edit Item" : "Add New Item"}
@@ -500,7 +510,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                                         onChange={(e) => handleNumberChange(e, setPriceFrom)}
                                         placeholder="0"
                                         maxLength={6}
-                                        className=" w-1/12 min-w-15 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
+                                        className="w-1/3 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                                     />
                                     <label
                                         className="flex items-center w-1/12 text-xl text-fh_black-light m-2"
@@ -515,7 +525,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                                         onChange={(e) => handleNumberChange(e, setPriceTo)}
                                         placeholder="-"
                                         maxLength={6}
-                                        className=" w-1/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
+                                        className="w-1/3  h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                                     />
                                     <label
                                         className="flex items-center w-1/12 text-xl text-fh_black-light m-2"

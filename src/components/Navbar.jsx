@@ -11,6 +11,7 @@ const Navbar = () => {
     /*localStorage.getItem("loginName") ||*/ "Login" // Get name from local storage
   );
 
+  // new item modaalin jutut
   const [isNewItemOpen, setNewItemOpen] = useState(false)
 
   const openNewItem = () => {
@@ -19,6 +20,18 @@ const Navbar = () => {
   const closeNewItem = () => {
     setNewItemOpen(false);
   }
+  // estää taustan scrollaamisen kun new item on auki
+  useEffect(() => {
+    if (isNewItemOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isNewItemOpen]);
 
   // useEffect(()=>{
   // localStorage.setItem("loginName",loginName);
