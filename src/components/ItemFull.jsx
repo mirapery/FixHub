@@ -37,7 +37,7 @@ const ItemFull = ({ itemData }) => {
 
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
-            <NewItem
+            <NewItem // editti-ikkuna
                 isOpen={isNewItemOpen}
                 closeNewItem={closeNewItem}
                 itemData={itemData}
@@ -108,6 +108,20 @@ const ItemFull = ({ itemData }) => {
                                     {itemData.location.postalcode}
                                 </p>
                             </div>
+                        </div>
+                        <div>
+                            <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+                                Tags:
+                            </h3>
+                            <ul className="m-1 w-full flex flex-wrap">
+                                {itemData.tags.map((tag, index) => (
+                                    <li key={index} className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1">
+                                        <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
+                                            {tag}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                         <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
