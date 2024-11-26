@@ -17,7 +17,7 @@ const useTags = (initialList = []) => {
     }
 
     const addTagList = (t) => {
-        t.array.forEach(element => {addTag(element)});
+        list.forEach(() => {addTag(t)});
     }
 
     return { list, addTag, removeTag, resetTags, addTagList };

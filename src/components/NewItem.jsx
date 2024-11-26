@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useTags from "./useTags";
 import { categoryLinks } from "../data";
 import datasetsFiPostalcodes from "datasets-fi-postalcodes";
@@ -9,18 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 // itemData jos muokataan olemassa olevaa itemiä
 const NewItem = ({ isOpen, closeNewItem, itemData }) => {
-
-    if (itemData) {
-        setName(itemData.name);
-        setCategory(itemData.category);
-        addTagList(itemData.tags);
-        setDescription(itemData.description);
-        setPriceFrom(itemData.priceRange[0]);
-        setPriceTo(itemData.priceRange[1]);
-        setPostalCode(itemData.location.postalCode);
-        setCity(postalCodes[itemData.location.postalCode]);
-        setImages(itemData.images);
-    }
 
     const categories = categoryLinks.map((c) => c.text);
     const postalCodes = datasetsFiPostalcodes;
@@ -111,7 +99,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
     };
 
     // for selecting main image
-    const moveImageToFirst = (index) => {
+    const moveImageToFirst = (index) => { // itemdata modaus
         setImages((prevImages) => {
             const updatedImages = [...prevImages];
             const [selectedImage] = updatedImages.splice(index, 1);
@@ -268,6 +256,20 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
         setCity('');
     }
 
+    useEffect(() => {
+        if (itemData) {
+            setName(itemData.name);
+            setCategory(itemData.category);
+            addTagList(itemData.tags);
+            setDescription(itemData.description);
+            setPriceFrom(itemData.priceRange[0]);
+            setPriceTo(itemData.priceRange[1]);
+            setPostalCode(itemData.location.postalcode);
+            setCity(postalCodes[itemData.location.postalcode]);
+            setImages(itemData.images);
+        }
+    }, [itemData]);
+
 
     // TARVITAAN EHKÄ MYÖHEMMIN !!! kuvien lataaminen 
 
@@ -304,7 +306,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                     onClick={(e) => e.stopPropagation()}
                 >
                     <button
-                        className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95" 
+                        className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
                         onClick={closeNewItem}
                     >
                         <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
@@ -347,8 +349,8 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
 
 
                                     <div className="min-h-80 align-middle">
-                                        {images[0] && <img
-                                            src={URL.createObjectURL(images[0])}
+                                        {(images[0] || itemData) && <img
+                                            src={itemData ? "/src/assets/images/" + itemData.images[0] : URL.createObjectURL(images[0])}  
                                             alt={`preview-main`}
                                             className='w-80 h-auto m-4 rounded-md'
                                         />}
@@ -357,12 +359,15 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                                     <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Additional images:</label>
 
                                     <div className="">
-                                        {images.map((image, index) => (
-                                            <div key={index} className="justify-center inline-block m-2"
+                                        {images.map((image, index) => {
+                                            if (index === 0) {
+                                                return;
+                                            }
+                                            return <div key={index} className="justify-center inline-block m-2"
                                             >
                                                 <div className="flex w-32 h-32 items-center justify-center">
                                                     <img
-                                                        src={URL.createObjectURL(image)}
+                                                        src={itemData && itemData.images.length > index ? "/src/assets/images/" + itemData.images[index] : URL.createObjectURL(image)} // tämä rivi ei toimi jos kuvia kummastakin lähteestä
                                                         alt={`preview-${index}`}
                                                         className='max-w-32 max-h-32 h-auto w-auto hover:brightness-75 mb-1 hover:cursor-pointer transition duration-300 rounded-md m-2'
                                                         onClick={() => moveImageToFirst(index)}
@@ -377,7 +382,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                                                     </button>
                                                 </div>
                                             </div>
-                                        ))}
+                                        })}
                                     </div>
                                 </div>
                             </div>
