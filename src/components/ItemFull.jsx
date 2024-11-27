@@ -1,6 +1,6 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import NewItem from "./NewItem";
 
 import { dummyUsers } from "../data";
 
@@ -8,9 +8,40 @@ const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
 
     const user = dummyUsers.find((u) => u.userId === itemData.userId);
+    // const owner = itemData.userId === 1; // Change this to check if user is owner of item
+
+    //for testing
+    const owner = true
+
+    // new item modaalin jutut
+    const [isNewItemOpen, setNewItemOpen] = useState(false)
+
+    const openNewItem = () => {
+        setNewItemOpen(true);
+    }
+    const closeNewItem = () => {
+        setNewItemOpen(false);
+    }
+    // estää taustan scrollaamisen kun new item on auki
+    useEffect(() => {
+        if (isNewItemOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isNewItemOpen]);
 
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+            <NewItem // editti-ikkuna
+                isOpen={isNewItemOpen}
+                closeNewItem={closeNewItem}
+                itemData={itemData}
+            />
             <div className="my-2 ">
                 <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                     {itemData.name}
@@ -30,6 +61,9 @@ const ItemFull = ({ itemData }) => {
                     </div>
                     <div className="flex m-2">
                         {itemData.images.map((image, index) => {
+                            if (index === 0) {
+                                return;
+                            }
                             return <img
                                 key={index}
                                 src={"/src/assets/images/" + image}
@@ -57,7 +91,6 @@ const ItemFull = ({ itemData }) => {
                             <p className="my-2 text-fh_black text-lg">
                                 {(String(itemData.priceRange[0]) + " - " + String(itemData.priceRange[1]) + " €")}
                             </p>
-                            
                         </div>
                         <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
@@ -78,14 +111,37 @@ const ItemFull = ({ itemData }) => {
                         </div>
                         <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+                                Tags:
+                            </h3>
+                            <ul className="m-1 w-full flex flex-wrap">
+                                {itemData.tags.map((tag, index) => (
+                                    <li key={index} className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1">
+                                        <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
+                                            {tag}
+                                        </p>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Owner:
                             </h3>
                             <p className="my-2 text-fh_dgreen text-lg underline">
                                 <Link to={`/user/${user.userName}`}>{user.userName}</Link> {/* Create link to user's page */}
                             </p>
-                            <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
-                                Message item owner
-                            </button>
+                            {owner ?
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={openNewItem}
+                                >
+                                    Edit item
+                                </button>
+                                :
+                                <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
+                                    Message item owner
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>

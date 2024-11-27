@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useLocalStorage from "./UseLocalStorage";
 import Login from "./LogIn";
+import NewItem from "./NewItem";
 
 
 const Navbar = () => {
@@ -11,6 +12,7 @@ const Navbar = () => {
   const [isDrobDown, setIsDrobDown] = useState(false);
   const [user, setUser] = useLocalStorage("user", "");
   const navigate = useNavigate();
+  
   const logOut = () =>{
     setIsDrobDown(false);
     setUser(null);
@@ -18,6 +20,32 @@ const Navbar = () => {
     navigate("/")
   };
 
+
+  // new item modaalin jutut
+  const [isNewItemOpen, setNewItemOpen] = useState(false)
+
+  const openNewItem = () => {
+    setNewItemOpen(true);
+  }
+  const closeNewItem = () => {
+    setNewItemOpen(false);
+  }
+  // estää taustan scrollaamisen kun new item on auki
+  useEffect(() => {
+    if (isNewItemOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isNewItemOpen]);
+
+
+
+  
   // Function to open modal
   const openModal = () => {
     setIsModalOpen(true);
@@ -27,6 +55,7 @@ const Navbar = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   function handleButton() {
     document.getElementById("nav-content").classList.toggle("hidden");
   }
@@ -50,6 +79,14 @@ const Navbar = () => {
         >
           <i className="fas fa-bars fa-2x"></i>
         </button>
+
+        {/* testingiin, Ville laittaa tän sit fiksumpaan paikkaan :) */}
+        <button
+          className="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
+          onClick={openNewItem}>
+          New Item
+        </button>
+
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
           <PageLinks
             parentClass="md:flex"
@@ -69,6 +106,11 @@ const Navbar = () => {
         closeModal={closeModal}
         setUser={setUser}
         setIsAuthenticated={setIsAuthenticated}
+      />
+
+      <NewItem
+        isOpen={isNewItemOpen}
+        closeNewItem={closeNewItem}
       />
     </div>
   );

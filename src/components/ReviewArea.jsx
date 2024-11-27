@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 
-import Review from "./review";
+import Review from "./Review";
 
 const ReviewArea = ({ reviews }) => {
     const containerRef = useRef(null);
