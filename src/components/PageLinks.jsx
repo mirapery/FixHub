@@ -9,7 +9,7 @@ const PageLinks = ({
   openModal,
   user,
   isAuthenticated,
-  logOut,isDrobDown,setIsDrobDown
+  logOut,isDrobDown,setIsDrobDown,openNewItem
 }) => {
   const dropdownRef = useRef(null);
 
@@ -41,11 +41,11 @@ const PageLinks = ({
                   Profiili
                 </li>
               </Link>
-              <Link to="lisäätuote">
-                <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                  Lisää tuote
+            
+                <li onClick={openNewItem} className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
+                Lisää ilmoitus
                 </li>
-              </Link>
+              
               <Link to="lisäätuote">
                 <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
                   Viestit

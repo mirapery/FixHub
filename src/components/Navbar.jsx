@@ -62,7 +62,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <header className="flex items-center justify-between flex-wrap py-4 w-full bg-fh_dgreen">
+      <header className="flex items-center justify-between flex-wrap py-4  w-full bg-fh_dgreen">
         <div className="flex shrink-0 ml-6 cursor-pointer">
           <Link
             to="/"
@@ -80,13 +80,7 @@ const Navbar = () => {
           <i className="fas fa-bars fa-2x"></i>
         </button>
 
-        {/* testingiin, Ville laittaa tän sit fiksumpaan paikkaan :) */}
-        <button
-          className="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
-          onClick={openNewItem}>
-          New Item
-        </button>
-
+    
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
           <PageLinks
             parentClass="md:flex"
@@ -97,6 +91,7 @@ const Navbar = () => {
             logOut={logOut}
             isDrobDown={isDrobDown}
             setIsDrobDown={setIsDrobDown}
+            openNewItem={openNewItem}
             
           />
         </div>
