@@ -19,7 +19,7 @@ const ItemFull = ({ itemData }) => {
                     {itemData.category}
                 </p>
             </div>
-            <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
+            <div className="flex align-middle flex-col md:flex-row  justify-center">
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img

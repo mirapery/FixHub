@@ -1,19 +1,22 @@
 import PageLinks from "./PageLinks";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import useLocalStorage from "./UseLocalStorage";
 import Login from "./LogIn";
+
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loginName, setLoginName] = useState(
-    /*localStorage.getItem("loginName") ||*/ "Login" // Get name from local storage
-  );
-
-// useEffect(()=>{
-// localStorage.setItem("loginName",loginName);
-
-// },[loginName])
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isDrobDown, setIsDrobDown] = useState(false);
+  const [user, setUser] = useLocalStorage("user", "");
+  const navigate = useNavigate();
+  const logOut = () =>{
+    setIsDrobDown(false);
+    setUser(null);
+    setIsAuthenticated(false)
+    navigate("/")
+  };
 
   // Function to open modal
   const openModal = () => {
@@ -52,14 +55,20 @@ const Navbar = () => {
             parentClass="md:flex"
             itemClass="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
             openModal={openModal}
-            loginName={loginName}
+            user={user}
+            isAuthenticated={isAuthenticated}
+            logOut={logOut}
+            isDrobDown={isDrobDown}
+            setIsDrobDown={setIsDrobDown}
+            
           />
         </div>
       </header>
       <Login
         isModalOpen={isModalOpen}
         closeModal={closeModal}
-        loginName={setLoginName}
+        setUser={setUser}
+        setIsAuthenticated={setIsAuthenticated}
       />
     </div>
   );
