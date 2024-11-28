@@ -32,7 +32,7 @@ const Navbar = () => {
   }
   // estää taustan scrollaamisen kun new item on auki
   useEffect(() => {
-    if (isNewItemOpen) {
+    if (isNewItemOpen||isModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -41,7 +41,7 @@ const Navbar = () => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isNewItemOpen]);
+  }, [isNewItemOpen,isModalOpen]);
 
 
 
