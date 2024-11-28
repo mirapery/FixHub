@@ -159,7 +159,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                 //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
                 try {
                     const response = await fetch(`/api/items/${itemData.itemId}`, {
-                        method: "PATCH",
+                        method: "PUT",
                         headers: {
                             "Content-Type": "application/json",
                         },
@@ -186,7 +186,6 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                 //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
 
             } else {
-
                 const newItem = {
                     itemId: "", // tämä backendistä?
                     userId: "", // tämä kirjautumistiedoista

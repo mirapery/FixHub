@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NewItem from "./NewItem";
+import { useNavigate } from "react-router-dom";
 
 import { dummyUsers } from "../data";
 
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
+    const navigate = useNavigate();
 
     const user = dummyUsers.find((u) => u.userId === itemData.userId);
     // const owner = itemData.userId === 1; // Change this to check if user is owner of item
@@ -115,7 +117,10 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             <ul className="m-1 w-full flex flex-wrap">
                                 {itemData.tags.map((tag, index) => (
-                                    <li key={index} className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1">
+                                    <li key={index} 
+                                    className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1 hover:bg-fh_white-dark cursor-pointer hover:scale-105"
+                                    onClick={() => navigate(`/search?tag=${tag}`)}
+                                    >
                                         <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
                                             {tag}
                                         </p>
