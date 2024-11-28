@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const PageLinks = ({
   parentClass,
   itemClass,
-  openModal,
+  openLoginModal,
   user,
   isAuthenticated,
   logOut,isDrobDown,setIsDrobDown,openNewItem
@@ -15,7 +15,7 @@ const PageLinks = ({
 
   const handleClick = () => {
     if (!isAuthenticated) {
-      openModal();
+      openLoginModal();
     } else {
       setIsDrobDown(!isDrobDown);
     }

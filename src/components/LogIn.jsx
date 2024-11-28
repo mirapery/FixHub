@@ -6,7 +6,7 @@ let registeredUsers = [
   { id: 1, name: "ville", email: "ville", password: "Ville" },
 ];
 
-function Login({ isModalOpen, closeModal, setUser,setIsAuthenticated}) {
+function Login({ isLoginModal, closeLoginModal, setUser,setIsAuthenticated}) {
   const navigate = useNavigate();
   const nameInputRef = useRef(null);
   const passwordInputRef = useRef(null);
@@ -15,12 +15,13 @@ function Login({ isModalOpen, closeModal, setUser,setIsAuthenticated}) {
   const [registerUser, setRegisterUser] = useState(false);
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (isLoginModal) {
       nameInputRef.current?.focus();
     }
-  }, [isModalOpen]);
+  }, [isLoginModal]);
 
 /* 
+this is real login function
 const handleLogin = async () =>{
   try {
     //endpoint: POS>T /api/user/login
@@ -45,7 +46,9 @@ const handleLogin = async () =>{
 }
 */
 
-  const handleSubmit = (e) => {
+
+//this is for testing purposes
+  const handleLogin = (e) => {
     e.preventDefault();
     const wrongPassword = registeredUsers.some(
       (user) => user.userame === userName && user.password !== password
@@ -55,22 +58,10 @@ const handleLogin = async () =>{
       (user) => user.name === userName && user.password === password
     );
 
-    const testPassword =
-      /^(?=.*[a-z])+(?=.*[A-Z])+(?=.*[0-9])+(?=.*[\W_])+[\S]{10,}$/;
-
-    const testEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-    // if (!testPassword.test(password) && !wrongPassword) {
-    //   setErrorMessage(
-    //     "Password must contain at least 10 characters, one uppercase, one lowercase, one number and one special character"
-    //   );
-    //   setPassword("");
-    //   return;
-    // }
     if (accesGranted) {
       setIsAuthenticated(true);
       setUser(userName);
-      closeModal();
+      closeLoginModal();
     }
     else if (wrongPassword) {
         passwordInputRef.current.setCustomValidity("Väärä salasana!");
@@ -85,22 +76,22 @@ const handleLogin = async () =>{
 
  if(registerUser){
     return(
-         <SignUp isModalOpen={isModalOpen} closeModal={closeModal} setIsAuthenticated={setIsAuthenticated} />
+         <SignUp isModalOpen={isLoginModal} closeModal={closeLoginModal} setIsAuthenticated={setIsAuthenticated} setRegisterUser={setRegisterUser}/>
     )
  }
 else{
 
   return (
-    isModalOpen && (
+    isLoginModal && (
       <section
-      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
+      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isLoginModal}`}
     >
-      <div className="flex flex-col bg-fh_beige-light shadow-lg w-[90vw] sm:w-[60vw] md:w-[40vw] lg:w-[30vw] xl-[20vw] h-auto rounded-sm">
+      <div className="flex flex-col bg-fh_beige-light shadow-lg w-[400px] h-auto rounded-sm">
         <div className="flex rounded-t-sm bg-fh_lgreen justify-between p-3">
           <h1 className="text-xl">Kirjaudu</h1>
           <button
             type="button"
-            onClick={() => closeModal()}
+            onClick={() => closeLoginModal()}
             className="text-fh_black-dark text-xl hover:text-fh_beige-dark"
           >
             <i className="fa-solid fa-xmark"></i>
@@ -108,7 +99,7 @@ else{
         </div>
         <form
           className="text-center p-4 sm:p-6 flex flex-col h-full w-full"
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
         >
           <label className="flex items-center justify-between text-lg mb-2">
             Käyttäjätunnus:

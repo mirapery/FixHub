@@ -6,16 +6,21 @@ import Login from "./LogIn";
 import NewItem from "./NewItem";
 
 
-const Navbar = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
+  const [isLoginModal, setIsLoginModal] = useState(false);
+  
   const [isDrobDown, setIsDrobDown] = useState(false);
-  const [user, setUser] = useLocalStorage("user", "");
+  const [user, setUser] = useLocalStorage("user", null);
   const navigate = useNavigate();
   
+  
+  
+  //logout function
   const logOut = () =>{
     setIsDrobDown(false);
     setUser(null);
+    // This is for later use
+    //sessionStorage.removeItem("user");
     setIsAuthenticated(false)
     navigate("/")
   };
@@ -30,9 +35,19 @@ const Navbar = () => {
   const closeNewItem = () => {
     setNewItemOpen(false);
   }
+  
+  // Function to open loginmodal
+  const openLoginModal = () => {
+    setIsLoginModal(true);
+  };
+
+  // Function to close modal
+  const closeLoginModal = () => {
+    setIsLoginModal(false);
+  };
   // estää taustan scrollaamisen kun new item on auki
   useEffect(() => {
-    if (isNewItemOpen||isModalOpen) {
+    if (isNewItemOpen||isLoginModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -41,20 +56,10 @@ const Navbar = () => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isNewItemOpen,isModalOpen]);
+  }, [isNewItemOpen,isLoginModal]);
 
 
 
-  
-  // Function to open modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Function to close modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   function handleButton() {
     document.getElementById("nav-content").classList.toggle("hidden");
@@ -85,7 +90,7 @@ const Navbar = () => {
           <PageLinks
             parentClass="md:flex"
             itemClass="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
-            openModal={openModal}
+            openLoginModal={openLoginModal}
             user={user}
             isAuthenticated={isAuthenticated}
             logOut={logOut}
@@ -97,8 +102,8 @@ const Navbar = () => {
         </div>
       </header>
       <Login
-        isModalOpen={isModalOpen}
-        closeModal={closeModal}
+        isLoginModal={isLoginModal}
+        closeLoginModal={closeLoginModal}
         setUser={setUser}
         setIsAuthenticated={setIsAuthenticated}
       />
