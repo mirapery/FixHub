@@ -292,7 +292,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
     return (
         isOpen && (
             <div
-                className="fixed inset-0 z-50 flex items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
+                className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
                 onClick={closeNewItem}
             >
                 <Alert
@@ -317,10 +317,10 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                         </h2>
                     </div>
 
-                    <div className="flex flex-row m-2">
+                    <div className="flex flex-col-reverse md:flex-row m-2">
 
                         {/* Kuvan lisääminen */}
-                        <div className="flex flex-col m-2 w-1/2">
+                        <div className="flex flex-col m-2 w-full md:w-1/2">
                             <div className="flex flex-col m-2 space-y-2">
 
                                 <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Add images (max 4):</label>
@@ -388,7 +388,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                         </div>
 
                         {/* Muut kentät */}
-                        <div className="flex flex-col m-2 w-1/2">
+                        <div className="flex flex-col m-2 w-full md:w-1/2">
 
                             {/* Name Field*/}
                             <div className="flex flex-col m-2 space-y-2">
@@ -500,7 +500,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                             {/* Price range */}
                             <div className="flex flex-col m-2 space-y-2">
                                 <label className="text-xl text-fh_black font-bold m-1">Give your price range:</label>
-                                <div className="flex flex-row m-2">
+                                <div className="flex flex-col md:flex-row m-2">
                                     <label
                                         className="flex items-center w-1/12 text-xl text-fh_black-light m-2"
                                     >
@@ -543,8 +543,8 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                             {/* Location */}
                             <div className="flex flex-col m-2 space-y-2">
                                 <label className="text-xl text-fh_black font-bold m-1">Item Location:</label>
-                                <div className="flex flex-row m-2">
-                                    <label className="w-1/5 flex items-center text-xl text-fh_black-light m-2">
+                                <div className="flex flex-col md:flex-row m-2">
+                                    <label className="md:w-1/5 flex items-center text-xl text-fh_black-light m-2">
                                         Postal Code:
                                     </label>
                                     <input
@@ -559,7 +559,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                                         }
                                         placeholder="Postal Code"
                                         maxLength={5}
-                                        className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
+                                        className=" md:w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                                         required
                                     />
                                     <button

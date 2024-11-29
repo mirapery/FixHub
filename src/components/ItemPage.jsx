@@ -36,7 +36,7 @@ const ItemPage = () => {
   }
 
   return (
-    <div className="bg-fh_white">
+    <div className="flex flex-col justify-center items-center align-middle bg-fh_white">
       <div className=" p-4">
         <ItemFull itemData={item} />
       </div>
@@ -45,7 +45,9 @@ const ItemPage = () => {
           Similar Items:
         </h2>
       </div>
-      <CardArea itemsList={dummyItems} />
+      <div className="flex justify-center w-11/12">
+        <CardArea itemsList={dummyItems} />
+      </div>
     </div>
   );
 };
