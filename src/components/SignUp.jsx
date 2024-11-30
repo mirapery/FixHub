@@ -121,7 +121,7 @@ const SignUp = ({
 
         {/*Form here*/}
         <form className="flex p-3 sm:flex-wrap lg:flex-nowrap" onSubmit={handleSignup}>
-          <section className="text-center flex flex-col h-full w-full">
+          <section className="text-center flex flex-col">
             {/*Name here*/}
             <h1 className="flex items-center  justify-between">
               Nimi:
@@ -206,7 +206,7 @@ const SignUp = ({
             ></input>
             {/*Fixer choice here*/}
 
-            <div className="text-center flex my-3 h-full w-full">
+            <div className="text-center flex my-3">
               <h1 className="mr-5">Olen korjaaja </h1>
               <input {...fixerChoice}></input>
             </div>
@@ -226,10 +226,10 @@ const SignUp = ({
 
 
           </section>
-          <section className="text-center flex flex-col h-full ml-3 w-full">
+          <section className="text-center flex flex-col ml-3 ">
             {/*If fixer: load fixer options*/}
             {fixerChoice.value && (
-              <div className="text-center flex flex-col h-full w-full">
+              <div className="text-center flex flex-col ">
                 {/*About here*/}
                 <h1 className="flex items-center   justify-between">
                   Lisätietoja
@@ -240,7 +240,7 @@ const SignUp = ({
                   rows="10"
                 ></textarea>
                 {/*Tags here*/}
-                <div className="flex flex-col m-2 space-y-2">
+                <div className="flex  flex-col m-2 space-y-2 items-center">
                   <label
                     htmlFor="itemTags"
                     className="text-lg text-fh_black font-bold m-1"
@@ -276,11 +276,13 @@ const SignUp = ({
                       Lisää
                     </button>
                     {/*Selected tags here*/}
-                    <div className="w-1/2 flex flex-col items-center align-middle">
+                   
+                  </div>
+                  <div className="w-1/2 flex flex-col items-center">
                       <label className="text-xl text-fh_black-light m-1">
                         Valitut tägit:
                       </label>
-                      <ul className="m-1 w-1/2 flex flex-wrap justify-center">
+                      <ul className="m-1 flex flex-wrap justify-center">
                         {tags.map((tag, index) => (
                           <li
                             key={index}
@@ -299,7 +301,6 @@ const SignUp = ({
                         ))}
                       </ul>
                     </div>
-                  </div>
                 </div>
               </div>
             )}
