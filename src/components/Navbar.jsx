@@ -1,7 +1,7 @@
 import PageLinks from "./PageLinks";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useLocalStorage from "./UseLocalStorage";
+import useSessionStorage from "./UseSessionStorage";
 import Login from "./LogIn";
 import NewItem from "./NewItem";
 
@@ -10,7 +10,7 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
   const [isLoginModal, setIsLoginModal] = useState(false);
   
   const [isDrobDown, setIsDrobDown] = useState(false);
-  const [user, setUser] = useLocalStorage("user", null);
+  const [user, setUser] = useSessionStorage("user", null);
   const navigate = useNavigate();
   
   
@@ -18,9 +18,8 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
   //logout function
   const logOut = () =>{
     setIsDrobDown(false);
-    setUser(null);
     // This is for later use
-    //sessionStorage.removeItem("user");
+    sessionStorage.removeItem("user");
     setIsAuthenticated(false)
     navigate("/")
   };

@@ -12,7 +12,7 @@ function Login({ isLoginModal, closeLoginModal, setUser,setIsAuthenticated}) {
   const passwordInputRef = useRef(null);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [registerUser, setRegisterUser] = useState(false);
+  const [registerModal, setRegisterModal] = useState(false);
 
   useEffect(() => {
     if (isLoginModal) {
@@ -60,6 +60,7 @@ const handleLogin = async () =>{
 
     if (accesGranted) {
       setIsAuthenticated(true);
+      sessionStorage.setItem("user", JSON.stringify(userName));
       setUser(userName);
       closeLoginModal();
     }
@@ -70,13 +71,13 @@ const handleLogin = async () =>{
   };
 
 
-  const handleRegister=()=>{ 
-    setRegisterUser(true)
+  const openRegistering=()=>{ 
+    setRegisterModal(true)
   }
 
- if(registerUser){
+ if(registerModal){
     return(
-         <SignUp isModalOpen={isLoginModal} closeModal={closeLoginModal} setIsAuthenticated={setIsAuthenticated} setRegisterUser={setRegisterUser}/>
+         <SignUp isModalOpen={isLoginModal} closeModal={closeLoginModal} setIsAuthenticated={setIsAuthenticated} setRegisterModal={setRegisterModal} setUser={setUser}/>
     )
  }
 else{
@@ -138,7 +139,7 @@ else{
           <div className="flex flex-col items-center mt-10">
             <p className="text-sm sm:text-base">Eikö sinulla ole käyttäjätunnusta?</p>
             <button
-              onClick={handleRegister}
+              onClick={openRegistering}
               className="flex justify-center  px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
             >
               Rekisteröidy

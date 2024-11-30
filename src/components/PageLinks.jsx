@@ -28,7 +28,7 @@ const PageLinks = ({
       })}
       <li className="relative">
         <Link to="#" className={itemClass} onClick={handleClick}>
-          {user === null ? "login" : user}
+          {user.userName === null ? "login" : user.userName}
         </Link>
         {isDrobDown && (
           <div

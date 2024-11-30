@@ -4,39 +4,11 @@ import { useNavigate } from "react-router-dom";
 import useField from "./useField";
 import useTags from "./useTags";
 
-//for testing
-/*******************************************/
-
-let registeredUsers = [
-  { id: 1, name: "ville", email: "ville", password: "Ville" },
-];
-let currentId = 1;
-const createUser = (name, email, password) => {
-  const newUser = {
-    id: currentId++,
-    name: nameInput.value,
-    userName: userNameInput.value,
-    phone: phoneInput.value,
-    email: emailInput.value,
-    password: passwordInput.value,
-    about: aboutInput.value,
-    creationTime: Date.now().toString(),
-    location: {
-      province: provinceInput.value,
-      city: cityInput.value,
-      postalcode: postalcodeInput.value,
-    },
-  };
-  registeredUsers.push(newUser);
-  console.log("new user created:" + newUser);
-};
-/*******************************************/
-
 const SignUp = ({
   isModalOpen,
   closeModal,
   setIsAuthenticated,
-  setRegisterUser,
+  setRegisterModal,setUser
 }) => {
   const nameInput = useField("text");
   const userNameInput = useField("text");
@@ -62,7 +34,49 @@ const SignUp = ({
     }
   }, [isModalOpen]);
 
-  const handleSignup = async () => {
+  //for testing
+  /*******************************************/
+
+  let registeredUsers = [];
+  let currentId = 1;
+
+  const createUser = (
+    name,
+    userName,
+    phone,
+    email,
+    password,
+    about,
+    tags_,
+    isFixer,
+    province,
+    city,
+    postalcode
+  ) => {
+    const newUser = {
+      id: currentId++,
+      name,
+      userName,
+      phone,
+      email,
+      password,
+      about,
+      tags_,
+      isFixer,
+      creationTime: Date.now().toString(),
+      location: {
+        province,
+        city,
+        postalcode,
+      },
+    };
+    registeredUsers.push(newUser);
+    setUser(newUser);
+    console.log("new user created:" + newUser);
+  };
+  /*******************************************/
+
+  /*const handleSignup = async () => {
     try {
       const response = await fetch("/api/user/signup", {
         method: "POST",
@@ -73,14 +87,16 @@ const SignUp = ({
           phone: phoneInput.value,
           email: emailInput.value,
           password: passwordInput.value,
-          image,
+          image: imageInput.value,
           creationTime: Date.now().toString(),
           location: {
             province: provinceInput.value,
             city: cityInput.value,
             postalcode: postalcodeInput.value,
-          },
-          about: aboutInput.value,
+            },
+            about: aboutInput.value,
+            tags: tags,
+            isFixer: fixerChoice.value,
         }),
       });
       if (response.ok) {
@@ -96,9 +112,31 @@ const SignUp = ({
       console.error("error during signup: ", error);
     }
   };
+*/
+
+  const handleSignup = (event) => {
+    event.preventDefault();
+    createUser(
+      nameInput.value,
+      userNameInput.value,
+      phoneInput.value,
+      emailInput.value,
+      passwordInput.value,
+      aboutInput.value,
+      tags,
+      fixerChoice.value,
+      provinceInput.value,
+      cityInput.value,
+      postalcodeInput.value
+    );
+    setRegisterModal(false);
+    setIsAuthenticated(true);
+    setUserLoggedIn()
+    closeModal();
+  };
 
   const handleClose = () => {
-    setRegisterUser(false);
+    setRegisterModal(false);
     closeModal();
   };
 
@@ -120,12 +158,13 @@ const SignUp = ({
         </div>
 
         {/*Form here*/}
-        <form className="flex p-3 sm:flex-wrap lg:flex-nowrap" onSubmit={handleSignup}>
+        <form
+          className="flex p-3 sm:flex-wrap lg:flex-nowrap"
+          onSubmit={handleSignup}
+        >
           <section className="text-center flex flex-col">
             {/*Name here*/}
-            <h1 className="flex items-center  justify-between">
-              Nimi:
-            </h1>
+            <h1 className="flex items-center  justify-between">Nimi:</h1>
             <input
               className=" p-3 bg-fh_beige rounded-sm"
               ref={nameInputRef}
@@ -160,9 +199,7 @@ const SignUp = ({
               required
             ></input>
             {/*Phone here*/}
-            <h1 className="flex items-center  mt-4 justify-between">
-              Puhelin
-            </h1>
+            <h1 className="flex items-center  mt-4 justify-between">Puhelin</h1>
             <input
               className=" p-3 bg-fh_beige rounded-sm"
               {...phoneInput}
@@ -211,20 +248,17 @@ const SignUp = ({
               <input {...fixerChoice}></input>
             </div>
             <div className="flex flex-wrap items-center p-3">
-            <button
-              className="p-4 bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
-              type="submit"
-            >
-              Hyväksy
-            </button>
-            <div className="flex">
-              <input className=" ml-2" type="checkbox"></input>
-              <p className="ml-2">Muista kirjautumiseni</p>
+              <button
+                className="p-4 bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
+                type="submit"
+              >
+                Hyväksy
+              </button>
+              <div className="flex">
+                <input className=" ml-2" type="checkbox"></input>
+                <p className="ml-2">Muista kirjautumiseni</p>
+              </div>
             </div>
-          </div>
-
-
-
           </section>
           <section className="text-center flex flex-col ml-3 ">
             {/*If fixer: load fixer options*/}
@@ -245,7 +279,7 @@ const SignUp = ({
                     htmlFor="itemTags"
                     className="text-lg text-fh_black font-bold m-1"
                   >
-                    Lisää tägit: 
+                    Lisää tägit:
                   </label>
 
                   <div className="flex flex-row mx-1">
@@ -257,7 +291,6 @@ const SignUp = ({
                       onChange={(e) => setTag(e.target.value)}
                       placeholder="Anna uusi tägi:"
                       className=" w-8/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light"
-                      required
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           addTag(tag);
@@ -276,37 +309,34 @@ const SignUp = ({
                       Lisää
                     </button>
                     {/*Selected tags here*/}
-                   
                   </div>
                   <div className="w-1/2 flex flex-col items-center">
-                      <label className="text-xl text-fh_black-light m-1">
-                        Valitut tägit:
-                      </label>
-                      <ul className="m-1 flex flex-wrap justify-center">
-                        {tags.map((tag, index) => (
-                          <li
-                            key={index}
-                            className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1"
+                    <label className="text-xl text-fh_black-light m-1">
+                      Valitut tägit:
+                    </label>
+                    <ul className="m-1 flex flex-wrap justify-center">
+                      {tags.map((tag, index) => (
+                        <li
+                          key={index}
+                          className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1"
+                        >
+                          <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
+                            {tag}
+                          </p>
+                          <button
+                            className="w-7 p-0 border border-fh_black-light m-1 rounded-full text-md bg-fh_white-dark hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                            onClick={() => removeTag(index)}
                           >
-                            <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
-                              {tag}
-                            </p>
-                            <button
-                              className="w-7 p-0 border border-fh_black-light m-1 rounded-full text-md bg-fh_white-dark hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                              onClick={() => removeTag(index)}
-                            >
-                              <i className="fa-solid fa-xmark"></i>
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                            <i className="fa-solid fa-xmark"></i>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             )}
           </section>
-
-      
         </form>
       </div>
     </section>
