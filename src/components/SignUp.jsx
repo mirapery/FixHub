@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "./useField";
+import useTags from "./useTags";
 
 //for testing
 /*******************************************/
@@ -10,7 +11,6 @@ let registeredUsers = [
   { id: 1, name: "ville", email: "ville", password: "Ville" },
 ];
 let currentId = 1;
-//testing
 const createUser = (name, email, password) => {
   const newUser = {
     id: currentId++,
@@ -47,9 +47,12 @@ const SignUp = ({
   const cityInput = useField("text");
   const postalcodeInput = useField("text");
   const aboutInput = useField("text");
+  const fixerChoice = useField("checkbox");
+  const imageInput = useField("file");
   const navigate = useNavigate();
   const nameInputRef = useRef(null);
-  const [image, setImage] = useState("");
+  const [tag, setTag] = useState("");
+  const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
 
   const [userLoggedIn, setUserLoggedIn] = useState(false);
 
@@ -103,7 +106,8 @@ const SignUp = ({
     <section
       className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
     >
-      <div className="flex flex-col bg-fh_beige-light shadow-lg w-[400px] h-auto rounded-sm">
+      {/*Regiter modal*/}
+      <div className="flex flex-col bg-fh_beige-light shadow-lg w-auto h-auto rounded-sm">
         <div className="flex  bg-fh_lgreen justify-between p-3 rounded-t-sm">
           <h1 className="text-xl ">Rekisteröidy</h1>
           <button
@@ -114,76 +118,99 @@ const SignUp = ({
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <form
-          className="text-center flex flex-col h-full w-full"
-          onSubmit={handleSignup}
-        >
-          <h1 className="flex items-center my-2 p-3 justify-between ">Nimi:</h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            ref={nameInputRef}
-            {...nameInput}
-            required
-          ></input>
-          <h1 className="flex items-center my-2 p-3 justify-between ">
-            Käyttäjätunnus:
-          </h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            {...userNameInput}
-            required
-          ></input>
 
-          <h1 className="flex items-center p-3 my-2 justify-between">
-            Salasana:
-          </h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            {...passwordInput}
-            id="password-input"
-          ></input>
-          <h1 className="flex items-center my-2 p-3 justify-between ">
-            Sähköposti:
-          </h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            {...emailInput}
-            required
-          ></input>
-          <h1 className="flex items-center my-2 p-3 justify-between ">
-            Puhelin:
-          </h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            {...phoneInput}
-            required
-          ></input>
-          <h1 className="flex items-center my-2 p-3 justify-between ">
-            Maakunta:
-          </h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            {...provinceInput}
-            required
-          ></input>
-          <h1 className="flex items-center my-2 p-3 justify-between ">
-            Kaupunki{" "}
-          </h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            {...cityInput}
-            required
-          ></input>
-          <h1 className="flex items-center my-2 p-3 justify-between ">
-            Postinumero:
-          </h1>
-          <input
-            className="w-2/3 ml-3 p-3 bg-fh_beige rounded-sm"
-            {...postalcodeInput}
-            required
-          ></input>
+        {/*Form here*/}
+        <form className="flex p-3 sm:flex-wrap lg:flex-nowrap" onSubmit={handleSignup}>
+          <section className="text-center flex flex-col h-full w-full">
+            {/*Name here*/}
+            <h1 className="flex items-center  justify-between">
+              Nimi:
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              ref={nameInputRef}
+              {...nameInput}
+              required
+            ></input>
+            {/*Username here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Käyttäjätunnus
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              {...userNameInput}
+              required
+            ></input>
+            {/*Password here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Salasana
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              {...passwordInput}
+              id="password-input"
+            ></input>
+            {/*Email here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Sähköposti
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              {...emailInput}
+              required
+            ></input>
+            {/*Phone here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Puhelin
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              {...phoneInput}
+              required
+            ></input>
+            {/*Province here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Maakunta
+            </h1>
+            <input
+              className="p-3 bg-fh_beige rounded-sm"
+              {...provinceInput}
+              required
+            ></input>
+            {/*City here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Kaupunki
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              {...cityInput}
+              required
+            ></input>
+            {/*Postalcode here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Postinumero
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              {...postalcodeInput}
+              required
+            ></input>
+            {/*Image here*/}
+            <h1 className="flex items-center  mt-4 justify-between">
+              Lisää kuva
+            </h1>
+            <input
+              className=" p-3 bg-fh_beige rounded-sm"
+              {...imageInput}
+              accept="image/*"
+            ></input>
+            {/*Fixer choice here*/}
 
-          <div className="flex flex-wrap items-center p-3">
+            <div className="text-center flex my-3 h-full w-full">
+              <h1 className="mr-5">Olen korjaaja </h1>
+              <input {...fixerChoice}></input>
+            </div>
+            <div className="flex flex-wrap items-center p-3">
             <button
               className="p-4 bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
               type="submit"
@@ -195,6 +222,90 @@ const SignUp = ({
               <p className="ml-2">Muista kirjautumiseni</p>
             </div>
           </div>
+
+
+
+          </section>
+          <section className="text-center flex flex-col h-full ml-3 w-full">
+            {/*If fixer: load fixer options*/}
+            {fixerChoice.value && (
+              <div className="text-center flex flex-col h-full w-full">
+                {/*About here*/}
+                <h1 className="flex items-center   justify-between">
+                  Lisätietoja
+                </h1>
+                <textarea
+                  className=" p-3 bg-fh_beige rounded-sm"
+                  {...aboutInput}
+                  rows="10"
+                ></textarea>
+                {/*Tags here*/}
+                <div className="flex flex-col m-2 space-y-2">
+                  <label
+                    htmlFor="itemTags"
+                    className="text-lg text-fh_black font-bold m-1"
+                  >
+                    Lisää tägit: 
+                  </label>
+
+                  <div className="flex flex-row mx-1">
+                    <input
+                      type="text"
+                      //name="name"
+                      id="itemTags"
+                      value={tag}
+                      onChange={(e) => setTag(e.target.value)}
+                      placeholder="Anna uusi tägi:"
+                      className=" w-8/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light"
+                      required
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          addTag(tag);
+                          setTag("");
+                        }
+                      }}
+                    ></input>
+
+                    <button
+                      className="  h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                      onClick={() => {
+                        addTag(tag);
+                        setTag("");
+                      }}
+                    >
+                      Lisää
+                    </button>
+                    {/*Selected tags here*/}
+                    <div className="w-1/2 flex flex-col items-center align-middle">
+                      <label className="text-xl text-fh_black-light m-1">
+                        Valitut tägit:
+                      </label>
+                      <ul className="m-1 w-1/2 flex flex-wrap justify-center">
+                        {tags.map((tag, index) => (
+                          <li
+                            key={index}
+                            className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1"
+                          >
+                            <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
+                              {tag}
+                            </p>
+                            <button
+                              className="w-7 p-0 border border-fh_black-light m-1 rounded-full text-md bg-fh_white-dark hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                              onClick={() => removeTag(index)}
+                            >
+                              <i className="fa-solid fa-xmark"></i>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </section>
+
+      
         </form>
       </div>
     </section>
