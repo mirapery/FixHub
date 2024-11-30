@@ -79,11 +79,11 @@ const ItemFull = ({ itemData }) => {
                 <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                     {itemData.name}
                 </h1>
-                <p className='font-bold text-fh_black'>
+                <p className='flex align-middle justify-center font-bold text-fh_black items-center'>
                     {itemData.category}
                 </p>
             </div>
-            <div className="flex align-middle flex-col md:flex-row  justify-center">
+            <div className="flex align-middle flex-col md:flex-row justify-center">
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
@@ -164,7 +164,21 @@ const ItemFull = ({ itemData }) => {
                                 Owner:
                             </h3>
                             <p className="my-2 text-fh_dgreen text-lg underline">
-                                <Link to={`/user/${user.userName}`}>{user.userName}</Link> {/* Create link to user's page */}
+                                <Link
+                                    to={`/user/${user.userName}`}
+                                    className="flex flex-row items-center"
+                                >
+                                    <img
+                                        src={user.image ? `/src/assets/images/${user.image}` : `/src/assets/images/userPlaceholder.jpg`}
+                                        alt="profile picture"
+                                        className="rounded-full w-10 h-auto m-2 shadow"
+                                    />
+
+                                    <p className="my-2 text-fh_dgreen text-lg ">
+                                        {user.userName}
+                                    </p>
+
+                                </Link> {/* Create link to user's page */}
                             </p>
                             {owner &&
                                 <button

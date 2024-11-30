@@ -37,8 +37,10 @@ const ItemPage = () => {
 
   return (
     <div className="flex flex-col justify-center items-center align-middle bg-fh_white">
-      <div className=" p-4">
-        <ItemFull itemData={item} />
+      <div className="p-4 w-full">
+        <ItemFull
+          itemData={item}
+        />
       </div>
       <div className=" flex items-center justify-center m-2">
         <h2 className="font-bold text-3xl text-fh_black font-serif text-center">
