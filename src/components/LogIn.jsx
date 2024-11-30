@@ -1,29 +1,17 @@
 import React from "react";
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SignUp from "./SignUp"
 let registeredUsers = [
   { id: 1, name: "ville", email: "ville", password: "Ville" },
 ];
-let currentId = 1;
 
-const createUser = (name, email, password) => {
-  const newUser = {
-    id: currentId++,
-    name,
-    email,
-    password,
-  };
-  registeredUsers.push(newUser);
-  console.log("new user created:" + newUser);
-};
-
-function Login({ isModalOpen, closeModal, loginName }) {
+function Login({ isModalOpen, closeModal, setUser,setIsAuthenticated}) {
+  const navigate = useNavigate();
   const nameInputRef = useRef(null);
   const passwordInputRef = useRef(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [registerUser, setRegisterUser] = useState(false);
 
   useEffect(() => {
@@ -32,14 +20,39 @@ function Login({ isModalOpen, closeModal, loginName }) {
     }
   }, [isModalOpen]);
 
+/* 
+const handleLogin = async () =>{
+  try {
+    //endpoint: POS>T /api/user/login
+    const response = await fetch("/api/user/login",{
+      method : "POST",
+      body: JSON.stringify({username, password}),
+      headers: {"Content-Type": "application /json"},
+    });
+    if(response.ok){
+      const user = await response.json();
+      sessionStorage.setItem("user",JSON.stringify(user));
+      setIsAuthenticated(true);
+      navigate("/")
+    }
+    else{
+      console.error("Login failed")
+    }
+  }
+  catch(error){
+    console.error("Error during login", error);
+  }
+}
+*/
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const wrongPassword = registeredUsers.some(
-      (user) => user.name === name && user.password !== password
+      (user) => user.userame === userName && user.password !== password
     );
 
     const accesGranted = registeredUsers.some(
-      (user) => user.name === name && user.password === password
+      (user) => user.name === userName && user.password === password
     );
 
     const testPassword =
@@ -55,8 +68,8 @@ function Login({ isModalOpen, closeModal, loginName }) {
     //   return;
     // }
     if (accesGranted) {
-      setUserLoggedIn(true);
-      loginName(name);
+      setIsAuthenticated(true);
+      setUser(userName);
       closeModal();
     }
     else if (wrongPassword) {
@@ -72,7 +85,7 @@ function Login({ isModalOpen, closeModal, loginName }) {
 
  if(registerUser){
     return(
-         <SignUp isModalOpen={isModalOpen} closeModal={closeModal} setRegisterUser={setRegisterUser} />
+         <SignUp isModalOpen={isModalOpen} closeModal={closeModal} setIsAuthenticated={setIsAuthenticated} />
     )
  }
 else{
@@ -103,10 +116,10 @@ else{
           <input
             className="w-full sm:w-3/4 mb-4 p-3 bg-fh_beige rounded-sm"
             ref={nameInputRef}
-            value={name}
+            value={userName}
             type="text"
             required
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setUserName(e.target.value)}
           />
     
           <label className="flex items-center justify-between text-lg mb-2">
@@ -121,7 +134,7 @@ else{
           />
           <div className="flex flex-col sm:flex-row items-center sm:justify-between">
             <button
-              className="w-1/2 flex justify-center sm:w-1/3 px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
+              className="flex justify-center px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
               type="submit"
             >
               Kirjaudu
@@ -135,7 +148,7 @@ else{
             <p className="text-sm sm:text-base">Eikö sinulla ole käyttäjätunnusta?</p>
             <button
               onClick={handleRegister}
-              className="flex justify-center  w-1/2 sm:w-1/3 px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
+              className="flex justify-center  px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
             >
               Rekisteröidy
             </button>
