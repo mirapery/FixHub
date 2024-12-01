@@ -32,7 +32,7 @@ const PageLinks = ({
           {user === null ? "login" : user.userName}
         </Link>
         {isDrobDown && (
-          <DrobDown logOut={logOut} openNewItem={openNewItem}/>
+          <DrobDown user={user} logOut={logOut} openNewItem={openNewItem}/>
         )}
       </li>
     </ul>

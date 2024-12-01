@@ -2,22 +2,25 @@ import React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SignUp from "./SignUp";
-let registeredUsers = [
-  {
-    id: 1,
-    name: "Ville Schulz",
-    userName: "Ville",
-    phone: "040-1234567",
-    email: "asd@gmail.com",
-    password: "V1ll3",
-    about: "Olen Ville Schulz, 23-vuotias opisk",
-    tags_: "Korjaus, Remontti, Sähkötyöt",
-    isFixer: "true",
-    province: "Uusimaa",
-    city: "Helsinki",
-    postalcode: "00100",
-  },
-];
+import { dummyUsers } from "../data";
+
+let registeredUsers = dummyUsers;
+// 'let registeredUsers = [
+//   {
+//     id: 1,
+//     name: "Ville Schulz",
+//     userName: "Ville",
+//     phone: "040-1234567",
+//     email: "asd@gmail.com",
+//     password: "V1ll3",
+//     about: "Olen Ville Schulz, 23-vuotias opisk",
+//     tags_: "Korjaus, Remontti, Sähkötyöt",
+//     isFixer: "true",
+//     province: "Uusimaa",
+//     city: "Helsinki",
+//     postalcode: "00100",
+//   },
+// ];'
 
 function Login({ isLoginModal, closeLoginModal, setUser, setIsAuthenticated }) {
   const navigate = useNavigate();

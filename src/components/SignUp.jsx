@@ -3,6 +3,8 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "./useField";
 import useTags from "./useTags";
+import { dummyUsers } from "../data";
+
 
 const SignUp = ({
   isModalOpen,
@@ -37,9 +39,7 @@ const SignUp = ({
 
   //for testing
   /*******************************************/
-
-
-
+  let currentId = 1;
   const createUser = (
     name,
     userName,
@@ -54,7 +54,7 @@ const SignUp = ({
     postalcode
   ) => {
     const newUser = {
-      id: currentId++,
+      id: currentId++, 
       name,
       userName,
       phone,
