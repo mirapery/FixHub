@@ -1,38 +1,49 @@
 import PageLinks from "./PageLinks";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useLocalStorage from "./UseLocalStorage";
+import useSessionStorage from "./UseSessionStorage";
 import Login from "./LogIn";
 import NewItem from "./NewItem";
 
+const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
+  const [isLoginModal, setIsLoginModal] = useState(false);
 
-const Navbar = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isDrobDown, setIsDrobDown] = useState(false);
-  const [user, setUser] = useLocalStorage("user", "");
+  const [user, setUser] = useSessionStorage("user", null);
   const navigate = useNavigate();
-  
-  const logOut = () =>{
+
+  //logout function
+  const logOut = () => {
     setIsDrobDown(false);
+    // This is for later use
+    //sessionStorage.removeItem("user");
     setUser(null);
-    setIsAuthenticated(false)
-    navigate("/")
+    setIsAuthenticated(false);
+    navigate("/");
   };
 
-
   // new item modaalin jutut
-  const [isNewItemOpen, setNewItemOpen] = useState(false)
+  const [isNewItemOpen, setNewItemOpen] = useState(false);
 
   const openNewItem = () => {
     setNewItemOpen(true);
-  }
+  };
   const closeNewItem = () => {
     setNewItemOpen(false);
-  }
+  };
+
+  // Function to open loginmodal
+  const openLoginModal = () => {
+    setIsLoginModal(true);
+  };
+
+  // Function to close modal
+  const closeLoginModal = () => {
+    setIsLoginModal(false);
+  };
   // estää taustan scrollaamisen kun new item on auki
   useEffect(() => {
-    if (isNewItemOpen) {
+    if (isNewItemOpen || isLoginModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -41,20 +52,7 @@ const Navbar = () => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isNewItemOpen]);
-
-
-
-  
-  // Function to open modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Function to close modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  }, [isNewItemOpen, isLoginModal]);
 
   function handleButton() {
     document.getElementById("nav-content").classList.toggle("hidden");
@@ -79,34 +77,27 @@ const Navbar = () => {
         >
           <i className="fas fa-bars fa-2x"></i>
         </button>
-
-    
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
           <PageLinks
             parentClass="md:flex"
             itemClass="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
-            openModal={openModal}
+            openLoginModal={openLoginModal}
             user={user}
             isAuthenticated={isAuthenticated}
             logOut={logOut}
             isDrobDown={isDrobDown}
             setIsDrobDown={setIsDrobDown}
             openNewItem={openNewItem}
-            
           />
         </div>
       </header>
       <Login
-        isModalOpen={isModalOpen}
-        closeModal={closeModal}
+        isLoginModal={isLoginModal}
+        closeLoginModal={closeLoginModal}
         setUser={setUser}
         setIsAuthenticated={setIsAuthenticated}
       />
-
-      <NewItem
-        isOpen={isNewItemOpen}
-        closeNewItem={closeNewItem}
-      />
+      <NewItem isOpen={isNewItemOpen} closeNewItem={closeNewItem} />
     </div>
   );
 };
