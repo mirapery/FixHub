@@ -5,36 +5,33 @@ import useSessionStorage from "./UseSessionStorage";
 import Login from "./LogIn";
 import NewItem from "./NewItem";
 
-
-const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
+const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const [isLoginModal, setIsLoginModal] = useState(false);
-  
+
   const [isDrobDown, setIsDrobDown] = useState(false);
   const [user, setUser] = useSessionStorage("user", null);
   const navigate = useNavigate();
-  
-  
-  
+
   //logout function
-  const logOut = () =>{
+  const logOut = () => {
     setIsDrobDown(false);
     // This is for later use
-    sessionStorage.removeItem("user");
-    setIsAuthenticated(false)
-    navigate("/")
+    //sessionStorage.removeItem("user");
+    setUser(null);
+    setIsAuthenticated(false);
+    navigate("/");
   };
 
-
   // new item modaalin jutut
-  const [isNewItemOpen, setNewItemOpen] = useState(false)
+  const [isNewItemOpen, setNewItemOpen] = useState(false);
 
   const openNewItem = () => {
     setNewItemOpen(true);
-  }
+  };
   const closeNewItem = () => {
     setNewItemOpen(false);
-  }
-  
+  };
+
   // Function to open loginmodal
   const openLoginModal = () => {
     setIsLoginModal(true);
@@ -46,7 +43,7 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
   };
   // estää taustan scrollaamisen kun new item on auki
   useEffect(() => {
-    if (isNewItemOpen||isLoginModal) {
+    if (isNewItemOpen || isLoginModal) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -55,10 +52,7 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isNewItemOpen,isLoginModal]);
-
-
-
+  }, [isNewItemOpen, isLoginModal]);
 
   function handleButton() {
     document.getElementById("nav-content").classList.toggle("hidden");
@@ -83,8 +77,6 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
         >
           <i className="fas fa-bars fa-2x"></i>
         </button>
-
-    
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
           <PageLinks
             parentClass="md:flex"
@@ -96,7 +88,6 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
             isDrobDown={isDrobDown}
             setIsDrobDown={setIsDrobDown}
             openNewItem={openNewItem}
-            
           />
         </div>
       </header>
@@ -106,11 +97,7 @@ const Navbar = ({isAuthenticated, setIsAuthenticated}) => {
         setUser={setUser}
         setIsAuthenticated={setIsAuthenticated}
       />
-
-      <NewItem
-        isOpen={isNewItemOpen}
-        closeNewItem={closeNewItem}
-      />
+      <NewItem isOpen={isNewItemOpen} closeNewItem={closeNewItem} />
     </div>
   );
 };

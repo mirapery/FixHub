@@ -8,7 +8,8 @@ const SignUp = ({
   isModalOpen,
   closeModal,
   setIsAuthenticated,
-  setRegisterModal,setUser
+  setRegisterModal,setUser,
+  registeredUsers,
 }) => {
   const nameInput = useField("text");
   const userNameInput = useField("text");
@@ -37,8 +38,7 @@ const SignUp = ({
   //for testing
   /*******************************************/
 
-  let registeredUsers = [];
-  let currentId = 1;
+
 
   const createUser = (
     name,
@@ -71,6 +71,7 @@ const SignUp = ({
       },
     };
     registeredUsers.push(newUser);
+    //sessionStorage.setItem("user", JSON.stringify(user));
     setUser(newUser);
     console.log("new user created:" + newUser);
   };
