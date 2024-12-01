@@ -3,10 +3,12 @@ import { useState } from "react";
 import ReviewArea from "./ReviewArea";
 import CardArea from "./CardArea";
 import { dummyItems, dummyReviews } from "../data"; // nämä korvataa listoilla dummydatasta
+import { useNavigate } from "react-router-dom";
 
 const UserFull = ({ userData }) => {
 
     const [activeTab, setActiveTab] = useState(0);
+    const navigate = useNavigate();
 
     const tabs = []
     const tabContent = []
@@ -16,7 +18,8 @@ const UserFull = ({ userData }) => {
         tabContent.push(
             <ReviewArea reviews={dummyReviews.filter(r => r.fixerId === userData.userId)} />,
             <CardArea itemsList={dummyItems.filter(item => item.fixerId === userData.userId)} />
-    )} else if (true) {
+        )
+    } else if (true) {
         tabs.push("Items")
         tabContent.push(
             <CardArea itemsList={dummyItems.filter(item => item.userId === userData.userId)} />
@@ -50,9 +53,9 @@ const UserFull = ({ userData }) => {
                     </div>
                     <div className="flex flex-col m-8 items-center justify-evenly">
                         <div>
-                            <p className='font-bold text-fh_black'>
-                                {formattedTags}
-                            </p>
+                            <h3 className="text-fh_black font-bold font-sans text-md my-2">
+                                Location:
+                            </h3>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
                                 <p>
@@ -64,6 +67,23 @@ const UserFull = ({ userData }) => {
                                 <p>
                                     {userData.location.postalcode}
                                 </p>
+                            </div>
+                            <div>
+                                <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+                                    Tags:
+                                </h3>
+                                <ul className="m-1 w-full flex flex-wrap">
+                                    {userData.tags.map((tag, index) => (
+                                        <li key={index}
+                                            className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1 hover:bg-fh_white-dark cursor-pointer hover:scale-105"
+                                            onClick={() => navigate(`/search?tag=${tag}`)}
+                                        >
+                                            <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
+                                                {tag}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                             <div>
                                 <h3 className="text-fh_black font-bold font-sans text-md my-2">

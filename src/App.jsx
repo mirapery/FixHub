@@ -10,6 +10,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
+
   return (
     <BrowserRouter>
     <ScrollToTop />

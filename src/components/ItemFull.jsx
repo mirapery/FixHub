@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import NewItem from "./NewItem";
+import { useNavigate } from "react-router-dom";
 
 import { dummyUsers } from "../data";
+import MessageWindow from "./MessageWindow";
 
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
+    const navigate = useNavigate();
 
     const user = dummyUsers.find((u) => u.userId === itemData.userId);
     // const owner = itemData.userId === 1; // Change this to check if user is owner of item
 
-    //for testing
-    const owner = true
+    //check status of logged in user
+    const owner = sessionStorage.getItem("userId") === itemData.userId;
+    const fixer = sessionStorage.getItem("userId") === itemData.fixerId;
+
 
     // new item modaalin jutut
     const [isNewItemOpen, setNewItemOpen] = useState(false)
@@ -22,9 +27,19 @@ const ItemFull = ({ itemData }) => {
     const closeNewItem = () => {
         setNewItemOpen(false);
     }
+
+    const [isMessageWindowOpen, setMessageWindowOpen] = useState(false)
+
+    const openMessageWindow = () => {
+        setMessageWindowOpen(true);
+    }
+    const closeMessageWindow = () => {
+        setMessageWindowOpen(false);
+    }
+
     // estää taustan scrollaamisen kun new item on auki
     useEffect(() => {
-        if (isNewItemOpen) {
+        if (isNewItemOpen || isMessageWindowOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
@@ -33,8 +48,18 @@ const ItemFull = ({ itemData }) => {
         return () => {
             document.body.style.overflow = "";
         };
-    }, [isNewItemOpen]);
+    }, [isNewItemOpen, isMessageWindowOpen]);
 
+    const sendMessage = () => {
+        openMessageWindow();
+        console.log("Message sent");
+    }
+
+    const completeFix = () => {
+        // tässä pitäisi laittaa itemin status "fixed"
+        // ja lähettää userille ilmoitus
+        console.log("Fix completed");
+    }
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
             <NewItem // editti-ikkuna
@@ -42,15 +67,23 @@ const ItemFull = ({ itemData }) => {
                 closeNewItem={closeNewItem}
                 itemData={itemData}
             />
+
+            <MessageWindow // viestin lähetysikkuna
+                isOpen={isMessageWindowOpen}
+                closeMessageWindow={closeMessageWindow}
+                itemData={itemData}
+                user={user}
+            />
+
             <div className="my-2 ">
                 <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                     {itemData.name}
                 </h1>
-                <p className='font-bold text-fh_black'>
+                <p className='flex align-middle justify-center font-bold text-fh_black items-center'>
                     {itemData.category}
                 </p>
             </div>
-            <div className="flex align-middle flex-col md:flex-row  justify-center">
+            <div className="flex align-middle flex-col md:flex-row justify-center">
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
@@ -115,7 +148,10 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             <ul className="m-1 w-full flex flex-wrap">
                                 {itemData.tags.map((tag, index) => (
-                                    <li key={index} className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1">
+                                    <li key={index}
+                                        className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1 hover:bg-fh_white-dark cursor-pointer hover:scale-105"
+                                        onClick={() => navigate(`/search?tag=${tag}`)}
+                                    >
                                         <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
                                             {tag}
                                         </p>
@@ -128,19 +164,53 @@ const ItemFull = ({ itemData }) => {
                                 Owner:
                             </h3>
                             <p className="my-2 text-fh_dgreen text-lg underline">
-                                <Link to={`/user/${user.userName}`}>{user.userName}</Link> {/* Create link to user's page */}
+                                <Link
+                                    to={`/user/${user.userName}`}
+                                    className="flex flex-row items-center"
+                                >
+                                    <img
+                                        src={user.image ? `/src/assets/images/${user.image}` : `/src/assets/images/userPlaceholder.jpg`}
+                                        alt="profile picture"
+                                        className="rounded-full w-10 h-auto m-2 shadow"
+                                    />
+
+                                    <p className="my-2 text-fh_dgreen text-lg ">
+                                        {user.userName}
+                                    </p>
+
+                                </Link> {/* Create link to user's page */}
                             </p>
-                            {owner ?
+                            {owner &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={openNewItem}
                                 >
                                     Edit item
                                 </button>
-                                :
-                                <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
+                            }
+                            {fixer &&
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={completeFix}
+                                >
+                                    Mark as complete
+                                </button>
+
+                            }
+                            {(!owner && !fixer && !itemData.isFixed) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={sendMessage}
+                                >
                                     Message item owner
                                 </button>
+                            }
+                            {itemData.isFixed &&
+                                <div className="p-4 rounded-lg  my-4">
+                                    <h3 className="text-fh_dgreen text-3xl font-bold">
+                                        Fixed!
+                                    </h3>
+                                </div>
                             }
                         </div>
                     </div>

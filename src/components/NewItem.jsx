@@ -248,12 +248,14 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
             throw new Error("Failed to add item");
           }
 
+
           const addedItem = await response.json();
           console.log("Item added:", addedItem);
           navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
         } catch (error) {
           console.error("Error adding item:", error);
           alert("Failed to add item");
+
         }
 
         // Tähän kuvien lisääminen serverille
@@ -338,6 +340,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
             </h2>
           </div>
 
+
           <div className="flex flex-row m-2">
             {/* Kuvan lisääminen */}
             <div className="flex flex-col m-2 w-1/2">
@@ -345,6 +348,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                 <label
                   htmlFor="itemName"
                   className="text-xl text-fh_black font-bold m-1"
+
                 >
                   Add images (max 4):
                 </label>
@@ -357,6 +361,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                   multiple
                   onChange={handleFileChange}
                 />
+
 
                 <button
                   className="px-4 py-2 border border-fh_dgreen rounded-lg bg-fh_white text-xl hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
@@ -433,6 +438,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
               </div>
             </div>
 
+
             {/* Muut kentät */}
             <div className="flex flex-col m-2 w-1/2">
               {/* Name Field*/}
@@ -454,6 +460,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                   required
                 />
               </div>
+
 
               {/* Category */}
               <div className="flex flex-col m-2 space-y-2">
@@ -519,6 +526,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                     Add
                   </button>
 
+
                   <div className="w-1/2 flex flex-col items-center align-middle">
                     <label className="text-xl text-fh_black-light m-1">
                       Selected tags:
@@ -542,6 +550,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                       ))}
                     </ul>
                   </div>
+
                 </div>
               </div>
 

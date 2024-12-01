@@ -36,16 +36,20 @@ const ItemPage = () => {
   }
 
   return (
-    <div className="bg-fh_white">
-      <div className=" p-4">
-        <ItemFull itemData={item} />
+    <div className="flex flex-col justify-center items-center align-middle bg-fh_white">
+      <div className="p-4 w-full">
+        <ItemFull
+          itemData={item}
+        />
       </div>
       <div className=" flex items-center justify-center m-2">
         <h2 className="font-bold text-3xl text-fh_black font-serif text-center">
           Similar Items:
         </h2>
       </div>
-      <CardArea itemsList={dummyItems} />
+      <div className="flex justify-center w-11/12">
+        <CardArea itemsList={dummyItems} />
+      </div>
     </div>
   );
 };
