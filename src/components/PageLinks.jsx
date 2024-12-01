@@ -15,7 +15,7 @@ const PageLinks = ({
 
 
   const handleClick = () => {
-    if (!isAuthenticated) {
+    if(user===null) {
       openLoginModal();
     } else {
       setIsDrobDown(!isDrobDown);
@@ -29,7 +29,7 @@ const PageLinks = ({
       })}
       <li className="relative">
         <Link to="#" className={itemClass} onClick={handleClick}>
-          {user.userName === null ? "login" : user.userName}
+          {user === null ? "login" : user.userName}
         </Link>
         {isDrobDown && (
           <DrobDown logOut={logOut} openNewItem={openNewItem}/>
