@@ -233,6 +233,18 @@ export const dummyUsers = [
     interestedIn: ["I00001", "I04234"] //item IDs
   },
   {
+    id: 1,
+    name: "Ville Schulz",
+    userName: "Ville",
+    phone: "040-1234567",
+    email: "asd@gmail.com",
+    password: "V1ll3",
+    about: "Olen Ville Schulz, 23-vuotias opisk",
+    tags: ["electronics"],
+    isFixer: true,
+    location: { "province": "Varsinais-Suomi", "city": "Somero", "postalcode": "31400" }
+  },
+  {
     userId: "U95846",
     userName: "juuseri",
     name: "Pertti Eräreikä",
