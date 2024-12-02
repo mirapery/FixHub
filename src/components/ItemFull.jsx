@@ -73,6 +73,7 @@ const ItemFull = ({ itemData }) => {
                 closeMessageWindow={closeMessageWindow}
                 itemData={itemData}
                 user={user}
+                owner={owner}
             />
 
             <div className="my-2 ">
@@ -113,17 +114,17 @@ const ItemFull = ({ itemData }) => {
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Description:
                             </h3>
-                            <p className="my-2 text-fh_black min-h-20">
+                            <div className="my-2 text-fh_black min-h-20">
                                 {itemData.description}
-                            </p>
+                            </div>
                         </div>
                         <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Offer for fixing:
                             </h3>
-                            <p className="my-2 text-fh_black text-lg">
+                            <div className="my-2 text-fh_black text-lg">
                                 {(String(itemData.priceRange[0]) + " - " + String(itemData.priceRange[1]) + " €")}
-                            </p>
+                            </div>
                         </div>
                         <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
@@ -131,15 +132,15 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
-                                <p className="mr-2">
+                                <div className="mr-2">
                                     {itemData.location.province},
-                                </p>
-                                <p className="mr-2">
+                                </div>
+                                <div className="mr-2">
                                     {itemData.location.city},
-                                </p>
-                                <p>
+                                </div>
+                                <div>
                                     {itemData.location.postalcode}
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -152,9 +153,9 @@ const ItemFull = ({ itemData }) => {
                                         className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1 hover:bg-fh_white-dark cursor-pointer hover:scale-105"
                                         onClick={() => navigate(`/search?tag=${tag}`)}
                                     >
-                                        <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
+                                        <div className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
                                             {tag}
-                                        </p>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
@@ -163,7 +164,7 @@ const ItemFull = ({ itemData }) => {
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Owner:
                             </h3>
-                            <p className="my-2 text-fh_dgreen text-lg underline">
+                            <div className="my-2 text-fh_dgreen text-lg underline">
                                 <Link
                                     to={`/user/${user.userName}`}
                                     className="flex flex-row items-center"
@@ -179,7 +180,7 @@ const ItemFull = ({ itemData }) => {
                                     </p>
 
                                 </Link> {/* Create link to user's page */}
-                            </p>
+                            </div>
                             {owner &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"

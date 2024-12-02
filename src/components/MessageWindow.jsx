@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
-const MessageWindow = ({ isOpen, closeMessageWindow, itemData, user }) => {
+const MessageWindow = ({ isOpen, closeMessageWindow, itemData, user, owner }) => {
 
     const [message, setMessage] = useState("");
     const [offer, setOffer] = useState("");
@@ -41,6 +41,14 @@ const MessageWindow = ({ isOpen, closeMessageWindow, itemData, user }) => {
             console.log("Message sent");
             closeMessageWindow();
             // tähän viestin lähetyksen logiikka
+
+            const messageBody = `You have received a message from ${user.userName} regarding your item ${itemData.name}.\n\nMessage: ${message}\n\nOffer: ${offer} €\n\nYou can contact the user via email: ${user.email}`;
+            const messageSubject = `Message regarding your item ${itemData.name}`;
+
+            const mailTo = `mailto:${owner.email}?subject=${encodeURIComponent(messageSubject)}&body=${encodeURIComponent(messageBody)}`;
+
+            window.location.href = mailTo;
+
         }
     }
 
