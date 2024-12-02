@@ -6,17 +6,24 @@ import { useNavigate } from "react-router-dom";
 import { dummyUsers } from "../data";
 import MessageWindow from "./MessageWindow";
 
-const ItemFull = ({ itemData }) => {
+const ItemFull = ({ itemData, isAuthenticated }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const navigate = useNavigate();
 
-    const user = dummyUsers.find((u) => u.userId === itemData.userId);
-    // const owner = itemData.userId === 1; // Change this to check if user is owner of item
+    const itemOwner = dummyUsers.find((u) => u.userId === itemData.userId);
+    let user = null;
+    let owner = false;
+    let fixer = false;
 
-    //check status of logged in user
-    const owner = sessionStorage.getItem("userId") === itemData.userId;
-    const fixer = sessionStorage.getItem("userId") === itemData.fixerId;
+    if (isAuthenticated) {
+        user = dummyUsers.find((u) => u.userName === sessionStorage.getItem("userName"));
 
+        //check status of logged in user
+        owner = user.userId === itemData.userId;
+        console.log('Item owner: ' + owner);
+        fixer = user.userId === itemData.fixerId;
+        console.log('Item fixer: ' + fixer);
+    }
 
     // new item modaalin jutut
     const [isNewItemOpen, setNewItemOpen] = useState(false)
@@ -73,7 +80,7 @@ const ItemFull = ({ itemData }) => {
                 closeMessageWindow={closeMessageWindow}
                 itemData={itemData}
                 user={user}
-                owner={owner}
+                owner={itemOwner}
             />
 
             <div className="my-2 ">
@@ -166,17 +173,17 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             <div className="my-2 text-fh_dgreen text-lg underline">
                                 <Link
-                                    to={`/user/${user.userName}`}
+                                    to={`/user/${itemOwner.userName}`}
                                     className="flex flex-row items-center"
                                 >
                                     <img
-                                        src={user.image ? `/src/assets/images/${user.image}` : `/src/assets/images/userPlaceholder.jpg`}
+                                        src={itemOwner.image ? `/src/assets/images/${itemOwner.image}` : `/src/assets/images/userPlaceholder.jpg`}
                                         alt="profile picture"
                                         className="rounded-full w-10 h-auto m-2 shadow"
                                     />
 
                                     <p className="my-2 text-fh_dgreen text-lg ">
-                                        {user.userName}
+                                        {itemOwner.userName}
                                     </p>
 
                                 </Link> {/* Create link to user's page */}
@@ -198,7 +205,7 @@ const ItemFull = ({ itemData }) => {
                                 </button>
 
                             }
-                            {(!owner && !fixer && !itemData.isFixed) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
+                            {(!owner && !fixer && !itemData.isFixed ) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendMessage}
