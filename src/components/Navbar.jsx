@@ -1,20 +1,20 @@
 import PageLinks from "./PageLinks";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useSessionStorage from "./UseSessionStorage";
+import useSessionStorage from "./useSessionStorage";
 import Login from "./LogIn";
 import NewItem from "./NewItem";
 
 const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const [isLoginModal, setIsLoginModal] = useState(false);
 
-  const [isDrobDown, setIsDrobDown] = useState(false);
+  const [isDropDown, setIsDropDown] = useState(false);
   const [user, setUser] = useSessionStorage("user", null);
   const navigate = useNavigate();
 
   //logout function
   const logOut = () => {
-    setIsDrobDown(false);
+    setIsDropDown(false);
     // This is for later use
     //sessionStorage.removeItem("user");
     setUser(null);
@@ -85,8 +85,8 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
             user={user}
             isAuthenticated={isAuthenticated}
             logOut={logOut}
-            isDrobDown={isDrobDown}
-            setIsDrobDown={setIsDrobDown}
+            isDropDown={isDropDown}
+            setIsDropDown={setIsDropDown}
             openNewItem={openNewItem}
           />
         </div>

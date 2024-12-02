@@ -12,7 +12,6 @@ const Searchbar = ({ onSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate(`/search?query=${searchTerm}`); // Päivittää URL:n query-parametrilla
-    onSearch(searchTerm); // Suorittaa haun
   };
   return (
     <div className="flex justify-center m-4">

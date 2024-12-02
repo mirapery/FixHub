@@ -5,7 +5,6 @@ import Searchbar from "./Searchbar.jsx";
 import ResultArea from "./ResultArea.jsx";
 import { dummyItems } from "../data.js";
 const SearchPage = () => {
-
   const [searchParams] = useSearchParams(); // Hakee query-parametrit
 
   const query = searchParams.get("query") || ""; // Lukee "query"-parametrin
@@ -16,8 +15,10 @@ const SearchPage = () => {
   //Function gets item from inventory
   const handleSearch = (searchTerm) => {
     if (searchTerm) {
-      const results = [...dummyItems].filter((item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const results = [...dummyItems].filter(
+        (item) =>
+          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.category.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
       setItems(results);
@@ -28,13 +29,13 @@ const SearchPage = () => {
     }
   };
 
-useEffect(()=>{
-  handleSearch(query);
-},[query])
+  useEffect(() => {
+    handleSearch(query);
+  }, [query]);
 
   return (
     <div className="mt-20 ">
-      <Searchbar onSearch={handleSearch} />
+      <Searchbar />
       <ResultArea itemCount={itemCount} items={items} />
     </div>
   );

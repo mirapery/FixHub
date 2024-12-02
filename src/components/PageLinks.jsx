@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { pageLinks } from "../data";
 import PageLink from "./PageLink";
 import { Link } from "react-router-dom";
-import DrobDown from "./DrobDown";
+import DropDown from "./DropDown";
 
 const PageLinks = ({
   parentClass,
@@ -10,7 +10,7 @@ const PageLinks = ({
   openLoginModal,
   user,
   isAuthenticated,
-  logOut,isDrobDown,setIsDrobDown,openNewItem
+  logOut,isDropDown,setIsDropDown,openNewItem
 }) => {
 
 
@@ -18,7 +18,7 @@ const PageLinks = ({
     if(user===null) {
       openLoginModal();
     } else {
-      setIsDrobDown(!isDrobDown);
+      setIsDropDown(!isDropDown);
     }
   };
 
@@ -31,8 +31,8 @@ const PageLinks = ({
         <Link to="#" className={itemClass} onClick={handleClick}>
           {user === null ? "login" : user.userName}
         </Link>
-        {isDrobDown && (
-          <DrobDown user={user} logOut={logOut} openNewItem={openNewItem}/>
+        {isDropDown && (
+          <DropDown user={user} logOut={logOut} openNewItem={openNewItem}/>
         )}
       </li>
     </ul>

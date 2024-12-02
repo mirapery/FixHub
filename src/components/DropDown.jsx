@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const DrobDown = ({ openNewItem, logOut, user }) => {
+const DropDown = ({ openNewItem, logOut, user }) => {
   return (
     <div className="absolute top-11 right-0 mt-2 w-48 bg-fh_white shadow-lg rounded-sm z-50 ">
       <ul className="p-2">
@@ -37,4 +37,4 @@ const DrobDown = ({ openNewItem, logOut, user }) => {
     </div>
   );
 };
-export default DrobDown;
+export default DropDown;
