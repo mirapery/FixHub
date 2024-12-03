@@ -7,13 +7,13 @@ import { dummyItems } from "../data.js";
 const SearchPage = () => {
   const [searchParams] = useSearchParams(); // Hakee query-parametrit
 
-  const query = searchParams.get("query") || ""; // Lukee "query"-parametrin
-
+  const query = searchParams.get("q") || ""; // Lukee "query"-parametrin
+ // const tag = searchParams.get("tag")|| "";
   const [items, setItems] = useState(dummyItems);
   const [itemCount, setItemCount] = useState("");
 
   //Function gets item from inventory
-  const handleSearch = (searchTerm) => {
+  const handleSearch = (searchTerm) => { // , tag
     if (!searchTerm) {
       console.warn("Search term is empty");
       return [];
@@ -38,8 +38,8 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
-    handleSearch(query);
-  }, [query]);
+    handleSearch(query);//,tag
+  }, [query]); //,tag
 
   return (
     <div className="mt-20 ">

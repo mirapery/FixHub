@@ -11,7 +11,7 @@ const Searchbar = ({ onSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search?query=${searchTerm}`); // Päivittää URL:n query-parametrilla
+    navigate(`/search?q=${searchTerm}`); // Päivittää URL:n query-parametrilla
   };
   return (
     <div className="flex justify-center m-4">
