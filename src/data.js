@@ -14,14 +14,14 @@ export const socialLinks = [
 export const categoryLinks = [
   {
     id: 1,
-    href: "hobby accesories",
+    href: "hobby",
     text: "Hobby accessories",
     icon: "fa-solid fa-table-tennis-paddle-ball scale-150",
   },
   {
     id: 2,
-    href: "clothes",
-    text: "Clothes",
+    href: "clothing",
+    text: "Clothing",
     icon: "fa-solid fa-tshirt scale-150",
   },
   {

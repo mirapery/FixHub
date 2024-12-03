@@ -14,11 +14,19 @@ const SearchPage = () => {
 
   //Function gets item from inventory
   const handleSearch = (searchTerm) => {
+    if (!searchTerm) {
+      console.warn("Search term is empty");
+      return [];
+    }
     if (searchTerm) {
       const results = [...dummyItems].filter(
         (item) =>
           item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          item.category.toLowerCase().includes(searchTerm.toLowerCase())
+          item.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (item.tags &&
+            item.tags.some((tag) =>
+              tag.toLowerCase().includes(searchTerm.toLowerCase())
+            ))
       );
 
       setItems(results);
