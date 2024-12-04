@@ -3,20 +3,21 @@ import { pageLinks } from "../data";
 import PageLink from "./PageLink";
 import { Link } from "react-router-dom";
 import DropDown from "./DropDown";
-
+//from navbar
 const PageLinks = ({
   parentClass,
   itemClass,
-  openLoginModal,
+  setIsLoginOpen,
   user,
   isAuthenticated,
-  logOut,isDropDown,setIsDropDown,openNewItem
+  logOut,
+  isDropDown,
+  setIsDropDown,
+  setNewItemOpen,
 }) => {
-
-
   const handleClick = () => {
-    if(user===null) {
-      openLoginModal();
+    if (user === null) {
+      setIsLoginOpen(true);
     } else {
       setIsDropDown(!isDropDown);
     }
@@ -32,7 +33,11 @@ const PageLinks = ({
           {user === null ? "login" : user.userName}
         </Link>
         {isDropDown && (
-          <DropDown user={user} logOut={logOut} openNewItem={openNewItem}/>
+          <DropDown
+            user={user}
+            logOut={logOut}
+            setNewItemOpen={setNewItemOpen}
+          />
         )}
       </li>
     </ul>

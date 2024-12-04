@@ -4,15 +4,16 @@ import { useNavigate } from "react-router-dom";
 import useField from "./useField";
 import useTags from "./useTags";
 import { dummyUsers } from "../data";
-
+import useSignup from "../components/useSignup";
 
 const SignUp = ({
-  isModalOpen,
-  closeModal,
   setIsAuthenticated,
-  setRegisterModal,setUser,
-  registeredUsers,
+  setUser,
+  setIsSignupOpen,
+  isSignupOpen,
 }) => {
+  const navigate = useNavigate();
+  const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
   const nameInput = useField("text");
   const userNameInput = useField("text");
   const passwordInput = useField("password");
@@ -24,18 +25,15 @@ const SignUp = ({
   const aboutInput = useField("text");
   const fixerChoice = useField("checkbox");
   const imageInput = useField("file");
-  const navigate = useNavigate();
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
-  const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
-
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const { signup, error } = useSignup("/api/users/signup");
 
   useEffect(() => {
-    if (isModalOpen) {
+    if (isSignupOpen) {
       nameInputRef.current?.focus();
     }
-  }, [isModalOpen]);
+  }, [isSignupOpen]);
 
   //for testing
   /*******************************************/
@@ -54,7 +52,7 @@ const SignUp = ({
     postalcode
   ) => {
     const newUser = {
-      id: currentId++, 
+      id: currentId++,
       name,
       userName,
       phone,
@@ -70,50 +68,12 @@ const SignUp = ({
         postalcode,
       },
     };
-    registeredUsers.push(newUser);
+    dummyUsers = { ...dummyUsers, newUser };
     //sessionStorage.setItem("user", JSON.stringify(user));
     setUser(newUser);
     console.log("new user created:" + newUser);
   };
   /*******************************************/
-
-  /*const handleSignup = async () => {
-    try {
-      const response = await fetch("/api/user/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: nameInput.value,
-          userName: userNameInput.value,
-          phone: phoneInput.value,
-          email: emailInput.value,
-          password: passwordInput.value,
-          image: imageInput.value,
-          creationTime: Date.now().toString(),
-          location: {
-            province: provinceInput.value,
-            city: cityInput.value,
-            postalcode: postalcodeInput.value,
-            },
-            about: aboutInput.value,
-            tags: tags,
-            isFixer: fixerChoice.value,
-        }),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        sessionStorage.setItem("user", JSON.stringify(user));
-        console.log("User signed up succesfully");
-        setIsAuthenticated(true);
-        navigate("/");
-      } else {
-        console.error("Signup failed");
-      }
-    } catch (error) {
-      console.error("error during signup: ", error);
-    }
-  };
-*/
 
   const handleSignup = (event) => {
     event.preventDefault();
@@ -130,20 +90,48 @@ const SignUp = ({
       cityInput.value,
       postalcodeInput.value
     );
-    setRegisterModal(false);
     setIsAuthenticated(true);
-    setUserLoggedIn()
-    closeModal();
+    setUserLoggedIn();
+    setIsSignupOpen(false);
   };
 
   const handleClose = () => {
-    setRegisterModal(false);
-    closeModal();
+    setIsSignupOpen(false);
   };
 
+  /*****SIGN UP FETCH*************'**/
+  /*
+  const handleSignup async (e) =>{
+    e.preventDefault();
+    const newUser = {
+   
+      name:nameInput.value,
+      userName:userNameInput.value,
+      phone:phoneInput.value,
+      email:emailInput.value,
+      password:passwordInput.value,
+      about:aboutInput.value,
+      tags_:tags,
+      isFixer:fixerChoice.value,
+      creationTime: Date.now().toString(),
+      location: {
+        province: provinceInput.value,
+        city:cityInput.value,
+      postalcode:postalcodeInput.value
+      },
+    };
+    await signup(newUser);
+    if(!error){
+    console.log("succes")
+    setIsAuthenticated(true)}
+    setIsSignupOpen(false);
+    setUser()
+  
+  }
+  */
   return (
     <section
-      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
+      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center`}
     >
       {/*Regiter modal*/}
       <div className="flex flex-col bg-fh_beige-light shadow-lg w-auto h-auto rounded-sm">

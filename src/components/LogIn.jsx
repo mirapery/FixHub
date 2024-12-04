@@ -3,177 +3,136 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SignUp from "./SignUp";
 import { dummyUsers } from "../data";
+import useLogin from "./useLogin";
+import useField from "./useField";
 
-let registeredUsers = dummyUsers;
-// 'let registeredUsers = [
-//   {
-//     id: 1,
-//     name: "Ville Schulz",
-//     userName: "Ville",
-//     phone: "040-1234567",
-//     email: "asd@gmail.com",
-//     password: "V1ll3",
-//     about: "Olen Ville Schulz, 23-vuotias opisk",
-//     tags_: "Korjaus, Remontti, Sähkötyöt",
-//     isFixer: "true",
-//     province: "Uusimaa",
-//     city: "Helsinki",
-//     postalcode: "00100",
-//   },
-// ];'
-
-function Login({ isLoginModal, closeLoginModal, setUser, setIsAuthenticated }) {
+function Login({
+  setIsLoginOpen,
+  isLoginOpen,
+  setIsSignupOpen,
+  setUser,
+  setIsAuthenticated,
+}) {
   const navigate = useNavigate();
   const nameInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const userName = useField("text");
+  const password = useField("password");
   const [registerModal, setRegisterModal] = useState(false);
-
-  useEffect(() => {
-    if (isLoginModal) {
-      nameInputRef.current?.focus();
-    }
-  }, [isLoginModal]);
-
-  /* 
-this is real login function
-const handleLogin = async () =>{
-  try {
-    //endpoint: POS>T /api/user/login
-    const response = await fetch("/api/user/login",{
-      method : "POST",
-      body: JSON.stringify({username, password}),
-      headers: {"Content-Type": "application /json"},
-    });
-    if(response.ok){
-      const user = await response.json();
-      sessionStorage.setItem("user",JSON.stringify(user));
-      setIsAuthenticated(true);
-      navigate("/")
-    }
-    else{
-      console.error("Login failed")
-    }
-  }
-  catch(error){
-    console.error("Error during login", error);
-  }
-}
-*/
+  //const { login, error } = useLogin("/api/users/login");
 
   //this is for testing purposes
+  /*************************************************************/
+  let registeredUsers = dummyUsers;
   const handleLogin = (e) => {
     e.preventDefault();
     const wrongPassword = registeredUsers.some(
-      (user) => user.userName === userName && user.password !== password
+      (user) =>
+        user.userName === userName.value && user.password !== password.value
     );
 
     const accesGranted = registeredUsers.some(
-      (user) => user.userName === userName && user.password === password
+      (user) =>
+        user.userName === userName.value && user.password === password.value
     );
 
     if (accesGranted) {
-      const currentUser = registeredUsers.find(
-        (user) => user.userName === userName
+      const user = registeredUsers.find(
+        (user) => user.userName === userName.value
       );
       setIsAuthenticated(true);
-      setUser(currentUser);
-      //sessionStorage.setItem("user", JSON.stringify(user));
-      closeLoginModal();
-    } else if (wrongPassword) {
-      passwordInputRef.current.setCustomValidity("Väärä salasana!");
-      passwordInputRef.current.reportValidity();
+      setUser(user);
+      setIsLoginOpen(false);
     }
   };
+  /*************************************************************/
 
+  useEffect(() => {
+    if (isLoginOpen) {
+      nameInputRef.current?.focus();
+    }
+  }, [isLoginOpen]);
   const openRegistering = () => {
-    setRegisterModal(true);
+    setIsSignupOpen(true);
+    setIsLoginOpen(false);
   };
 
-  if (registerModal) {
-    return (
-      <SignUp
-        isModalOpen={isLoginModal}
-        closeModal={closeLoginModal}
-        setIsAuthenticated={setIsAuthenticated}
-        setRegisterModal={setRegisterModal}
-        setUser={setUser}
-        registeredUsers={registeredUsers}
-      />
-    );
-  } else {
-    return (
-      isLoginModal && (
-        <section
-          className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isLoginModal}`}
-        >
-          <div className="flex flex-col bg-fh_beige-light shadow-lg w-[400px] h-auto rounded-sm">
-            <div className="flex rounded-t-sm bg-fh_lgreen justify-between p-3">
-              <h1 className="text-xl">Kirjaudu</h1>
-              <button
-                type="button"
-                onClick={() => closeLoginModal()}
-                className="text-fh_black-dark text-xl hover:text-fh_beige-dark"
-              >
-                <i className="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-            <form
-              className="text-center p-4 sm:p-6 flex flex-col h-full w-full"
-              onSubmit={handleLogin}
-            >
-              <label className="flex items-center justify-between text-lg mb-2">
-                Käyttäjätunnus:
-              </label>
-              <input
-                className="w-full sm:w-3/4 mb-4 p-3 bg-fh_beige rounded-sm"
-                ref={nameInputRef}
-                value={userName}
-                type="text"
-                required
-                onChange={(e) => setUserName(e.target.value)}
-              />
+  /**************USE LOGIN HERE***************/
+  /* This is RIGHT one
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await login({ userName: userName.value, password: password.value });
+    if(!error){
 
-              <label className="flex items-center justify-between text-lg mb-2">
-                Salasana:
-              </label>
-              <input
-                className="w-full sm:w-3/4 mb-6 p-3 bg-fh_beige rounded-sm"
-                value={password}
-                id="password-input"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <div className="flex flex-col sm:flex-row items-center sm:justify-between">
-                <button
-                  className="flex justify-center px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
-                  type="submit"
-                >
-                  Kirjaudu
-                </button>
-                <div className="flex mt-4 items-center">
-                  <input className="mr-2" type="checkbox" />
-                  <p className="text-sm ">Muista kirjautumiseni</p>
-                </div>
-              </div>
-              <div className="flex flex-col items-center mt-10">
-                <p className="text-sm sm:text-base">
-                  Eikö sinulla ole käyttäjätunnusta?
-                </p>
-                <button
-                  onClick={openRegistering}
-                  className="flex justify-center  px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
-                >
-                  Rekisteröidy
-                </button>
-              </div>
-            </form>
+      console.log("succes")
+      setIsAuthenticated(true);
+      closeLoginModal();
+    }
+  */
+  /******************************************** */
+  return (
+    <section
+      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center`}
+    >
+      <div className="flex flex-col bg-fh_beige-light shadow-lg w-[400px] h-auto rounded-sm">
+        <div className="flex rounded-t-sm bg-fh_lgreen justify-between p-3">
+          <h1 className="text-xl">Kirjaudu</h1>
+          <button
+            type="button"
+            onClick={() => setIsLoginOpen(false)}
+            className="text-fh_black-dark text-xl hover:text-fh_beige-dark"
+          >
+            <i className="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <form
+          className="text-center p-4 sm:p-6 flex flex-col h-full w-full"
+          onSubmit={handleLogin}
+        >
+          <label className="flex items-center justify-between text-lg mb-2">
+            Käyttäjätunnus:
+          </label>
+          <input
+            className="w-full sm:w-3/4 mb-4 p-3 bg-fh_beige rounded-sm"
+            ref={nameInputRef}
+            {...userName}
+            required
+          />
+
+          <label className="flex items-center justify-between text-lg mb-2">
+            Salasana:
+          </label>
+          <input
+            className="w-full sm:w-3/4 mb-6 p-3 bg-fh_beige rounded-sm"
+            {...password}
+            required
+          />
+          <div className="flex flex-col sm:flex-row items-center sm:justify-between">
+            <button
+              className="flex justify-center px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
+              type="submit"
+            >
+              Kirjaudu
+            </button>
+            <div className="flex mt-4 items-center">
+              <input className="mr-2" type="checkbox" />
+              <p className="text-sm ">Muista kirjautumiseni</p>
+            </div>
           </div>
-        </section>
-      )
-    );
-  }
+          <div className="flex flex-col items-center mt-10">
+            <p className="text-sm sm:text-base">
+              Eikö sinulla ole käyttäjätunnusta?
+            </p>
+            <button
+              onClick={openRegistering}
+              className="flex justify-center  px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
+            >
+              Rekisteröidy
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
 }
 
 export default Login;

@@ -10,18 +10,16 @@ import ScrollToTop from "./components/ScrollToTop";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-
   return (
     <BrowserRouter>
-    <ScrollToTop />
+      <ScrollToTop />
       <Routes>
-        <Route path='/' element={<Layout />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path='about' element={<About />} />
-          <Route path='search'element={<SearchPage />} />
-          <Route path='item/:itemId' element={<ItemPage />} />
-          <Route path='user/:userName' element={<UserPage />} />
-          
+          <Route path="about" element={<About />} />
+          <Route path="search" element={<SearchPage />} />
+          <Route path="item/:itemId" element={<ItemPage />} />
+          <Route path="user/:userName" element={<UserPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

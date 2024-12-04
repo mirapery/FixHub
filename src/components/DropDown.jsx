@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-
-const DropDown = ({ openNewItem, logOut, user }) => {
+// from pagelinks
+const DropDown = ({ setNewItemOpen, logOut, user }) => {
   return (
     <div className="absolute top-11 right-0 mt-2 w-48 bg-fh_white shadow-lg rounded-sm z-50 ">
       <ul className="p-2">
@@ -10,7 +10,7 @@ const DropDown = ({ openNewItem, logOut, user }) => {
           </li>
         </Link>
         <li
-          onClick={openNewItem}
+          onClick={() => setNewItemOpen(true)}
           className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
         >
           Lisää ilmoitus

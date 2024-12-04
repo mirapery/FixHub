@@ -1,15 +1,19 @@
 import PageLinks from "./PageLinks";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useSessionStorage from "./useSessionStorage";
+
 import Login from "./LogIn";
 import NewItem from "./NewItem";
 
-const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
-  const [isLoginModal, setIsLoginModal] = useState(false);
-
+const Navbar = ({
+  isAuthenticated,
+  setIsAuthenticated,
+  setIsLoginOpen,
+  user,
+  setUser,
+}) => {
   const [isDropDown, setIsDropDown] = useState(false);
-  const [user, setUser] = useSessionStorage("user", null);
+  const [isNewItemOpen, setNewItemOpen] = useState(false);
   const navigate = useNavigate();
 
   //logout function
@@ -21,38 +25,6 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
     setIsAuthenticated(false);
     navigate("/");
   };
-
-  // new item modaalin jutut
-  const [isNewItemOpen, setNewItemOpen] = useState(false);
-
-  const openNewItem = () => {
-    setNewItemOpen(true);
-  };
-  const closeNewItem = () => {
-    setNewItemOpen(false);
-  };
-
-  // Function to open loginmodal
-  const openLoginModal = () => {
-    setIsLoginModal(true);
-  };
-
-  // Function to close modal
-  const closeLoginModal = () => {
-    setIsLoginModal(false);
-  };
-  // estää taustan scrollaamisen kun new item on auki
-  useEffect(() => {
-    if (isNewItemOpen || isLoginModal) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isNewItemOpen, isLoginModal]);
 
   function handleButton() {
     document.getElementById("nav-content").classList.toggle("hidden");
@@ -81,23 +53,17 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
           <PageLinks
             parentClass="md:flex"
             itemClass="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
-            openLoginModal={openLoginModal}
+            setIsLoginOpen={setIsLoginOpen}
             user={user}
             isAuthenticated={isAuthenticated}
             logOut={logOut}
             isDropDown={isDropDown}
             setIsDropDown={setIsDropDown}
-            openNewItem={openNewItem}
+            setNewItemOpen={setNewItemOpen}
           />
         </div>
       </header>
-      <Login
-        isLoginModal={isLoginModal}
-        closeLoginModal={closeLoginModal}
-        setUser={setUser}
-        setIsAuthenticated={setIsAuthenticated}
-      />
-      <NewItem isOpen={isNewItemOpen} closeNewItem={closeNewItem} />
+      {isNewItemOpen && <NewItem isOpen={setNewItemOpen} />}
     </div>
   );
 };
