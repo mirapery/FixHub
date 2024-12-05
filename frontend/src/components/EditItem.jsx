@@ -613,4 +613,4 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
     );
 };
 
-export default NewItem;
+export default EditItem;
