@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
-const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
+const EditReviewWindow = ({ isOpen, closeReviewWindow, review }) => {
 
-    const [message, setMessage] = useState("");
-    const [rating, setRating] = useState("");
+    const [message, setMessage] = useState(review.message);
+    const [rating, setRating] = useState(review.score);
 
     const [isAlertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState([]);
@@ -19,8 +19,7 @@ const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
         setAlertMessage([]);
     };
 
-    // submit
-    const addReview = () => {
+    const addReview = async () => {
         if (!message || !rating) {
             setAlertMessage((prev) => {
                 const newMessages = [];
@@ -32,24 +31,21 @@ const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
                 }
                 return [...prev, ...newMessages];
             });
-
+    
             openAlert();
-
+    
             return
-
+    
         } else {
             console.log("Message sent");
-
+    
             try {
-                const response = await fetch("/api/reviews", {
-                    method: "POST",
+                const response = await fetch("/api/reviews" + review.reviewId, {
+                    method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        userId: sender.userId,
-                        fixerId: receiver.userId,
-                        itemId: receiver.itemId,
                         score: rating,
                         message: message,
                     }),
@@ -57,10 +53,10 @@ const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
                 if (!response.ok) {
                     throw new Error("Failed to add review")
                 }
-
+    
                 const newReview = await response.json();
                 console.log("New Review: " + newReview);
-                closeMessageWindow();
+                closeReviewWindow();
                 setMessage("")
                 setRating("")
             } catch (error) {
@@ -70,11 +66,27 @@ const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
         }
     }
 
+    const deleteReview = async () => {
+        try {
+            const response = await fetch("/api/reviews" + review.reviewId, {
+                method: "DELETE",
+            });
+            if (!response.ok) {
+                throw new Error("Failed to delete review")
+            }
+
+            closeReviewWindow();
+        } catch (error) {
+            console.error("Error deleting review: ", error);
+            alert("Failed to delete review")
+        }
+    }
+
     return (
         isOpen && (
             <div
                 className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
-                onClick={closeMessageWindow}
+                onClick={closeReviewWindow}
             >
                 <Alert
                     isOpen={isAlertOpen}
@@ -87,14 +99,14 @@ const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
                 >
                     <button
                         className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                        onClick={closeMessageWindow}
+                        onClick={closeReviewWindow}
                     >
                         <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
                     </button>
 
                     <div className="flex items-center justify-center ">
                         <h2 className="text-2xl text-fh_black font-bold">
-                            Leave a review to Fixer: {receiver.userName}
+                            Edit your review to Fixer: {receiver.userName}
                         </h2>
                     </div>
 
@@ -131,9 +143,15 @@ const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
                                                     
                             <button
                                 className="m-2 bg-fh_dgreen text-fh_white font-bold py-2 px-4 rounded-md hover:bg-fh_dgreen-dark"
-                                onClick={sendMessage}
+                                onClick={addReview}
                             >
-                                Send
+                                Update
+                            </button>
+                            <button
+                                className="m-2 bg-fh_red text-fh_white font-bold py-2 px-4 rounded-md hover:bg-fh_red-dark"
+                                onClick={deleteReview}
+                            >
+                                Delete
                             </button>
                         </div>
                     </div>
@@ -143,4 +161,4 @@ const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
     )
 }
 
-export default MessageWindow;
+export default EditReviewWindow;

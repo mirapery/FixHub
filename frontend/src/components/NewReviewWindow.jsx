@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
-const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
+const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
 
     const [message, setMessage] = useState("");
+    const [rating, setRating] = useState("");
 
     const [isAlertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState([]);
@@ -18,31 +19,52 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
         setAlertMessage([]);
     };
 
-    // submit
-    const sendMessage = () => {
-        if (!message) {
+    const addReview = async () => {
+        if (!message || !rating) {
             setAlertMessage((prev) => {
                 const newMessages = [];
                 if (!message) {
                     newMessages.push("Message field is empty");
                 }
+                if (!rating) {
+                    newMessages.push("Please add a rating");
+                }
                 return [...prev, ...newMessages];
             });
-
+    
             openAlert();
-
+    
             return
-
+    
         } else {
             console.log("Message sent");
-            closeMessageWindow();
-
-            const messageBody = `You have received a message from ${sender.userName} via FixHub.\n\nMessage: ${message}`;
-            const messageSubject = `Message on FixHub from ${sender.userName}`;
-
-            const mailTo = `mailto:${receiver.email}?subject=${encodeURIComponent(messageSubject)}&body=${encodeURIComponent(messageBody)}`;
-
-            window.location.href = mailTo;
+    
+            try {
+                const response = await fetch("/api/reviews", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        userId: sender.userId,
+                        fixerId: receiver.userId,
+                        score: rating,
+                        message: message,
+                    }),
+                });
+                if (!response.ok) {
+                    throw new Error("Failed to add review")
+                }
+    
+                const newReview = await response.json();
+                console.log("New Review: " + newReview);
+                closeReviewWindow();
+                setMessage("")
+                setRating("")
+            } catch (error) {
+                console.error("Error adding review: ", error);
+                alert("Failed to add review")
+            }
         }
     }
 
@@ -50,7 +72,7 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
         isOpen && (
             <div
                 className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
-                onClick={closeMessageWindow}
+                onClick={closeReviewWindow}
             >
                 <Alert
                     isOpen={isAlertOpen}
@@ -63,14 +85,14 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
                 >
                     <button
                         className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                        onClick={closeMessageWindow}
+                        onClick={closeReviewWindow}
                     >
                         <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
                     </button>
 
                     <div className="flex items-center justify-center ">
                         <h2 className="text-2xl text-fh_black font-bold">
-                            Send message to user {receiver.userName}
+                            Leave a review to Fixer: {receiver.userName}
                         </h2>
                     </div>
 
@@ -79,18 +101,35 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
                         {/* viestikentät */}
                         <div className="flex flex-col m-2 w-full md:w-1/2">
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
-                                Your message:
+                                Your review:
                             </h3>
                             <textarea
                                 className="border border-fh_black rounded-md p-2 h-40"
-                                placeholder="Write your message here..."
+                                placeholder="Write your review here..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                             />
-
+                            <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+                                Your rating:
+                            </h3>
+                            <select
+                                className="border border-fh_black rounded-md p-2"
+                                value={rating}
+                                onChange={(e) => setRating(e.target.value)}
+                            >
+                                <option value="" disabled>
+                                -- Select --
+                                </option>
+                                {[1, 2, 3, 4, 5].map((number) => (
+                                <option key={number} value={number}>
+                                    {number}
+                                </option>
+                                ))}
+                            </select>
+                                                    
                             <button
                                 className="m-2 bg-fh_dgreen text-fh_white font-bold py-2 px-4 rounded-md hover:bg-fh_dgreen-dark"
-                                onClick={sendMessage}
+                                onClick={addReview}
                             >
                                 Send
                             </button>
@@ -102,4 +141,4 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
     )
 }
 
-export default MessageWindow;
+export default NewReviewWindow;

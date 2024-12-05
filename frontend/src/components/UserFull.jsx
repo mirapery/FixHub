@@ -5,6 +5,7 @@ import CardArea from "./CardArea";
 import { dummyItems, dummyReviews } from "../assets/data"; // nämä korvataa listoilla dummydatasta
 import { useNavigate } from "react-router-dom";
 import MessageWindow from "./MessageWindow";
+import NewReviewWindow from "./NewReviewWindow";
 
 const UserFull = ({ userData }) => {
 
@@ -13,6 +14,8 @@ const UserFull = ({ userData }) => {
 
     const tabs = []
     const tabContent = []
+
+    const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
 
     if (userData.isFixer) {
         tabs.push("Reviews", "Fixed items")
@@ -42,13 +45,18 @@ const UserFull = ({ userData }) => {
     }
 
 
-    const [isReviewWindowOpen, setReviewWindowOpen] = useState(false)
+    const [isNewReviewWindowOpen, setNewReviewWindowOpen] = useState(false)
 
-    const openReviewWindow = () => {
-        setReviewWindowOpen(true);
+    const openNewReviewWindow = () => {
+        setNewReviewWindowOpen(true);
     }
-    const closeReviewWindow = () => {
-        setReviewWindowOpen(false);
+    const closeNewReviewWindow = () => {
+        setNewReviewWindowOpen(false);
+    }
+
+    const addReview = () => {
+        openNewReviewWindow();
+        console.log("Review added");
     }
 
 
@@ -61,15 +69,21 @@ const UserFull = ({ userData }) => {
 
         return (
             <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+
                 <MessageWindow // viestin lähetysikkuna
                 isOpen={isMessageWindowOpen}
                 closeMessageWindow={closeMessageWindow}
-                itemData={itemData}
-                user={user}
-                owner={owner}
+                sender={user}
+                receiver={userData}
                 />
 
-                </> // NewReview
+                <NewReviewWindow // arvostelun lisäysikkuna
+                isOpen={isNewReviewWindowOpen}
+                closeReviewWindow={closeNewReviewWindow}
+                sender={user}
+                receiver={userData}
+                />
+
                 <div className="my-2">
                     <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                         {userData.name}
