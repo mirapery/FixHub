@@ -37,11 +37,11 @@ const CardArea = ({ itemsList }) => {
   }, []);
 
   const scrollLeft = () => {
-    containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    containerRef.current.scrollBy({ left: -400, behavior: "smooth" });
   };
 
   const scrollRight = () => {
-    containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    containerRef.current.scrollBy({ left: 400, behavior: "smooth" });
   };
 
   return (

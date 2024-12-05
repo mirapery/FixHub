@@ -2,14 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
-//import datasetsFiPostalcodes from "datasets-fi-postalcodes";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 
-// itemData jos muokataan olemassa olevaa itemiä
-const NewItem = ({ isOpen, closeNewItem, itemData }) => {
+const NewItem = ({ isOpen, closeNewItem }) => {
   const categories = categoryLinks.map((c) => c.text);
-  //const postalCodes = datasetsFiPostalcodes;
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -24,7 +21,6 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState([]);
 
-  // for images, vois nimetä paremmin
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -156,120 +152,58 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
       const imageNames = [];
       images.forEach((image) => imageNames.push(image.name));
 
-      if (itemData) {
-        let updatedStats = {};
-
-        if (itemData.name !== name)
-          updatedStats = { ...updatedStats, name: name };
-        if (itemData.tags !== tags)
-          updatedStats = { ...updatedStats, tags: tags };
-        if (itemData.description !== description)
-          updatedStats = { ...updatedStats, description: description };
-        if (itemData.category !== category)
-          updatedStats = { ...updatedStats, category: category };
-        if (itemData.location.postalCode !== postalCode)
-          updatedStats = {
-            ...updatedStats,
-            location: { ...itemData.location, postalCode: postalCode },
-          };
-        if (itemData.location.city !== city)
-          updatedStats = {
-            ...updatedStats,
-            location: { ...itemData.location, city: city },
-          };
-        if (
-          itemData.priceRange[0] !== priceFrom ||
-          itemData.priceRange[1] !== priceTo
-        )
-          updatedStats = { ...updatedStats, priceRange: [priceFrom, priceTo] };
-        if (itemData.images !== imageNames)
-          updatedStats = { ...updatedStats, images: imageNames };
-
-        console.log(updatedStats);
-
-        //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
-        try {
-          const response = await fetch(`/api/items/${itemData.itemId}`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedStats),
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to update item");
-          }
-
-          const updatedItem = await response.json();
-          console.log("Item updated:", updatedItem);
-          navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
-        } catch (error) {
-          console.error("Error updating item:", error);
-          alert("Failed to update item");
-        }
-
-        // Tähän kuvien lisääminen serverille
-
-        // tyhjennä formi
-        clearItem();
-
-        //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
-
-      } else {
-
-        const newItem = {
-          itemId: "", // tämä backendistä?
-          userId: "", // tämä kirjautumistiedoista
-          fixerId: "", // tämä oikeastikin tyhjä
-          name: name,
-          tags: tags,
-          description: description,
-          category: category,
-          location: {
-            province: "", // tästä ei mitään ideaa miten tekisi
-            city: city, // ei tuu enää automaatilla sit
-            postalcode: postalCode,
-          },
-          priceRange: [priceFrom, priceTo],
-          dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
-          images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
-          isFixed: false,
-          interested: 0,
-        }
-
-        console.log(newItem);
-
-        //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
-        try {
-          const response = await fetch("/api/items", {
-            // tähän oikee osote
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newItem),
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to add item");
-          }
-
-          const addedItem = await response.json();
-          console.log("Item added:", addedItem);
-          navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
-        } catch (error) {
-          console.error("Error adding item:", error);
-          alert("Failed to add item");
-        }
-
-        // Tähän kuvien lisääminen serverille
-
-        // tyhjennä formi
-        clearItem();
-
-        //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
+      const newItem = {
+        itemId: "", // tämä backendistä?
+        userId: "", // tämä kirjautumistiedoista
+        fixerId: "", // tämä oikeastikin tyhjä
+        name: name,
+        tags: tags,
+        description: description,
+        category: category,
+        location: {
+          province: "", // tästä ei mitään ideaa miten tekisi
+          city: city, // ei tuu enää automaatilla sit
+          postalcode: postalCode,
+        },
+        priceRange: [priceFrom, priceTo],
+        dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
+        images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+        isFixed: false,
+        interested: 0,
       }
+
+      console.log(newItem);
+
+      //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
+      try {
+        const response = await fetch("/api/items", {
+          // tähän oikee osote
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newItem),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to add item");
+        }
+
+        const addedItem = await response.json();
+        console.log("Item added:", addedItem);
+        navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
+      } catch (error) {
+        console.error("Error adding item:", error);
+        alert("Failed to add item");
+      }
+
+      // Tähän kuvien lisääminen serverille
+
+      // tyhjennä formi
+      clearItem();
+
+      //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
+
     }
   };
 
@@ -285,20 +219,6 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
     setImages([]);
     setCity("");
   };
-
-  useEffect(() => {
-    if (itemData) {
-      setName(itemData.name);
-      setCategory(itemData.category);
-      addTagList(itemData.tags);
-      setDescription(itemData.description);
-      setPriceFrom(itemData.priceRange[0]);
-      setPriceTo(itemData.priceRange[1]);
-      setPostalCode(itemData.location.postalcode);
-      setCity(itemData.location.city);
-      setImages(itemData.images);
-    }
-  }, [itemData]);
 
   // TARVITAAN EHKÄ MYÖHEMMIN !!! kuvien lataaminen
 
@@ -341,7 +261,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
 
           <div className="flex items-center justify-center ">
             <h2 className="text-2xl text-fh_black font-bold">
-              {itemData ? "Edit Item" : "Add New Item"}
+              Add New Item
             </h2>
           </div>
 
@@ -383,11 +303,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                   <div className="min-h-80 align-middle">
                     {(images[0] || itemData) && (
                       <img
-                        src={
-                          itemData
-                            ? "/src/assets/images/" + itemData.images[0]
-                            : URL.createObjectURL(images[0])
-                        }
+                        src={URL.createObjectURL(images[0])}
                         alt={`preview-main`}
                         className="w-80 h-auto m-4 rounded-md"
                       />
@@ -413,13 +329,7 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                         >
                           <div className="flex w-32 h-32 items-center justify-center">
                             <img
-                              src={
-                                itemData && itemData.images.length > index
-                                  ? "/src/assets/images/" +
-                                  itemData.images[index]
-                                  : URL.createObjectURL(image)
-                              } // tämä rivi ei toimi jos kuvia kummastakin lähteestä
-                              alt={`preview-${index}`}
+                              src={URL.createObjectURL(image)}
                               className="max-w-32 max-h-32 h-auto w-auto hover:brightness-75 mb-1 hover:cursor-pointer transition duration-300 rounded-md m-2"
                               onClick={() => moveImageToFirst(index)}
                             />
@@ -646,16 +556,6 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                     className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                     required
                   />
-                  {/* <button
-                    className=" h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                    onClick={() => setCity(postalCodes[postalCode])}
-                  >
-                    Search
-                  </button> */}
-
-                  {/* <div className="w-5/12 flex items-center align-middle justify-center text-xl text-fh_dgreen m-2">
-                    {city ? postalCode + ", " + city : ""}
-                  </div> */}
                 </div>
               </div>
 
@@ -666,25 +566,16 @@ const NewItem = ({ isOpen, closeNewItem, itemData }) => {
                     className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
                     onClick={() => addItem()}
                   >
-                    {itemData ? "Edit item" : "Add item"}
+                    "Add item"
                   </button>
                 </div>
                 <div className="w-1/5 flex flex-col m-2">
-                  {itemData ? (
-                    <button
-                      className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                      onClick={() => closeNewItem()}
-                    >
-                      Cancel
-                    </button>
-                  ) : (
-                    <button
-                      className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                      onClick={() => clearItem()}
-                    >
-                      Clear
-                    </button>
-                  )}
+                  <button
+                    className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
+                    onClick={() => clearItem()}
+                  >
+                    Clear
+                  </button>
                 </div>
               </div>
             </div>

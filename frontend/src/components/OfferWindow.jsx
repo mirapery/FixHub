@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Alert from "./Alert";
 
 const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
@@ -49,7 +49,6 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
             const mailTo = `mailto:${owner.email}?subject=${encodeURIComponent(messageSubject)}&body=${encodeURIComponent(messageBody)}`;
 
             window.location.href = mailTo;
-
         }
     }
 
@@ -78,9 +77,7 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
         isOpen && (
             <div
                 className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
-                onClick={closeOfferWindow
-            
-                }
+                onClick={closeOfferWindow}
             >
                 <Alert
                     isOpen={isAlertOpen}
@@ -93,9 +90,7 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
                 >
                     <button
                         className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                        onClick={closeOfferWindow
-                    
-                        }
+                        onClick={closeOfferWindow}
                     >
                         <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
                     </button>

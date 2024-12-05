@@ -21,13 +21,9 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
     // submit
     const sendMessage = () => {
         if (!message) {
-            setAlertMessage((prev) => {
-                const newMessages = [];
-                if (!message) {
-                    newMessages.push("Message field is empty");
-                }
-                return [...prev, ...newMessages];
-            });
+            setAlertMessage(
+                ["Message field is empty"]
+            );
 
             openAlert();
 
@@ -74,27 +70,24 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
                         </h2>
                     </div>
 
-                    <div className="flex flex-col-reverse md:flex-row m-2">
+                    {/* viestikentät */}
+                    <div className="flex flex-col m-2 w-full md:w-1/2">
+                        <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+                            Your message:
+                        </h3>
+                        <textarea
+                            className="border border-fh_black rounded-md p-2 h-40"
+                            placeholder="Write your message here..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                        />
 
-                        {/* viestikentät */}
-                        <div className="flex flex-col m-2 w-full md:w-1/2">
-                            <h3 className="text-fh_black font-bold font-sans text-lg my-2">
-                                Your message:
-                            </h3>
-                            <textarea
-                                className="border border-fh_black rounded-md p-2 h-40"
-                                placeholder="Write your message here..."
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                            />
-
-                            <button
-                                className="m-2 bg-fh_dgreen text-fh_white font-bold py-2 px-4 rounded-md hover:bg-fh_dgreen-dark"
-                                onClick={sendMessage}
-                            >
-                                Send
-                            </button>
-                        </div>
+                        <button
+                            className="m-2 bg-fh_dgreen text-fh_white font-bold py-2 px-4 rounded-md hover:bg-fh_dgreen-dark"
+                            onClick={sendMessage}
+                        >
+                            Send
+                        </button>
                     </div>
                 </div>
             </div>

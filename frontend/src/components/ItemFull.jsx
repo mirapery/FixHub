@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import NewItem from "./NewItem";
+import EditItem from "./EditItem";
 import { useNavigate } from "react-router-dom";
 
 import { dummyUsers } from "../assets/data";
@@ -19,13 +19,13 @@ const ItemFull = ({ itemData }) => {
 
 
     // new item modaalin jutut
-    const [isNewItemOpen, setNewItemOpen] = useState(false)
+    const [isEditItemOpen, setEditItemOpen] = useState(false)
 
-    const openNewItem = () => {
-        setNewItemOpen(true);
+    const openEditItem = () => {
+        setEditItemOpen(true);
     }
-    const closeNewItem = () => {
-        setNewItemOpen(false);
+    const closeEditItem = () => {
+        setEditItemOpen(false);
     }
 
     const [isOfferWindowOpen, setOfferWindowOpen] = useState(false)
@@ -39,7 +39,7 @@ const ItemFull = ({ itemData }) => {
 
     // estää taustan scrollaamisen kun new item on auki
     useEffect(() => {
-        if (isNewItemOpen || isOfferWindowOpen) {
+        if (isEditItemOpen || isOfferWindowOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
@@ -48,7 +48,7 @@ const ItemFull = ({ itemData }) => {
         return () => {
             document.body.style.overflow = "";
         };
-    }, [isNewItemOpen, isOfferWindowOpen]);
+    }, [isEditItemOpen, isOfferWindowOpen]);
 
     const sendOffer = () => {
         openOfferWindow();
@@ -62,9 +62,9 @@ const ItemFull = ({ itemData }) => {
     }
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
-            <NewItem // editti-ikkuna
-                isOpen={isNewItemOpen}
-                closeNewItem={closeNewItem}
+            <EditItem // editti-ikkuna
+                isOpen={isEditItemOpen}
+                closeEditItem={closeEditItem}
                 itemData={itemData}
             />
 
@@ -184,7 +184,7 @@ const ItemFull = ({ itemData }) => {
                             {owner &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={openNewItem}
+                                    onClick={openEditItem}
                                 >
                                     Edit item
                                 </button>

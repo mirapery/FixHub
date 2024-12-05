@@ -37,11 +37,11 @@ const ReviewArea = ({ reviews }) => {
     }, []);
 
     const scrollLeft = () => {
-        containerRef.current.scrollBy({ left: -200, behavior: "smooth" });
+        containerRef.current.scrollBy({ left: -400, behavior: "smooth" });
     };
 
     const scrollRight = () => {
-        containerRef.current.scrollBy({ left: 200, behavior: "smooth" });
+        containerRef.current.scrollBy({ left: 400, behavior: "smooth" });
     };
 
     return (
@@ -55,7 +55,6 @@ const ReviewArea = ({ reviews }) => {
                         review={item}
                         key={index}
                         className="flex-none w-80"
-                    // onClick={tähän koodi mil vaihtaa sivua}
                     />
                 })}
             </div>
@@ -78,7 +77,6 @@ const ReviewArea = ({ reviews }) => {
                     &rarr;
                 </button>
             )}
-
         </div>
     )
 }

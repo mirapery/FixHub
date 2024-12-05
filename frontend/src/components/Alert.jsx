@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const Alert = ({ isOpen, closeAlert, message =[] }) => {
 
@@ -9,8 +9,7 @@ const Alert = ({ isOpen, closeAlert, message =[] }) => {
                 onClick={(e) => e.stopPropagation()}
             >
                 <div
-                    className="flex items-center flex-col justify-center w-1/2 p-5 bg-fh_white rounded-xl shadow-lg"
-                    
+                    className="flex items-center flex-col justify-center w-1/2 p-5 bg-fh_white rounded-xl shadow-lg"                    
                 >
                     <h2
                     className="m-2 text-xl text-fh_black font-bold"
@@ -36,7 +35,6 @@ const Alert = ({ isOpen, closeAlert, message =[] }) => {
                         </button>
                     </div>
                 </div>
-
             </div>
         )
     )
