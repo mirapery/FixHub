@@ -4,6 +4,7 @@ import ReviewArea from "./ReviewArea";
 import CardArea from "./CardArea";
 import { dummyItems, dummyReviews } from "../assets/data"; // nämä korvataa listoilla dummydatasta
 import { useNavigate } from "react-router-dom";
+import MessageWindow from "./MessageWindow";
 
 const UserFull = ({ userData }) => {
 
@@ -26,6 +27,30 @@ const UserFull = ({ userData }) => {
         )
     }
 
+    const [isMessageWindowOpen, setMessageWindowOpen] = useState(false)
+
+    const openMessageWindow = () => {
+        setMessageWindowOpen(true);
+    }
+    const closeMessageWindow = () => {
+        setMessageWindowOpen(false);
+    }
+
+    const sendMessage = () => {
+        openMessageWindow();
+        console.log("Message sent");
+    }
+
+
+    const [isReviewWindowOpen, setReviewWindowOpen] = useState(false)
+
+    const openReviewWindow = () => {
+        setReviewWindowOpen(true);
+    }
+    const closeReviewWindow = () => {
+        setReviewWindowOpen(false);
+    }
+
 
     const imagePath = userData.image ? `/src/assets/images/${userData.image}` : `/src/assets/images/userPlaceholder.jpg`;
 
@@ -36,6 +61,15 @@ const UserFull = ({ userData }) => {
 
         return (
             <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+                <MessageWindow // viestin lähetysikkuna
+                isOpen={isMessageWindowOpen}
+                closeMessageWindow={closeMessageWindow}
+                itemData={itemData}
+                user={user}
+                owner={owner}
+                />
+
+                </> // NewReview
                 <div className="my-2">
                     <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                         {userData.name}
@@ -102,11 +136,21 @@ const UserFull = ({ userData }) => {
                                 </p>
                             </div>
                             <div>
-                                <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
+                                <button 
+                                className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                onClick={sendMessage}
+                                >
                                     Send Message
                                 </button>
                             </div>
-
+                            <div>
+                                <button 
+                                className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                onClick={addReview}
+                                >
+                                    Leave a Review
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,7 +182,13 @@ const UserFull = ({ userData }) => {
     } else {
         return (
             <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
-
+                <MessageWindow // viestin lähetysikkuna
+                isOpen={isMessageWindowOpen}
+                closeMessageWindow={closeMessageWindow}
+                itemData={itemData}
+                user={user}
+                owner={owner}
+            />
                 <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
                     <div className="flex flex-col items-center my-6">
                         <div className="min-h-80 align-middle">
@@ -177,10 +227,14 @@ const UserFull = ({ userData }) => {
                                 </p>
                             </div>
                             <div>
-                                <button className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4">
+                                <button 
+                                className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                onClick={sendMessage}
+                                >
                                     Send Message
                                 </button>
                             </div>
+                            
 
                         </div>
                     </div>

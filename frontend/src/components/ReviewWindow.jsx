@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
-const MessageWindow = ({ isOpen, closeMessageWindow, itemData, sender, receiver }) => {
+const ReviewWindow = ({ isOpen, closereviewWindow, sender, receiver }) => {
 
     const [message, setMessage] = useState("");
+    const [rating, setRating] = useState("");
 
     const [isAlertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState([]);
@@ -19,12 +20,15 @@ const MessageWindow = ({ isOpen, closeMessageWindow, itemData, sender, receiver 
     };
 
     // submit
-    const sendMessage = () => {
-        if (!message) {
+    const addReview = () => {
+        if (!message || !rating) {
             setAlertMessage((prev) => {
                 const newMessages = [];
                 if (!message) {
                     newMessages.push("Message field is empty");
+                }
+                if (!rating) {
+                    newMessages.push("Please add a rating");
                 }
                 return [...prev, ...newMessages];
             });
@@ -35,14 +39,34 @@ const MessageWindow = ({ isOpen, closeMessageWindow, itemData, sender, receiver 
 
         } else {
             console.log("Message sent");
-            closeMessageWindow();
 
-            const messageBody = `You have received a message from ${sender.userName} via FixHub.\n\nMessage: ${message}`;
-            const messageSubject = `Message on FixHub from ${sender.userName}`;
+            try {
+                const response = await fetch("/api/reviews", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        userId: sender.userId,
+                        fixerId: receiver.userId,
+                        itemId: receiver.itemId,
+                        score: rating,
+                        message: message,
+                    }),
+                });
+                if (!response.ok) {
+                    throw new Error("Failed to add review")
+                }
 
-            const mailTo = `mailto:${receiver.email}?subject=${encodeURIComponent(messageSubject)}&body=${encodeURIComponent(messageBody)}`;
-
-            window.location.href = mailTo;
+                const newReview = await response.json();
+                console.log("New Review: " + newReview);
+                closeMessageWindow();
+                setMessage("")
+                setRating("")
+            } catch (error) {
+                console.error("Error adding review: ", error);
+                alert("Failed to add review")
+            }
         }
     }
 
@@ -70,7 +94,7 @@ const MessageWindow = ({ isOpen, closeMessageWindow, itemData, sender, receiver 
 
                     <div className="flex items-center justify-center ">
                         <h2 className="text-2xl text-fh_black font-bold">
-                            Send message to user {receiver.userName}
+                            Leave a review to Fixer: {receiver.userName}
                         </h2>
                     </div>
 
@@ -79,15 +103,32 @@ const MessageWindow = ({ isOpen, closeMessageWindow, itemData, sender, receiver 
                         {/* viestikentät */}
                         <div className="flex flex-col m-2 w-full md:w-1/2">
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
-                                Your message:
+                                Your review:
                             </h3>
                             <textarea
                                 className="border border-fh_black rounded-md p-2 h-40"
-                                placeholder="Write your message here..."
+                                placeholder="Write your review here..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                             />
-
+                            <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+                                Your rating:
+                            </h3>
+                            <select
+                                className="border border-fh_black rounded-md p-2"
+                                value={rating}
+                                onChange={(e) => setRating(e.target.value)}
+                            >
+                                <option value="" disabled>
+                                -- Select --
+                                </option>
+                                {[1, 2, 3, 4, 5].map((number) => (
+                                <option key={number} value={number}>
+                                    {number}
+                                </option>
+                                ))}
+                            </select>
+                                                    
                             <button
                                 className="m-2 bg-fh_dgreen text-fh_white font-bold py-2 px-4 rounded-md hover:bg-fh_dgreen-dark"
                                 onClick={sendMessage}

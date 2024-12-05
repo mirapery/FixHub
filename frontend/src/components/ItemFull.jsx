@@ -4,7 +4,7 @@ import NewItem from "./NewItem";
 import { useNavigate } from "react-router-dom";
 
 import { dummyUsers } from "../assets/data";
-import MessageWindow from "./MessageWindow";
+import OfferWindow from "./OfferWindow";
 
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
@@ -28,18 +28,18 @@ const ItemFull = ({ itemData }) => {
         setNewItemOpen(false);
     }
 
-    const [isMessageWindowOpen, setMessageWindowOpen] = useState(false)
+    const [isOfferWindowOpen, setOfferWindowOpen] = useState(false)
 
-    const openMessageWindow = () => {
-        setMessageWindowOpen(true);
+    const openOfferWindow = () => {
+        setOfferWindowOpen(true);
     }
-    const closeMessageWindow = () => {
-        setMessageWindowOpen(false);
+    const closeOfferWindow = () => {
+        setOfferWindowOpen(false);
     }
 
     // estää taustan scrollaamisen kun new item on auki
     useEffect(() => {
-        if (isNewItemOpen || isMessageWindowOpen) {
+        if (isNewItemOpen || isOfferWindowOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
@@ -48,11 +48,11 @@ const ItemFull = ({ itemData }) => {
         return () => {
             document.body.style.overflow = "";
         };
-    }, [isNewItemOpen, isMessageWindowOpen]);
+    }, [isNewItemOpen, isOfferWindowOpen]);
 
-    const sendMessage = () => {
-        openMessageWindow();
-        console.log("Message sent");
+    const sendOffer = () => {
+        openOfferWindow();
+        console.log("Offer sent");
     }
 
     const completeFix = () => {
@@ -68,9 +68,9 @@ const ItemFull = ({ itemData }) => {
                 itemData={itemData}
             />
 
-            <MessageWindow // viestin lähetysikkuna
-                isOpen={isMessageWindowOpen}
-                closeMessageWindow={closeMessageWindow}
+            <OfferWindow // viestin lähetysikkuna
+                isOpen={isOfferWindowOpen}
+                closeOfferWindow={closeOfferWindow}
                 itemData={itemData}
                 user={user}
                 owner={owner}
@@ -201,7 +201,7 @@ const ItemFull = ({ itemData }) => {
                             {(!owner && !fixer && !itemData.isFixed) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={sendMessage}
+                                    onClick={sendOffer}
                                 >
                                     Message item owner
                                 </button>

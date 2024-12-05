@@ -48,7 +48,7 @@ const ReviewArea = ({ reviews }) => {
         <div className="relative w-full h-80">
             <div ref={containerRef}
                 style={{ scrollBehavior: "smooth" }}
-                className=" w-full  flex overflow-x-scroll scrollbar-track-fh_beige-light scrollbar-thumb-fh_beige scrollbar-corner-fh_beige-dark transition">
+                className=" w-full  flex overflow-x-scroll scrollbar-track-fh_beige-light scrollbar-thumb-fh_beige scrollbar-corner-fh_beige-dark transition scrollbar-hide">
 
                 {reviews.map((item, index) => {
                     return <Review
