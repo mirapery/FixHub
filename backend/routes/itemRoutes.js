@@ -12,8 +12,8 @@ router.post('/', createItem);
 // GET /api/items/:itemId
 router.get('/:itemId', getItemById);
 
-// PUT /api/items/:itemId
-router.put('/:itemId', updateItem);
+// PATCH /api/items/:itemId
+router.patch('/:itemId', updateItem);
 
 // DELETE /api/items/:itemId
 router.delete('/:itemId', deleteItem);

@@ -37,7 +37,7 @@ const getItemById = async (req, res) => {
     }
 };
 
-// PUT /items/:itemId
+// PATCH /items/:itemId
 const updateItem = async (req, res) => {
     const { itemId } = req.params;
     try {

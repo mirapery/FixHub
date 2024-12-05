@@ -37,7 +37,7 @@ const getUserById = async (req, res) => {
     }
 };
 
-// PUT /users/:userId
+// PATCH /users/:userId
 const updateUser = async (req, res) => {
     const { userId } = req.params;
     try {
