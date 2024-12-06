@@ -1,7 +1,6 @@
 export const pageLinks = [
   { id: 1, href: "/", text: "Home" },
   { id: 2, href: "about", text: "About" },
-  // { id: 3, href: "new item", text: "New Item" },
   { id: 4, href: "search", text: "Search" },
 ];
 
@@ -14,14 +13,14 @@ export const socialLinks = [
 export const categoryLinks = [
   {
     id: 1,
-    href: "hobby accesories",
+    href: "hobby",
     text: "Hobby accessories",
     icon: "fa-solid fa-table-tennis-paddle-ball scale-150",
   },
   {
     id: 2,
-    href: "clothes",
-    text: "Clothes",
+    href: "clothing",
+    text: "Clothing",
     icon: "fa-solid fa-tshirt scale-150",
   },
   {
