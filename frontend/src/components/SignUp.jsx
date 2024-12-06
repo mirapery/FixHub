@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import useField from "./useField";
-import useTags from "./useTags";
-import { dummyUsers } from "../data";
-import useSignup from "../components/useSignup";
+import useField from "../hooks/useField";
+import useTags from "../hooks/useTags";
+import { dummyUsers } from "../data.js";
+import useSignup from "../hooks/useSignup";
 import AuthContext from "./AuthContext";
 const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const navigate = useNavigate();

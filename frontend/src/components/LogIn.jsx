@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import SignUp from "./SignUp";
 import { dummyUsers } from "../data";
-import useLogin from "./useLogin";
-import useField from "./useField";
+import useLogin from "../hooks/useLogin";
+import useField from "../hooks/useField";
 import AuthContext from "./AuthContext";
 function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
 
