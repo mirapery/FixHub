@@ -183,7 +183,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
 
             console.log(updatedStats);
 
-            //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
+            //päivitetty yhteys databaseen
             try {
                 const response = await fetch(`/api/items/${itemData.itemId}`, {
                     method: "PATCH",
@@ -199,7 +199,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
 
                 const updatedItem = await response.json();
                 console.log("Item updated:", updatedItem);
-                navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
+                navigate(`/item/${updatedItem.itemId}`);
             } catch (error) {
                 console.error("Error updating item:", error);
                 alert("Failed to update item");

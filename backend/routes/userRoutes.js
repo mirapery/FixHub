@@ -13,8 +13,8 @@ router.post('/', createUser);
 // GET /api/users/:userId
 router.get('/:userId', validateUserId, getUserById);
 
-// PUT /api/users/:userId
-router.put('/:userId', validateUserId, updateUser);
+// PATCH /api/users/:userId
+router.patch('/:userId', validateUserId, updateUser);
 
 // DELETE /api/users/:userId
 router.delete('/:userId', validateUserId, deleteUser);

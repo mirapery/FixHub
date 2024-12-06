@@ -12,8 +12,8 @@ router.post('/', createReview);
 // GET /api/reviews/:reviewId
 router.get('/:reviewId', getReviewById);
 
-// PUT /api/reviews/:reviewId
-router.put('/:reviewId', updateReview);
+// PATCH /api/reviews/:reviewId
+router.patch('/:reviewId', updateReview);
 
 // DELETE /api/reviews/:reviewId
 router.delete('/:reviewId', deleteReview);

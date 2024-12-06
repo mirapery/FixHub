@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const { PORT } = require('./config/config.js');
 const connectDB = require('./config/db.js');
@@ -30,8 +31,7 @@ app.use('/api/users', userRoutes);
 app.use(notFound);
 app.use(handleError);
 
-const port =  4000;
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
