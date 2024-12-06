@@ -1,15 +1,57 @@
 import { Outlet } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Login from "../components/LogIn";
+import SignUp from "../components/SignUp";
+
 const Layout = () => {
-  
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isDropDown, setIsDropDown] = useState(false);
+
+  //prevents background scrolling when modal is open do this for useContext
+  // useEffect(() => {
+  //   if (isNewItemOpen || isLoginOpen) {
+  //     document.body.style.overflow = "hidden";
+  //   } else {
+  //     document.body.style.overflow = "";
+  //   }
+
+  //   return () => {
+  //     document.body.style.overflow = "";
+  //   };
+  // }, [isNewItemOpen, isLoginOpen]);
+
   return (
-    <div className="flex flex-col min-h-screen bg-fh_white">
-      <Navbar  isAuthenticated={isAuthenticated} setIsAuthenticated = {setIsAuthenticated} />
+    <div
+      onClick={isDropDown && (() => setIsDropDown(false))}
+      className="flex flex-col min-h-screen bg-fh_white "
+    >
+      <Navbar
+        setIsLoginOpen={setIsLoginOpen}
+        setIsDropDown={setIsDropDown}
+        isDropDown={isDropDown}
+      />
+
       <main className="flex-grow">
         <Outlet />
+
+        {isSignupOpen && (
+          <SignUp
+            setIsSignupOpen={setIsSignupOpen}
+            isSignupOpen={isSignupOpen}
+          />
+        )}
+
+        {isLoginOpen && (
+          <Login
+            isLoginOpen={isLoginOpen}
+            setIsLoginOpen={setIsLoginOpen}
+            setIsSignupOpen={setIsSignupOpen}
+          />
+        )}
       </main>
       <Footer />
     </div>
