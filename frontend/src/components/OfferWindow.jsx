@@ -38,9 +38,33 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
             return
 
         } else {
-            console.log("Message sent");
-            closeOfferWindow
-    ();
+
+            // esimerkki lähetyksen logiikka - backend
+            // try {
+            //     const response = await fetch(`/api/offers`, {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify({
+            //             itemId: itemData.itemId,
+            //             userId: sessionStorage.getItem("userId"),
+            //             message: message,
+            //             offer: offer,
+            //         }),
+            //     });
+            //     if (!response.ok) {
+            //         throw new Error("Failed to send offer");
+            //     }
+            //     const result = await response.json();
+            //     console.log("Offer sent:", result);
+            //     closeOfferWindow();
+            // } catch (error) {
+            //     console.error("Error sending offer:", error);
+            //     //setAlertMessage(["Failed to send offer"]);
+            //     //openAlert();
+            // }
+            
             // tähän viestin lähetyksen logiikka
 
             const messageBody = `You have received a message from ${user.userName} regarding your item ${itemData.name}.\n\nMessage: ${message}\n\nOffer: ${offer} €\n\nYou can contact the user via email: ${user.email}`;
@@ -50,7 +74,7 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
 
             window.location.href = mailTo;
         }
-    }
+    };
 
     let formattedTags;
     let formattedPrice;
