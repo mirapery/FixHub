@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "../hooks/useField";
 import useTags from "../hooks/useTags";
 import { dummyUsers } from "../assets/data";
+import useSignup from "../hooks/useSignup";
+import AuthContext from "./AuthContext";
+const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
+  const navigate = useNavigate();
+  const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
 
-
-const SignUp = ({
-  isModalOpen,
-  closeModal,
-  setIsAuthenticated,
-  setRegisterModal,setUser,
-  registeredUsers,
-}) => {
   const nameInput = useField("text");
   const userNameInput = useField("text");
   const passwordInput = useField("password");
@@ -24,19 +21,12 @@ const SignUp = ({
   const aboutInput = useField("text");
   const fixerChoice = useField("checkbox");
   const imageInput = useField("file");
-  const navigate = useNavigate();
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
-  const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
+  const { signup, error } = useSignup("/api/users/signup");
+  const { setIsAuthenticated } = useContext(AuthContext);
 
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (isModalOpen) {
-      nameInputRef.current?.focus();
-    }
-  }, [isModalOpen]);
-
+  
   //for testing
   /*******************************************/
   let currentId = 1;
@@ -54,7 +44,7 @@ const SignUp = ({
     postalcode
   ) => {
     const newUser = {
-      id: currentId++, 
+      id: currentId++,
       name,
       userName,
       phone,
@@ -70,51 +60,10 @@ const SignUp = ({
         postalcode,
       },
     };
-    registeredUsers.push(newUser);
-    //sessionStorage.setItem("user", JSON.stringify(user));
-    setUser(newUser);
+    dummyUsers.push(newUser);
     console.log("new user created:" + newUser);
   };
-  /*******************************************/
-
-  /*const handleSignup = async () => {
-    try {
-      const response = await fetch("/api/user/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: nameInput.value,
-          userName: userNameInput.value,
-          phone: phoneInput.value,
-          email: emailInput.value,
-          password: passwordInput.value,
-          image: imageInput.value,
-          creationTime: Date.now().toString(),
-          location: {
-            province: provinceInput.value,
-            city: cityInput.value,
-            postalcode: postalcodeInput.value,
-            },
-            about: aboutInput.value,
-            tags: tags,
-            isFixer: fixerChoice.value,
-        }),
-      });
-      if (response.ok) {
-        const user = await response.json();
-        sessionStorage.setItem("user", JSON.stringify(user));
-        console.log("User signed up succesfully");
-        setIsAuthenticated(true);
-        navigate("/");
-      } else {
-        console.error("Signup failed");
-      }
-    } catch (error) {
-      console.error("error during signup: ", error);
-    }
-  };
-*/
-
+  
   const handleSignup = (event) => {
     event.preventDefault();
     createUser(
@@ -130,20 +79,57 @@ const SignUp = ({
       cityInput.value,
       postalcodeInput.value
     );
-    setRegisterModal(false);
+    sessionStorage.setItem("user", JSON.stringify(user));
     setIsAuthenticated(true);
-    setUserLoggedIn()
-    closeModal();
+    setIsSignupOpen(false);
   };
+  /*******************************************/
 
+
+
+  useEffect(() => {
+    if (isSignupOpen) {
+      nameInputRef.current?.focus();
+    }
+  }, [isSignupOpen]);
   const handleClose = () => {
-    setRegisterModal(false);
-    closeModal();
+    setIsSignupOpen(false);
   };
 
+  /*****SIGN UP FETCH*************'**/
+  /*
+  const handleSignup async (e) =>{
+    e.preventDefault();
+    const newUser = {
+   
+      name:nameInput.value,
+      userName:userNameInput.value,
+      phone:phoneInput.value,
+      email:emailInput.value,
+      password:passwordInput.value,
+      about:aboutInput.value,
+      tags_:tags,
+      isFixer:fixerChoice.value,
+      creationTime: Date.now().toString(),
+      location: {
+        province: provinceInput.value,
+        city:cityInput.value,
+      postalcode:postalcodeInput.value
+      },
+    };
+    await signup(newUser);
+    if(!error){
+    console.log("succes")
+   }
+    setIsSignupOpen(false);
+  
+  
+  }
+  */
+ /****************************** */
   return (
     <section
-      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ${isModalOpen}`}
+      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center`}
     >
       {/*Regiter modal*/}
       <div className="flex flex-col bg-fh_beige-light shadow-lg w-auto h-auto rounded-sm">

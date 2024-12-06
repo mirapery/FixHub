@@ -2,23 +2,25 @@ import { useState, useRef } from "react";
 import { pageLinks } from "../assets/data";
 import PageLink from "./PageLink";
 import { Link } from "react-router-dom";
-import DrobDown from "./DrobDown";
 
+//from navbar
 const PageLinks = ({
   parentClass,
   itemClass,
-  openLoginModal,
-  user,
-  isAuthenticated,
-  logOut,isDrobDown,setIsDrobDown,openNewItem
+  setIsLoginOpen,
+  isDropDown,
+  setIsDropDown,
+
 }) => {
-
-
+  let user = sessionStorage.getItem("user")
+    ? JSON.parse(sessionStorage.getItem("user"))
+    : null;
   const handleClick = () => {
-    if(user===null) {
-      openLoginModal();
+    if (user === null) {
+      setIsLoginOpen(true);
     } else {
-      setIsDrobDown(!isDrobDown);
+      //console.log("Dropdown toggle:", !isDropDown);
+      setIsDropDown(!isDropDown);
     }
   };
 
@@ -27,13 +29,11 @@ const PageLinks = ({
       {pageLinks.map((link) => {
         return <PageLink key={link.id} link={link} itemClass={itemClass} />;
       })}
-      <li className="relative">
+      <li >
         <Link to="#" className={itemClass} onClick={handleClick}>
           {user === null ? "login" : user.userName}
         </Link>
-        {isDrobDown && (
-          <DrobDown user={user} logOut={logOut} openNewItem={openNewItem}/>
-        )}
+   
       </li>
     </ul>
   );
