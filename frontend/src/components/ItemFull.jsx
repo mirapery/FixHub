@@ -3,15 +3,33 @@ import { Link } from "react-router-dom";
 import EditItem from "./EditItem";
 import { useNavigate } from "react-router-dom";
 
-import { dummyUsers } from "../assets/data";
+//import { dummyUsers } from "../assets/data";
 import OfferWindow from "./OfferWindow";
 
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const navigate = useNavigate();
 
-    const user = dummyUsers.find((u) => u.userId === itemData.userId);
+    const [user, setUser] = useState(null); // backend version
+    // const user = dummyUsers.find((u) => u.userId === itemData.userId);    // dummy version
     // const owner = itemData.userId === 1; // Change this to check if user is owner of item
+
+    // Käyttäjän tietojen hakeminen backendistä
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`/api/users/${itemData.userId}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data");
+                }
+                const userData = await response.json();
+                setUser(userData);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+        fetchUser();
+    }, [itemData.userId]);
 
     //check status of logged in user
     const owner = sessionStorage.getItem("userId") === itemData.userId;
@@ -50,16 +68,54 @@ const ItemFull = ({ itemData }) => {
         };
     }, [isEditItemOpen, isOfferWindowOpen]);
 
-    const sendOffer = () => {
-        openOfferWindow();
-        console.log("Offer sent");
-    }
+    // muokattu backend-yhteensopivaksi - kesken
+    const sendOffer = async () => {
+        try {
+            const response = await fetch(`/api/offers`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    itemId: itemData.itemId,
+                    userId: sessionStorage.getItem("userId"),
+                    message: "Offer message",
+                    offer: 100 // add the real offer here
+                }),
+            });
+            if (!response.ok) {
+                throw new Error("Failed to send offer");
+            }
+            const result = await response.json();
+            console.log("Offer sent:", result);
+            openOfferWindow();
+        } catch (error) {
+            console.error("Error sending offer:", error);
+        }
+    };
 
-    const completeFix = () => {
+    // muokattu backend-yhteensopivaksi - kesken?
+    const completeFix = async () => {
         // tässä pitäisi laittaa itemin status "fixed"
         // ja lähettää userille ilmoitus
-        console.log("Fix completed");
-    }
+        try {
+            const response = await fetch(`/api/items/${itemData.itemId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ isFixed: true }),
+            });
+            if (!response.ok) {
+                throw new Error("Failed to mark item as fixed");
+            }
+            const updatedItem = await response.json();
+            console.log("Item marked as fixed:", updatedItem);
+        } catch (error) {
+            console.error("Error marking item as fixed:", error);
+        }
+    };
+
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
             <EditItem // editti-ikkuna
@@ -88,7 +144,8 @@ const ItemFull = ({ itemData }) => {
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
-                            src={"/src/assets/images/" + itemData.images[currentImage]}
+                            // src={"/src/assets/images/" + itemData.images[currentImage]}
+                            src={itemData.images[currentImage]}
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
@@ -100,7 +157,8 @@ const ItemFull = ({ itemData }) => {
                             }
                             return <img
                                 key={index}
-                                src={"/src/assets/images/" + image}
+                                // src={"/src/assets/images/" + image}
+                                src={image}
                                 alt={itemData.name + ' ' + index + '-pic-' + 1}
                                 onClick={() => setCurrentImage(index)}
                                 className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'
@@ -170,7 +228,8 @@ const ItemFull = ({ itemData }) => {
                                     className="flex flex-row items-center"
                                 >
                                     <img
-                                        src={user.image ? `/src/assets/images/${user.image}` : `/src/assets/images/userPlaceholder.jpg`}
+                                        // src={user.image ? `/src/assets/images/${user.image}` : `/src/assets/images/userPlaceholder.jpg`}
+                                        src={user.image ? user.image : `/src/assets/images/userPlaceholder.jpg`}
                                         alt="profile picture"
                                         className="rounded-full w-10 h-auto m-2 shadow"
                                     />
