@@ -174,7 +174,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
 
       console.log(newItem);
 
-      //tähän yhteys databaseen! Tää on vaan arvailua miten vois mennä :)
+      // yhteys databaseen
       try {
         const response = await fetch("/api/items", {
           // tähän oikee osote
@@ -191,7 +191,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
 
         const addedItem = await response.json();
         console.log("Item added:", addedItem);
-        navigate("/" + {}); // Tähän lisätään itemin Id vastauksesta
+        navigate(`/item/${addItem.itemId}`);
       } catch (error) {
         console.error("Error adding item:", error);
         alert("Failed to add item");
