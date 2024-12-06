@@ -25,7 +25,7 @@ const Navbar = ({ setIsLoginOpen }) => {
   }
 
   return (
-    <div>
+    <div >
       <header className="flex relative items-center justify-between flex-wrap py-4 w-full bg-fh_dgreen">
         <div className="flex shrink-0 ml-6 cursor-pointer">
           <Link
@@ -52,16 +52,15 @@ const Navbar = ({ setIsLoginOpen }) => {
             setIsDropDown={setIsDropDown}
           />
         </div>
-          {isDropDown && (
-            <DropDown className ="absolute top-0 right-0" 
-              user={user}
-              logOut={logOut}
-              setIsDropDown={setIsDropDown}
-          
-              setNewItemOpen={setNewItemOpen}
-              setIsLoginOpen={setIsLoginOpen}
-            />
-          )}
+        {isDropDown && (
+          <DropDown
+            user={user}
+            logOut={logOut}
+            setIsDropDown={setIsDropDown}
+            setNewItemOpen={setNewItemOpen}
+            setIsLoginOpen={setIsLoginOpen}
+          />
+        )}
       </header>
       {isNewItemOpen && <NewItem isOpen={setNewItemOpen} />}
     </div>

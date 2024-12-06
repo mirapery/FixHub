@@ -19,6 +19,7 @@ const PageLinks = ({
     if (user === null) {
       setIsLoginOpen(true);
     } else {
+      //console.log("Dropdown toggle:", !isDropDown);
       setIsDropDown(!isDropDown);
     }
   };

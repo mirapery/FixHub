@@ -25,7 +25,7 @@ const Layout = () => {
   // }, [isNewItemOpen, isLoginOpen]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-fh_white">
+    <div className="flex flex-col min-h-screen bg-fh_white ">
       <Navbar setIsLoginOpen={setIsLoginOpen} />
 
       <main className="flex-grow">

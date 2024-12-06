@@ -3,7 +3,7 @@ const CategoryItem = ({ item }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/search?query=${item.href}`);
+    navigate(`/search?q=${item.href}`);
   };
   return (
     <li

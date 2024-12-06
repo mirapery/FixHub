@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "../hooks/useField";
 import useTags from "../hooks/useTags";
-import { dummyUsers } from "../data.js";
+import { dummyUsers } from "../assets/data";
 import useSignup from "../hooks/useSignup";
 import AuthContext from "./AuthContext";
 const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
