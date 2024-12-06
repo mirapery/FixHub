@@ -18,7 +18,7 @@ function Home() {
     dummyItems[0],
     dummyItems[0],
     dummyItems[0],
-  ];
+  ];z
 
   const dummyUserList = [
     dummyUsers[0],
