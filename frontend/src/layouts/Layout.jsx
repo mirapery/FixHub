@@ -6,10 +6,10 @@ import { useState, useEffect } from "react";
 import Login from "../components/LogIn";
 import SignUp from "../components/SignUp";
 
-
 const Layout = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [isDropDown, setIsDropDown] = useState(false);
 
   //prevents background scrolling when modal is open do this for useContext
   // useEffect(() => {
@@ -25,8 +25,15 @@ const Layout = () => {
   // }, [isNewItemOpen, isLoginOpen]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-fh_white ">
-      <Navbar setIsLoginOpen={setIsLoginOpen} />
+    <div
+      onClick={isDropDown && (() => setIsDropDown(false))}
+      className="flex flex-col min-h-screen bg-fh_white "
+    >
+      <Navbar
+        setIsLoginOpen={setIsLoginOpen}
+        setIsDropDown={setIsDropDown}
+        isDropDown={isDropDown}
+      />
 
       <main className="flex-grow">
         <Outlet />

@@ -4,10 +4,10 @@ import { useState, useEffect, useContext } from "react";
 import AuthContext from "./AuthContext";
 import NewItem from "./NewItem";
 import DropDown from "./DropDown";
-const Navbar = ({ setIsLoginOpen }) => {
+const Navbar = ({ setIsLoginOpen, isDropDown, setIsDropDown }) => {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  const [isDropDown, setIsDropDown] = useState(false);
-  const [isNewItemOpen, setNewItemOpen] = useState(false);
+
+  const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const navigate = useNavigate();
   let user = sessionStorage.getItem("user")
     ? JSON.parse(sessionStorage.getItem("user"))
@@ -25,7 +25,7 @@ const Navbar = ({ setIsLoginOpen }) => {
   }
 
   return (
-    <div >
+    <div>
       <header className="flex relative items-center justify-between flex-wrap py-4 w-full bg-fh_dgreen">
         <div className="flex shrink-0 ml-6 cursor-pointer">
           <Link
@@ -44,7 +44,7 @@ const Navbar = ({ setIsLoginOpen }) => {
           <i className="fas fa-bars fa-2x"></i>
         </button>
         <div className="pl-6 w-full md:w-auto hidden md:block" id="nav-content">
-          <PageLinks 
+          <PageLinks
             parentClass="md:flex"
             itemClass="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
             setIsLoginOpen={setIsLoginOpen}
@@ -57,12 +57,14 @@ const Navbar = ({ setIsLoginOpen }) => {
             user={user}
             logOut={logOut}
             setIsDropDown={setIsDropDown}
-            setNewItemOpen={setNewItemOpen}
+            setIsNewItemOpen={setIsNewItemOpen}
             setIsLoginOpen={setIsLoginOpen}
           />
         )}
       </header>
-      {isNewItemOpen && <NewItem isOpen={setNewItemOpen} />}
+      {isNewItemOpen && (
+        <NewItem setIsNewItemOpen={setIsNewItemOpen} isOpen={isNewItemOpen} />
+      )}
     </div>
   );
 };

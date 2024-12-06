@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useRef, useEffect } from "react";
 // from pagelinks
-const DropDown = ({ setNewItemOpen, logOut, user, setIsDropDown }) => {
+const DropDown = ({ setIsNewItemOpen, logOut, user, setIsDropDown }) => {
 
 
   // const dropDownRef = useRef(null); // useRef to reference the dropdown div
@@ -35,7 +35,7 @@ const DropDown = ({ setNewItemOpen, logOut, user, setIsDropDown }) => {
           </li>
         </Link>
         <li
-          onClick={() => setNewItemOpen(true)}
+          onClick={() => setIsNewItemOpen(true)}
           className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
         >
           Lisää ilmoitus

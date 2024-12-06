@@ -5,7 +5,7 @@ import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 
-const NewItem = ({ isOpen, closeNewItem }) => {
+const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
 
   const [name, setName] = useState("");
@@ -135,7 +135,8 @@ const NewItem = ({ isOpen, closeNewItem }) => {
           newMessages.push("Please add a Description of the item.");
         if (!postalCode)
           newMessages.push("Please add the location of your item.");
-        if (!city || !postalCode) newMessages.push("Please add the address info.");
+        if (!city || !postalCode)
+          newMessages.push("Please add the address info.");
         if (images.length === 0)
           newMessages.push("Please add at least 1 image of the item.");
         if (validatePriceRange)
@@ -151,7 +152,6 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     } else {
       const imageNames = [];
       images.forEach((image) => imageNames.push(image.name));
-
 
       const newItem = {
         itemId: "", // tämä backendistä?
@@ -171,7 +171,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
         images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
         isFixed: false,
         interested: 0,
-      }
+      };
 
       console.log(newItem);
 
@@ -204,7 +204,6 @@ const NewItem = ({ isOpen, closeNewItem }) => {
       clearItem();
 
       //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
-
     }
   };
 
@@ -242,7 +241,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
     isOpen && (
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
-        onClick={closeNewItem}
+        onClick={() => setIsNewItemOpen(false)}
       >
         <Alert
           isOpen={isAlertOpen}
@@ -255,27 +254,25 @@ const NewItem = ({ isOpen, closeNewItem }) => {
         >
           <button
             className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-
-            onClick={closeNewItem}
+            onClick={() => setIsNewItemOpen(false)}
           >
             <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
           </button>
 
           <div className="flex items-center justify-center ">
-            <h2 className="text-2xl text-fh_black font-bold">
-              Add New Item
-            </h2>
+            <h2 className="text-2xl text-fh_black font-bold">Add New Item</h2>
           </div>
 
           <div className="flex flex-row m-2">
-
-
             {/* Kuvan lisääminen */}
             <div className="flex flex-col m-2 w-1/2">
               <div className="flex flex-col m-2 space-y-2">
-
-                <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Add images (max 4):</label>
-
+                <label
+                  htmlFor="itemName"
+                  className="text-xl text-fh_black font-bold m-1"
+                >
+                  Add images (max 4):
+                </label>
 
                 <input
                   type="file"
@@ -305,7 +302,9 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                   </label>
 
                   <div className="min-h-80 align-middle">
-                    {(images[0] || itemData) && (
+                    {/*|| itemData tämä otettu pois images[0] jälkeen*/}
+
+                    {images[0] && (
                       <img
                         src={URL.createObjectURL(images[0])}
                         alt={`preview-main`}
@@ -353,10 +352,14 @@ const NewItem = ({ isOpen, closeNewItem }) => {
 
             {/* Muut kentät */}
             <div className="flex flex-col m-2 w-1/2">
-
               {/* Name Field*/}
               <div className="flex flex-col m-2 space-y-2">
-                <label htmlFor="itemName" className="text-xl text-fh_black font-bold m-1">Item Name:</label>
+                <label
+                  htmlFor="itemName"
+                  className="text-xl text-fh_black font-bold m-1"
+                >
+                  Item Name:
+                </label>
 
                 <input
                   type="text"
@@ -482,12 +485,11 @@ const NewItem = ({ isOpen, closeNewItem }) => {
 
               {/* Price range */}
               <div className="flex flex-col m-2 space-y-2">
-
-                <label className="text-xl text-fh_black font-bold m-1">Give your price range:</label>
+                <label className="text-xl text-fh_black font-bold m-1">
+                  Give your price range:
+                </label>
                 <div className="flex flex-row m-2">
-                  <label
-                    className="flex items-center w-1/12 text-xl text-fh_black-light m-2"
-                  >
+                  <label className="flex items-center w-1/12 text-xl text-fh_black-light m-2">
                     From:
                   </label>
                   <input
@@ -501,10 +503,7 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                     className="w-1/3 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                   />
 
-                  <label
-                    className="flex items-center w-1/12 text-xl text-fh_black-light m-2"
-                  >
-
+                  <label className="flex items-center w-1/12 text-xl text-fh_black-light m-2">
                     To:
                   </label>
                   <input
@@ -518,18 +517,17 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                     className="w-1/3  h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                   />
 
-                  <label
-                    className="flex items-center w-1/12 text-xl text-fh_black-light m-2"
-                  >
+                  <label className="flex items-center w-1/12 text-xl text-fh_black-light m-2">
                     €
                   </label>
                 </div>
-
               </div>
 
               {/* Location */}
               <div className="flex flex-col m-2 space-y-2">
-                <label className="text-xl text-fh_black font-bold m-1">Item Location:</label>
+                <label className="text-xl text-fh_black font-bold m-1">
+                  Item Location:
+                </label>
 
                 <div className="flex flex-row m-2">
                   <label className="w-1/5 flex items-center text-xl text-fh_black-light m-2">
@@ -543,9 +541,8 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                     onChange={(e) => {
                       handleNumberChange(e, setPostalCode);
 
-                      setCity('')
-                    }
-                    }
+                      setCity("");
+                    }}
                     placeholder="Postal Code"
                     maxLength={5}
                     className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
@@ -561,9 +558,8 @@ const NewItem = ({ isOpen, closeNewItem }) => {
                     id="postalCode"
                     value={city}
                     onChange={(e) => {
-                      setCity(e.target.value)
-                    }
-                    }
+                      setCity(e.target.value);
+                    }}
                     placeholder="City"
                     className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                     required
