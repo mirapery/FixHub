@@ -8,13 +8,14 @@ const PageLinks = ({
   parentClass,
   itemClass,
   setIsLoginOpen,
-  user,
-  isAuthenticated,
   logOut,
   isDropDown,
   setIsDropDown,
   setNewItemOpen,
 }) => {
+  let user = sessionStorage.getItem("user")
+    ? JSON.parse(sessionStorage.getItem("user"))
+    : null;
   const handleClick = () => {
     if (user === null) {
       setIsLoginOpen(true);

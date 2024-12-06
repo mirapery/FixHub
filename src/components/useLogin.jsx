@@ -1,6 +1,7 @@
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import AuthContext from "./AuthContext";
 export default function useLogin(url) {
+  const { setIsAuthenticated } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const login = async (object) => {
@@ -20,6 +21,7 @@ export default function useLogin(url) {
     }
 
     sessionStorage.setItem("user", JSON.stringify(user));
+    setIsAuthenticated(true);
     console.log(user);
     setIsLoading(false);
   };

@@ -1,17 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "./useField";
 import useTags from "./useTags";
 import { dummyUsers } from "../data";
 import useSignup from "../components/useSignup";
-
-const SignUp = ({
-  setIsAuthenticated,
-  setUser,
-  setIsSignupOpen,
-  isSignupOpen,
-}) => {
+import AuthContext from "./AuthContext";
+const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
   const nameInput = useField("text");
@@ -28,13 +23,9 @@ const SignUp = ({
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
   const { signup, error } = useSignup("/api/users/signup");
+  const { setIsAuthenticated } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (isSignupOpen) {
-      nameInputRef.current?.focus();
-    }
-  }, [isSignupOpen]);
-
+  
   //for testing
   /*******************************************/
   let currentId = 1;
@@ -68,13 +59,10 @@ const SignUp = ({
         postalcode,
       },
     };
-    dummyUsers = { ...dummyUsers, newUser };
-    //sessionStorage.setItem("user", JSON.stringify(user));
-    setUser(newUser);
+    dummyUsers.push(newUser);
     console.log("new user created:" + newUser);
   };
-  /*******************************************/
-
+  
   const handleSignup = (event) => {
     event.preventDefault();
     createUser(
@@ -90,11 +78,19 @@ const SignUp = ({
       cityInput.value,
       postalcodeInput.value
     );
+    sessionStorage.setItem("user", JSON.stringify(user));
     setIsAuthenticated(true);
-    setUserLoggedIn();
     setIsSignupOpen(false);
   };
+  /*******************************************/
 
+
+
+  useEffect(() => {
+    if (isSignupOpen) {
+      nameInputRef.current?.focus();
+    }
+  }, [isSignupOpen]);
   const handleClose = () => {
     setIsSignupOpen(false);
   };
@@ -123,12 +119,13 @@ const SignUp = ({
     await signup(newUser);
     if(!error){
     console.log("succes")
-    setIsAuthenticated(true)}
+   }
     setIsSignupOpen(false);
-    setUser()
+  
   
   }
   */
+ /****************************** */
   return (
     <section
       className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center`}

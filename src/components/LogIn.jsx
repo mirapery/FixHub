@@ -1,23 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SignUp from "./SignUp";
 import { dummyUsers } from "../data";
 import useLogin from "./useLogin";
 import useField from "./useField";
-
-function Login({
-  setIsLoginOpen,
-  isLoginOpen,
-  setIsSignupOpen,
-  setUser,
-  setIsAuthenticated,
-}) {
+import AuthContext from "./AuthContext";
+function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
   const navigate = useNavigate();
   const nameInputRef = useRef(null);
   const userName = useField("text");
   const password = useField("password");
-  const [registerModal, setRegisterModal] = useState(false);
+  const { setIsAuthenticated, isAuthenticated } = useContext(AuthContext);
+
   //const { login, error } = useLogin("/api/users/login");
 
   //this is for testing purposes
@@ -40,7 +35,7 @@ function Login({
         (user) => user.userName === userName.value
       );
       setIsAuthenticated(true);
-      setUser(user);
+      sessionStorage.setItem("user", JSON.stringify(user));
       setIsLoginOpen(false);
     }
   };

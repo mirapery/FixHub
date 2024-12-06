@@ -8,10 +8,8 @@ import NewItem from "./NewItem";
 import useSessionStorage from "./useSessionStorage";
 
 const Layout = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [user, setUser] = useSessionStorage("user", null);
 
   //prevents background scrolling when modal is open do this for useContext
   // useEffect(() => {
@@ -28,14 +26,7 @@ const Layout = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-fh_white">
-      <Navbar
-        isAuthenticated={isAuthenticated}
-        setIsAuthenticated={setIsAuthenticated}
-        setIsLoginOpen={setIsLoginOpen}
-        user={user}
-        setUser={setUser}
-      
-      />
+      <Navbar setIsLoginOpen={setIsLoginOpen} />
 
       <main className="flex-grow">
         <Outlet />
@@ -44,8 +35,6 @@ const Layout = () => {
           <SignUp
             setIsSignupOpen={setIsSignupOpen}
             isSignupOpen={isSignupOpen}
-            setUser={setUser}
-            setIsAuthenticated={setIsAuthenticated}
           />
         )}
 
@@ -54,12 +43,8 @@ const Layout = () => {
             isLoginOpen={isLoginOpen}
             setIsLoginOpen={setIsLoginOpen}
             setIsSignupOpen={setIsSignupOpen}
-            setUser={setUser}
-            setIsAuthenticated={setIsAuthenticated}
           />
         )}
-
-        
       </main>
       <Footer />
     </div>

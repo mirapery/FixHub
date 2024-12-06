@@ -1,17 +1,15 @@
 import PageLinks from "./PageLinks";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useContext } from "react";
+import AuthContext from "./AuthContext";
 import Login from "./LogIn";
 import NewItem from "./NewItem";
 
+
 const Navbar = ({
-  isAuthenticated,
-  setIsAuthenticated,
   setIsLoginOpen,
-  user,
-  setUser,
 }) => {
+  const { isAuthenticated,setIsAuthenticated } = useContext(AuthContext);
   const [isDropDown, setIsDropDown] = useState(false);
   const [isNewItemOpen, setNewItemOpen] = useState(false);
   const navigate = useNavigate();
@@ -19,11 +17,8 @@ const Navbar = ({
   //logout function
   const logOut = () => {
     setIsDropDown(false);
-    // This is for later use
-    //sessionStorage.removeItem("user");
-    setUser(null);
+    sessionStorage.removeItem("user");
     setIsAuthenticated(false);
-    navigate("/");
   };
 
   function handleButton() {
@@ -54,8 +49,6 @@ const Navbar = ({
             parentClass="md:flex"
             itemClass="m-2 p-4 h-full rounded-lg text-fh_beige-dark hover:text-fh_beige md:hover:bg-fh_dgreen-light md:active:bg-fh_dgreen text-2xl"
             setIsLoginOpen={setIsLoginOpen}
-            user={user}
-            isAuthenticated={isAuthenticated}
             logOut={logOut}
             isDropDown={isDropDown}
             setIsDropDown={setIsDropDown}
