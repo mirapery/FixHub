@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllUsers, createUser, getUserById, updateUser, deleteUser } = require("../controllers/userController.js");
+const { getAllUsers, createUser, getUserByUserName, updateUser, deleteUser } = require("../controllers/userController.js");
 const validateObjectId = require ("../middleware/validateObjectId.js");
 
 const router = express.Router();
@@ -10,8 +10,8 @@ router.get('/', getAllUsers);
 // POST /api/users
 router.post('/', createUser);
 
-// GET /api/users/:userId
-router.get('/:userId', validateObjectId('userId'), getUserById);        // Pitäisi hakea käyttäjänimellä
+// GET /api/users/:userName
+router.get('/:userName', getUserByUserName);
 
 // PATCH /api/users/:userId
 router.patch('/:userId', validateObjectId('userId'), updateUser);

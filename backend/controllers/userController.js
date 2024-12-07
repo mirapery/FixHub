@@ -22,11 +22,11 @@ const createUser = async (req, res) => {
     }
 };
 
-// GET /users/:userId
-const getUserById = async (req, res) => {       // Muokkaa hakemaan käyttäjänimellä id:n sijasta (indeksoi username-kentän)
-    const { userId } = req.params;
+// GET /users/:userName
+const getUserByUserName = async (req, res) => {
+    const { userName } = req.params;
     try {
-        const user = await User.findById(userId);
+        const user = await User.findOne(userName);
         if (user) {
             res.status(200).json(user);
         } else {
@@ -39,10 +39,10 @@ const getUserById = async (req, res) => {       // Muokkaa hakemaan käyttäjän
 
 // PATCH /users/:userId
 const updateUser = async (req, res) => {
-    const { userId } = req.params;
+    const { userId } = req.params;  // userName
     try {
         const updatedUser = await User.findOneAndUpdate(
-            { _id: userId },
+            { _id: userId },    // userName
             { ...req.body },
             { new: true }
         );
@@ -58,9 +58,9 @@ const updateUser = async (req, res) => {
 
 // DELETE /users/:userId
 const deleteUser = async (req, res) => {
-    const { userId } = req.params;
+    const { userId } = req.params;  // userName
     try {
-        const deletedUser = await User.findOneAndDelete({ _id: userId });
+        const deletedUser = await User.findOneAndDelete({ _id: userId });   // userName
         if (deletedUser) {
             res.status(200).send({message: "User deleted successfully."});
         } else {
@@ -71,4 +71,4 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserById, createUser, updateUser, deleteUser };
+module.exports = { getAllUsers, getUserByUserName, createUser, updateUser, deleteUser };
