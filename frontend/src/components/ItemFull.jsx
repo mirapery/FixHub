@@ -222,6 +222,7 @@ const ItemFull = ({ itemData }) => {
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Owner:
                             </h3>
+                            {user && (
                             <div className="my-2 text-fh_dgreen text-lg underline">
                                 <Link
                                     to={`/user/${user.userName}`}
@@ -240,6 +241,7 @@ const ItemFull = ({ itemData }) => {
 
                                 </Link> {/* Create link to user's page */}
                             </div>
+                            )}
                             {owner &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"

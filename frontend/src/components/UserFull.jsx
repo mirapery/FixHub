@@ -1,66 +1,80 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReviewArea from "./ReviewArea";
 import CardArea from "./CardArea";
-import { dummyItems, dummyReviews } from "../assets/data"; // nämä korvataa listoilla dummydatasta
+//import { dummyItems, dummyReviews } from "../assets/data"; // nämä korvataa listoilla dummydatasta
 import { useNavigate } from "react-router-dom";
 import MessageWindow from "./MessageWindow";
 import NewReviewWindow from "./NewReviewWindow";
 
 const UserFull = ({ userData }) => {
-
     const [activeTab, setActiveTab] = useState(0);
+    const [items, setItems] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const itemsResponse = await fetch(`/api/items?userId=${userData.userId}`);
+                const itemsData = await itemsResponse.json();
+                const reviewsResponse = await fetch(`/api/reviews?userId=${userData.userId}`);
+                const reviewsData = await reviewsResponse.json();
+
+                setItems(itemsData);
+                setReviews(reviewsData);
+            } catch (error) {
+                console.error("Error fetching data", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [userData.userId]);
 
     const tabs = []
     const tabContent = []
 
-    const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
-
     if (userData.isFixer) {
         tabs.push("Reviews", "Fixed items")
         tabContent.push(
-            <ReviewArea reviews={dummyReviews.filter(r => r.fixerId === userData.userId)} />,
-            <CardArea itemsList={dummyItems.filter(item => item.fixerId === userData.userId)} />
-        )
-    } else if (true) {
+            <ReviewArea reviews={reviews.filter(r => r.fixerId === userData.userId)} />,
+            <CardArea itemsList={items.filter(item => item.fixerId === userData.userId)} />
+        );
+    } else {
         tabs.push("Items")
         tabContent.push(
-            <CardArea itemsList={dummyItems.filter(item => item.userId === userData.userId)} />
-        )
+            <CardArea itemsList={items.filter(item => item.userId === userData.userId)} />
+        );
     }
 
     const [isMessageWindowOpen, setMessageWindowOpen] = useState(false)
-
-    const openMessageWindow = () => {
-        setMessageWindowOpen(true);
-    }
-    const closeMessageWindow = () => {
-        setMessageWindowOpen(false);
-    }
+    const openMessageWindow = () => setMessageWindowOpen(true);
+    const closeMessageWindow = () => setMessageWindowOpen(false);
 
     const sendMessage = () => {
         openMessageWindow();
         console.log("Message sent");
     }
 
-
     const [isNewReviewWindowOpen, setNewReviewWindowOpen] = useState(false)
-
-    const openNewReviewWindow = () => {
-        setNewReviewWindowOpen(true);
-    }
-    const closeNewReviewWindow = () => {
-        setNewReviewWindowOpen(false);
-    }
+    const openNewReviewWindow = () => setNewReviewWindowOpen(true);
+    const closeNewReviewWindow = () => setNewReviewWindowOpen(false);
 
     const addReview = () => {
         openNewReviewWindow();
         console.log("Review added");
     }
 
-
     const imagePath = userData.image ? `/src/assets/images/${userData.image}` : `/src/assets/images/userPlaceholder.jpg`;
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     if (userData.isFixer) {
         const formattedTags = userData.tags
@@ -71,17 +85,17 @@ const UserFull = ({ userData }) => {
             <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
 
                 <MessageWindow // viestin lähetysikkuna
-                isOpen={isMessageWindowOpen}
-                closeMessageWindow={closeMessageWindow}
-                sender={user}
-                receiver={userData}
+                    isOpen={isMessageWindowOpen}
+                    closeMessageWindow={closeMessageWindow}
+                    sender={user}
+                    receiver={userData}
                 />
 
                 <NewReviewWindow // arvostelun lisäysikkuna
-                isOpen={isNewReviewWindowOpen}
-                closeReviewWindow={closeNewReviewWindow}
-                sender={user}
-                receiver={userData}
+                    isOpen={isNewReviewWindowOpen}
+                    closeReviewWindow={closeNewReviewWindow}
+                    sender={user}
+                    receiver={userData}
                 />
 
                 <div className="my-2">
@@ -125,7 +139,7 @@ const UserFull = ({ userData }) => {
                                         <li key={index}
                                             className="m-1  flex flew-row border border-fh_black bg-fh_white rounded-md p-1 hover:bg-fh_white-dark cursor-pointer hover:scale-105"
                                             onClick={() => navigate(`/search?q=${tag}`)}
-                                            
+
                                         >
                                             <p className="my-1 mx-2 text-lg text-fh_dgreen font-bold">
                                                 {tag}
@@ -151,17 +165,17 @@ const UserFull = ({ userData }) => {
                                 </p>
                             </div>
                             <div>
-                                <button 
-                                className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                onClick={sendMessage}
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={sendMessage}
                                 >
                                     Send Message
                                 </button>
                             </div>
                             <div>
-                                <button 
-                                className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                onClick={addReview}
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={addReview}
                                 >
                                     Leave a Review
                                 </button>
@@ -198,12 +212,12 @@ const UserFull = ({ userData }) => {
         return (
             <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
                 <MessageWindow // viestin lähetysikkuna
-                isOpen={isMessageWindowOpen}
-                closeMessageWindow={closeMessageWindow}
-                itemData={itemData}
-                user={user}
-                owner={owner}
-            />
+                    isOpen={isMessageWindowOpen}
+                    closeMessageWindow={closeMessageWindow}
+                    itemData={itemData}
+                    user={user}
+                    owner={owner}
+                />
                 <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
                     <div className="flex flex-col items-center my-6">
                         <div className="min-h-80 align-middle">
@@ -242,14 +256,14 @@ const UserFull = ({ userData }) => {
                                 </p>
                             </div>
                             <div>
-                                <button 
-                                className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                onClick={sendMessage}
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={sendMessage}
                                 >
                                     Send Message
                                 </button>
                             </div>
-                            
+
 
                         </div>
                     </div>
