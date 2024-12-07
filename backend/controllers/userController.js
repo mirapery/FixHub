@@ -23,7 +23,7 @@ const createUser = async (req, res) => {
 };
 
 // GET /users/:userId
-const getUserById = async (req, res) => {
+const getUserById = async (req, res) => {       // Muokkaa hakemaan käyttäjänimellä id:n sijasta (indeksoi username-kentän)
     const { userId } = req.params;
     try {
         const user = await User.findById(userId);
