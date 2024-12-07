@@ -155,7 +155,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       const newItem = {
         itemId: "", // tämä backendistä?
-        userId: sessionStorage.getItem("userId"),
+        userId: "", // tämä kirjautumistiedoista
         fixerId: "", // tämä oikeastikin tyhjä
         name: name,
         tags: tags,
@@ -178,6 +178,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       // yhteys databaseen
       try {
         const response = await fetch("/api/items", {
+          // tähän oikee osote
           method: "POST",
           headers: {
             "Content-Type": "application/json",

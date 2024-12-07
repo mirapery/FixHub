@@ -6,39 +6,40 @@ import useLogin from "../hooks/useLogin";
 import useField from "../hooks/useField";
 import AuthContext from "./AuthContext";
 function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
+
   const navigate = useNavigate();
   const nameInputRef = useRef(null);
   const userName = useField("text");
   const password = useField("password");
   const { setIsAuthenticated, isAuthenticated } = useContext(AuthContext);
 
-  const { login, error } = useLogin("/api/users/login");
+  //const { login, error } = useLogin("/api/users/login");
 
-  // //this is for testing purposes
-  // /*************************************************************/
-  // let registeredUsers = dummyUsers;
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   const wrongPassword = registeredUsers.some(
-  //     (user) =>
-  //       user.userName === userName.value && user.password !== password.value
-  //   );
+  //this is for testing purposes
+  /*************************************************************/
+  let registeredUsers = dummyUsers;
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const wrongPassword = registeredUsers.some(
+      (user) =>
+        user.userName === userName.value && user.password !== password.value
+    );
 
-  //   const accesGranted = registeredUsers.some(
-  //     (user) =>
-  //       user.userName === userName.value && user.password === password.value
-  //   );
+    const accesGranted = registeredUsers.some(
+      (user) =>
+        user.userName === userName.value && user.password === password.value
+    );
 
-  //   if (accesGranted) {
-  //     const user = registeredUsers.find(
-  //       (user) => user.userName === userName.value
-  //     );
-  //     setIsAuthenticated(true);
-  //     sessionStorage.setItem("user", JSON.stringify(user));
-  //     setIsLoginOpen(false);
-  //   }
-  // };
-  // /*************************************************************/
+    if (accesGranted) {
+      const user = registeredUsers.find(
+        (user) => user.userName === userName.value
+      );
+      setIsAuthenticated(true);
+      sessionStorage.setItem("user", JSON.stringify(user));
+      setIsLoginOpen(false);
+    }
+  };
+  /*************************************************************/
 
   useEffect(() => {
     if (isLoginOpen) {
@@ -51,16 +52,17 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
   };
 
   /**************USE LOGIN HERE***************/
-
+  /* This is RIGHT one
   const handleLogin = async (e) => {
     e.preventDefault();
     await login({ userName: userName.value, password: password.value });
-    if (!error) {
-      console.log("succes");
+    if(!error){
+
+      console.log("succes")
       setIsAuthenticated(true);
-      setIsLoginOpen(false);
+      closeLoginModal();
     }
-  };
+  */
   /******************************************** */
   return (
     <section

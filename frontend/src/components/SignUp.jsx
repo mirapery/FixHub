@@ -26,63 +26,66 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const { signup, error } = useSignup("/api/users/signup");
   const { setIsAuthenticated } = useContext(AuthContext);
 
-  // //for testing
-  // /*******************************************/
-  // let currentId = 1;
-  // const createUser = (
-  //   name,
-  //   userName,
-  //   phone,
-  //   email,
-  //   password,
-  //   about,
-  //   tags_,
-  //   isFixer,
-  //   province,
-  //   city,
-  //   postalcode
-  // ) => {
-  //   const newUser = {
-  //     id: currentId++,
-  //     name,
-  //     userName,
-  //     phone,
-  //     email,
-  //     password,
-  //     about,
-  //     tags_,
-  //     isFixer,
-  //     creationTime: Date.now().toString(),
-  //     location: {
-  //       province,
-  //       city,
-  //       postalcode,
-  //     },
-  //   };
-  //   dummyUsers.push(newUser);
-  //   console.log("new user created:" + newUser);
-  // };
+  
+  //for testing
+  /*******************************************/
+  let currentId = 1;
+  const createUser = (
+    name,
+    userName,
+    phone,
+    email,
+    password,
+    about,
+    tags_,
+    isFixer,
+    province,
+    city,
+    postalcode
+  ) => {
+    const newUser = {
+      id: currentId++,
+      name,
+      userName,
+      phone,
+      email,
+      password,
+      about,
+      tags_,
+      isFixer,
+      creationTime: Date.now().toString(),
+      location: {
+        province,
+        city,
+        postalcode,
+      },
+    };
+    dummyUsers.push(newUser);
+    console.log("new user created:" + newUser);
+  };
+  
+  const handleSignup = (event) => {
+    event.preventDefault();
+    createUser(
+      nameInput.value,
+      userNameInput.value,
+      phoneInput.value,
+      emailInput.value,
+      passwordInput.value,
+      aboutInput.value,
+      tags,
+      fixerChoice.value,
+      provinceInput.value,
+      cityInput.value,
+      postalcodeInput.value
+    );
+    sessionStorage.setItem("user", JSON.stringify(user));
+    setIsAuthenticated(true);
+    setIsSignupOpen(false);
+  };
+  /*******************************************/
 
-  // const handleSignup = (event) => {
-  //   event.preventDefault();
-  //   createUser(
-  //     nameInput.value,
-  //     userNameInput.value,
-  //     phoneInput.value,
-  //     emailInput.value,
-  //     passwordInput.value,
-  //     aboutInput.value,
-  //     tags,
-  //     fixerChoice.value,
-  //     provinceInput.value,
-  //     cityInput.value,
-  //     postalcodeInput.value
-  //   );
-  //   sessionStorage.setItem("user", JSON.stringify(user));
-  //   setIsAuthenticated(true);
-  //   setIsSignupOpen(false);
-  // };
-  // /*******************************************/
+
 
   useEffect(() => {
     if (isSignupOpen) {
@@ -94,33 +97,36 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   };
 
   /*****SIGN UP FETCH*************'**/
-
-  const handleSignup = async (e) => {
+  /*
+  const handleSignup async (e) =>{
     e.preventDefault();
     const newUser = {
-      name: nameInput.value,
-      userName: userNameInput.value,
-      phone: phoneInput.value,
-      email: emailInput.value,
-      password: passwordInput.value,
-      about: aboutInput.value,
-      tags_: tags,
-      isFixer: fixerChoice.value,
-      creationTime: Date.now(),
+   
+      name:nameInput.value,
+      userName:userNameInput.value,
+      phone:phoneInput.value,
+      email:emailInput.value,
+      password:passwordInput.value,
+      about:aboutInput.value,
+      tags_:tags,
+      isFixer:fixerChoice.value,
+      creationTime: Date.now().toString(),
       location: {
         province: provinceInput.value,
-        city: cityInput.value,
-        postalcode: postalcodeInput.value,
+        city:cityInput.value,
+      postalcode:postalcodeInput.value
       },
     };
     await signup(newUser);
-    if (!error) {
-      console.log("succes");
-    }
+    if(!error){
+    console.log("succes")
+   }
     setIsSignupOpen(false);
-  };
-
-  /****************************** */
+  
+  
+  }
+  */
+ /****************************** */
   return (
     <section
       className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center`}

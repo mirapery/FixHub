@@ -1,26 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Hero from "../components/Hero.jsx";
+
 import Searchbar from "../components/Searchbar.jsx";
-//import ItemCard from "../components/ItemCard.jsx";
-//import { dummyUsers, dummyItems } from "../assets/data.js";
+
+import ItemCard from "../components/ItemCard.jsx";
+// import { dummyUsers, dummyItems } from "../assets/data.js";
 import CardArea from "../components/CardArea.jsx";
 
 function Home() {
-  const [items, setItems] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   //testingiin
-  // const dummyItemList = [
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  // ];
   // const dummyItemList = [
   //   dummyItems[0],
   //   dummyItems[0],
@@ -41,39 +29,47 @@ function Home() {
   //   dummyUsers[0],
   //   dummyUsers[0],
   // ];
+  const [items, setItems] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUsers = async () => {
       try {
-        setLoading(true);
-        const itemsResponse = await fetch("/api/items");
-        const usersResponse = await fetch("/api/users");
-        
-        if (!itemsResponse.ok || !usersResponse.ok) {
-          throw new Error("Failed to fetch data");
+        const response = await fetch("/api/users", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fecth users");
         }
-
-        const itemsData = await itemsResponse.json();
-        const usersData = await usersResponse.json();
-
-        console.log("Fetched items:", itemsData);
-        console.log("Fetched users:", usersData);
-
-        setItems(itemsData);
-        setUsers(usersData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+        setUsers(data);
+      } catch (error) { console.error(error); }
+    }
+    fetchUsers();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch("/api/items");
+        if (!response.ok) {
+          throw new Error("Failed to fetch items");
+        }
+        const data = await response.json();
+        console.log(data);
+        setItems(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchItems();
+  }, []);
 
   return (
     <>
@@ -84,11 +80,9 @@ function Home() {
           Featured items:
         </h1>
         <CardArea itemsList={items} />
-        <CardArea itemsList={items} />
         <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
           Featured Fixers:
         </h1>
-        <CardArea itemsList={users.filter(user => user.isFixer)} />
         <CardArea itemsList={users.filter(user => user.isFixer)} />
       </div>
     </>
