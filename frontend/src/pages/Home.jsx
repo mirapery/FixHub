@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Hero from "../components/Hero.jsx";
 import Searchbar from "../components/Searchbar.jsx";
-import ItemCard from "../components/ItemCard.jsx";
+//import ItemCard from "../components/ItemCard.jsx";
 //import { dummyUsers, dummyItems } from "../assets/data.js";
 import CardArea from "../components/CardArea.jsx";
 
@@ -45,6 +45,9 @@ function Home() {
 
         const itemsData = await itemsResponse.json();
         const usersData = await usersResponse.json();
+
+        console.log("Fetched items:", itemsData);
+        console.log("Fetched users:", usersData);
 
         setItems(itemsData);
         setUsers(usersData);
