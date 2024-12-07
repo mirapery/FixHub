@@ -11,12 +11,16 @@ router.get('/', getAllUsers);
 router.post('/', createUser);
 
 // GET /api/users/:userId
-router.get('/:userId', validateObjectId('userId'), getUserById);
+router.get('/:userId', validateObjectId('userId'), getUserById);        // Pitäisi hakea käyttäjänimellä
 
 // PATCH /api/users/:userId
 router.patch('/:userId', validateObjectId('userId'), updateUser);
 
 // DELETE /api/users/:userId
 router.delete('/:userId', validateObjectId('userId'), deleteUser);
+
+// POST /api/users/signup
+
+// POST /api/users/login
 
 module.exports = router;
