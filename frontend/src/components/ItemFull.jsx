@@ -23,17 +23,18 @@ const ItemFull = ({ itemData }) => {
                     throw new Error("Failed to fetch user data");
                 }
                 const userData = await response.json();
+                console.log("User data fetched:", userData);
                 setUser(userData);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
         };
         fetchUser();
-    }, [itemData.userId]);
+    }, []);
 
     //check status of logged in user
-    const owner = sessionStorage.getItem("userId") === itemData.userId;
-    const fixer = sessionStorage.getItem("userId") === itemData.fixerId;
+    const owner = sessionStorage.getItem("userName") === itemData.userId;
+    const fixer = sessionStorage.getItem("userName") === itemData.fixerId;
 
 
     // new item modaalin jutut
@@ -224,7 +225,7 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             {user && (
                             <div className="my-2 text-fh_dgreen text-lg underline">
-                                <Link
+                                {user && <Link
                                     to={`/user/${user.userName}`}
                                     className="flex flex-row items-center"
                                 >
@@ -239,7 +240,8 @@ const ItemFull = ({ itemData }) => {
                                         {user.userName}
                                     </p>
 
-                                </Link> {/* Create link to user's page */}
+                                </Link> }{/* Create link to user's page */}
+                                
                             </div>
                             )}
                             {owner &&

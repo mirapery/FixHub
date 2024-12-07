@@ -21,6 +21,16 @@ function Home() {
   //   dummyItems[0],
   //   dummyItems[0],
   // ];
+  // const dummyItemList = [
+  //   dummyItems[0],
+  //   dummyItems[0],
+  //   dummyItems[0],
+  //   dummyItems[0],
+  //   dummyItems[0],
+  //   dummyItems[0],
+  //   dummyItems[0],
+  //   dummyItems[0],
+  // ];
 
   // const dummyUserList = [
   //   dummyUsers[0],
@@ -74,9 +84,11 @@ function Home() {
           Featured items:
         </h1>
         <CardArea itemsList={items} />
+        <CardArea itemsList={items} />
         <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
           Featured Fixers:
         </h1>
+        <CardArea itemsList={users.filter(user => user.isFixer)} />
         <CardArea itemsList={users.filter(user => user.isFixer)} />
       </div>
     </>

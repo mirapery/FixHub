@@ -39,34 +39,6 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
 
         } else {
 
-            // esimerkki lähetyksen logiikka - backend
-            // try {
-            //     const response = await fetch(`/api/offers`, {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify({
-            //             itemId: itemData.itemId,
-            //             userId: sessionStorage.getItem("userId"),
-            //             message: message,
-            //             offer: offer,
-            //         }),
-            //     });
-            //     if (!response.ok) {
-            //         throw new Error("Failed to send offer");
-            //     }
-            //     const result = await response.json();
-            //     console.log("Offer sent:", result);
-            //     closeOfferWindow();
-            // } catch (error) {
-            //     console.error("Error sending offer:", error);
-            //     //setAlertMessage(["Failed to send offer"]);
-            //     //openAlert();
-            // }
-            
-            // tähän viestin lähetyksen logiikka
-
             const messageBody = `You have received a message from ${user.userName} regarding your item ${itemData.name}.\n\nMessage: ${message}\n\nOffer: ${offer} €\n\nYou can contact the user via email: ${user.email}`;
             const messageSubject = `Message regarding your item ${itemData.name}`;
 
@@ -164,7 +136,7 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
                         </div>
 
                         {/* viestikentät */}
-                        <div className="flex flex-col m-2 w-full md:w-1/2">
+                        <div className="flex flex-col m-2 w-full">
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                 Your message:
                             </h3>

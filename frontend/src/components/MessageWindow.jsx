@@ -71,7 +71,7 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
                     </div>
 
                     {/* viestikentät */}
-                    <div className="flex flex-col m-2 w-full md:w-1/2">
+                    <div className="flex flex-col m-2 w-full">
                         <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                             Your message:
                         </h3>

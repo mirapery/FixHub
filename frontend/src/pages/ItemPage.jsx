@@ -65,7 +65,52 @@ const ItemPage = () => {
     );
   }
 
-  if (!item) {
+  useEffect(() => {
+    const fetchItemData = async () => {
+      try {
+        const response = await fetch(`/api/items/${itemId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fecth item");
+        }
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+        setItemData(data);
+      } catch (error) { console.error(error); }
+    }
+    fetchItemData();
+  }, []);
+
+  // täs ei oo mitään filtteriä viel
+  useEffect(() => {
+    const fetchSimilarItems = async () => {
+      try {
+        const response = await fetch(`/api/items/`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fecth similar items");
+        }
+        console.log(response);
+        const data = await response.json();
+        console.log(data);
+        setSimilar(data);
+      } catch (error) { console.error(error); }
+    }
+    fetchSimilarItems();
+  }, []);
+
+  if (!itemData) {
     return (
       <div className="bg-fh_white">
         <div className="p-4">
