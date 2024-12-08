@@ -65,7 +65,7 @@ userSchema.statics.signup = async function (userName, name, phone, email, passwo
     throw Error('All fields must be filled')
   }
   if (!validator.isEmail(email)) {
-    throw Error('Eail is not valid')
+    throw Error('Email is not valid')
   }
   if (!validator.isStrongPassword(password)) {
     throw Error('Password not strong enough')
@@ -90,12 +90,12 @@ userSchema.statics.signup = async function (userName, name, phone, email, passwo
   return user
 };
 
-userSchema.statics.login = async function(email, password) {
-  if (!email || !password) {
+userSchema.statics.login = async function(userName, password) {
+  if (!userName || !password) {
     throw Error('All fields must be filled');
   };
 
-  const user = await this.findOne({ email });
+  const user = await this.findOne({ userName });
   if (!user) {
     throw Error('Incorrect email');
   };

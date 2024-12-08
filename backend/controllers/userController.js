@@ -80,12 +80,12 @@ const createToken = (_id, userName, isFixer) => {
 
 // POST /users/login
 const loginUser = async (req, res) => {
-    const {email, password} = req.body;
+    const {userName, password} = req.body;
 
     try {
-        const user = await User.login(email, password);
+        const user = await User.login(userName, password);
         const token = createToken(user._id);
-        res.status(200).json({email, token});
+        res.status(200).json({userName, token});
     } catch (error) {
         res.status(400).json({error: error.message});
     }
@@ -98,7 +98,7 @@ const signupUser = async (req, res) => {
     try {
         const user = await User.signup(userName, name, phone, email, password, image, location, isFixer);
         const token = createToken(user._id);
-        res.status(200).json({email, token});
+        res.status(200).json({userName, token});
     } catch (error) {
         res.status(400).json({error: error.message});
     }
