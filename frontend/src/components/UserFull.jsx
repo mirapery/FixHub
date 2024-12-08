@@ -70,6 +70,15 @@ const UserFull = ({ userData }) => {
         console.log("Review added");
     }
 
+    const [isEditProfileWindowOpen, setEditProfileWindowOpen] = useState(false)
+    const openEditProfileWindow = () => setEditProfileWindowOpen(true);
+    const closeEditProfileWindow = () => setEditProfileWindowOpen(false);
+
+    const editProfile = () => {
+        openEditProfileWindow();
+        console.log("Profile edited");
+    }
+
     const imagePath = userData.image ? `/src/assets/images/${userData.image}` : `/src/assets/images/userPlaceholder.jpg`;
 
     if (loading) {
@@ -188,6 +197,14 @@ const UserFull = ({ userData }) => {
                                     Leave a Review
                                 </button>
                             </div>}
+                            {userData.userName === loggedInUserName && <div>
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={editProfile}
+                                >
+                                    Edit Profile
+                                </button>
+                            </div>}
                         </div>
                     </div>
                 </div>
@@ -243,14 +260,14 @@ const UserFull = ({ userData }) => {
                                     {userData.userName}
                                 </h3>
                                 <h3 className="text-fh_dgreen font-bold font-sans text-md my-2 ml-2">
-                                {(userData.userName === loggedInUserName) ? " (You)" : ""}
+                                    {(userData.userName === loggedInUserName) ? " (You)" : ""}
                                 </h3>
                             </div>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
-                                {/* <p className="mr-2">
+                                <p className="mr-2">
                                     {userData.location.province},
-                                </p> */}
+                                </p>
                                 <p className="mr-2">
                                     {userData.location.city},
                                 </p>
@@ -266,14 +283,14 @@ const UserFull = ({ userData }) => {
                                     {userData.creationTime}
                                 </p>
                             </div>
-                            <div>
+                            {/* <div>
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendMessage}
                                 >
                                     Send Message
                                 </button>
-                            </div>
+                            </div> */}
 
 
                         </div>
