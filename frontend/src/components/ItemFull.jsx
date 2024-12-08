@@ -244,7 +244,7 @@ const ItemFull = ({ itemData }) => {
                                 
                             </div>
                             )}
-                            {owner &&
+                            {(owner  && !itemData.isFixed) &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={openEditItem}
@@ -252,7 +252,7 @@ const ItemFull = ({ itemData }) => {
                                     Edit item
                                 </button>
                             }
-                            {fixer &&
+                            {(fixer  && !itemData.isFixed) && 
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={completeFix}

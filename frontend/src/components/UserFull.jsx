@@ -76,10 +76,15 @@ const UserFull = ({ userData }) => {
         return <div>Loading...</div>;
     }
 
+    console.log(userData);
+
+    const storedUser = JSON.parse(sessionStorage.getItem('user'));
+    const loggedInUserName = storedUser ? storedUser.userName : null;
+
     if (userData.isFixer) {
-        const formattedTags = userData.tags
-            .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
-            .join(", ");
+        // const formattedTags = userData.tags
+        //     .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+        //     .join(", ");
 
         return (
             <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
@@ -98,9 +103,12 @@ const UserFull = ({ userData }) => {
                     receiver={userData}
                 />
 
-                <div className="my-2">
+                <div className="my-2 flex flex-row items-center ">
                     <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
                         {userData.name}
+                    </h1>
+                    <h1 className="text-fh_dgreen font-bold font-serif text-5xl ml-5 my-2">
+                        {(userData.userName === loggedInUserName) ? " (You)" : ""}
                     </h1>
                 </div>
                 <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
@@ -120,17 +128,17 @@ const UserFull = ({ userData }) => {
                             </h3>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
-                                <p>
-                                    {userData.location.province},
+                                <p className="mr-1">
+                                    {userData.location.province + ", "}
                                 </p>
-                                <p>
-                                    {userData.location.city},
+                                <p className="mr-1">
+                                    {userData.location.city + ", "}
                                 </p>
                                 <p>
                                     {userData.location.postalcode}
                                 </p>
                             </div>
-                            <div>
+                            {/* <div>
                                 <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                     Tags:
                                 </h3>
@@ -147,7 +155,7 @@ const UserFull = ({ userData }) => {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                            </div> */}
                             <div>
                                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                                     About me:
@@ -164,22 +172,22 @@ const UserFull = ({ userData }) => {
                                     {userData.creationTime}
                                 </p>
                             </div>
-                            <div>
+                            {(userData.userName !== loggedInUserName) && <div>
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendMessage}
                                 >
                                     Send Message
                                 </button>
-                            </div>
-                            <div>
+                            </div>}
+                            {(userData.userName !== loggedInUserName) && <div>
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={addReview}
                                 >
                                     Leave a Review
                                 </button>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 </div>
@@ -214,9 +222,9 @@ const UserFull = ({ userData }) => {
                 <MessageWindow // viestin lähetysikkuna
                     isOpen={isMessageWindowOpen}
                     closeMessageWindow={closeMessageWindow}
-                    itemData={itemData}
+                    // itemData={itemData}
                     user={user}
-                    owner={owner}
+                // owner={owner}
                 />
                 <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
                     <div className="flex flex-col items-center my-6">
@@ -230,16 +238,19 @@ const UserFull = ({ userData }) => {
                     </div>
                     <div className="flex flex-col m-8 items-center justify-evenly">
                         <div>
-                            <div>
+                            <div className="flex flex-row">
                                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                                     {userData.userName}
+                                </h3>
+                                <h3 className="text-fh_dgreen font-bold font-sans text-md my-2 ml-2">
+                                {(userData.userName === loggedInUserName) ? " (You)" : ""}
                                 </h3>
                             </div>
                             <div className="flex flex-row my-2 text-fh_black text-lg">
                                 <i className="fa-solid fa-location-dot mr-2" />
-                                <p className="mr-2">
+                                {/* <p className="mr-2">
                                     {userData.location.province},
-                                </p>
+                                </p> */}
                                 <p className="mr-2">
                                     {userData.location.city},
                                 </p>

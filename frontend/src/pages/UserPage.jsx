@@ -15,12 +15,13 @@ const UserPage = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`/api/users?userName=${userName}`);
+                const response = await fetch(`/api/users/${userName}`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch user data");
                 }
                 const userData = await response.json();
                 setUser(userData);
+                console.log(userData);
             } catch (error) {
                 setError(error.message);
             } finally {
