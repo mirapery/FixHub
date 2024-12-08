@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllUsers, createUser, getUserByUserName, updateUser, deleteUser } = require("../controllers/userController.js");
+const { getAllUsers, createUser, getUserByUserName, updateUser, deleteUser, loginUser, signupUser } = require("../controllers/userController.js");
 const validateObjectId = require ("../middleware/validateObjectId.js");
 
 const router = express.Router();
@@ -20,7 +20,9 @@ router.patch('/:userId', validateObjectId('userId'), updateUser);
 router.delete('/:userId', validateObjectId('userId'), deleteUser);
 
 // POST /api/users/signup
+router.post('/signup', signupUser);
 
 // POST /api/users/login
+router.post('/login', loginUser);
 
 module.exports = router;
