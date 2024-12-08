@@ -146,7 +146,7 @@ const ItemFull = ({ itemData }) => {
                     <div className="min-h-80 align-middle">
                         <img
                             // src={"/src/assets/images/" + itemData.images[currentImage]}
-                            src={itemData.images[currentImage]}
+                            src={itemData.images.length > 0 ? itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} // toimiskohan näin?
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
@@ -244,7 +244,7 @@ const ItemFull = ({ itemData }) => {
                                 
                             </div>
                             )}
-                            {owner &&
+                            {(owner  && !itemData.isFixed) &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={openEditItem}
@@ -252,7 +252,7 @@ const ItemFull = ({ itemData }) => {
                                     Edit item
                                 </button>
                             }
-                            {fixer &&
+                            {(fixer  && !itemData.isFixed) && 
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={completeFix}
