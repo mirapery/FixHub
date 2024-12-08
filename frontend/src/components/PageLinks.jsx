@@ -31,7 +31,7 @@ const PageLinks = ({
       })}
       <li >
         <Link to="#" className={itemClass} onClick={handleClick}>
-          {user === null ? "login" : user.userName}
+          {user === null ? "Login" : user.userName}
         </Link>
    
       </li>
