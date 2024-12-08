@@ -104,9 +104,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
       email: emailInput.value,
       password: passwordInput.value,
       about: aboutInput.value,
-      tags_: tags,
       isFixer: fixerChoice.value,
-      creationTime: Date.now(),
       location: {
         province: provinceInput.value,
         city: cityInput.value,
