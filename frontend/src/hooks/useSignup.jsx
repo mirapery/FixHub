@@ -19,7 +19,7 @@ export default function useSignup(url) {
       console.log(user.error);
       setError(user.error);
       setIsLoading(false);
-      return error;
+      return user.error;
     }
 
     sessionStorage.setItem("user", JSON.stringify(user));

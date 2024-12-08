@@ -146,7 +146,7 @@ const ItemFull = ({ itemData }) => {
                     <div className="min-h-80 align-middle">
                         <img
                             // src={"/src/assets/images/" + itemData.images[currentImage]}
-                            src={itemData.images.length > 0 ? itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} // toimiskohan näin?
+                            src={itemData.images.length > 0 ? "/src/assets/images/" + itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} // toimiskohan näin?
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
@@ -158,8 +158,8 @@ const ItemFull = ({ itemData }) => {
                             }
                             return <img
                                 key={index}
-                                // src={"/src/assets/images/" + image}
-                                src={image}
+                                src={"/src/assets/images/" + image}
+                                // src={image}
                                 alt={itemData.name + ' ' + index + '-pic-' + 1}
                                 onClick={() => setCurrentImage(index)}
                                 className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'
