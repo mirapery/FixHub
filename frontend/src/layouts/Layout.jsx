@@ -26,7 +26,7 @@ const Layout = () => {
 
   return (
     <div
-      onClick={isDropDown && (() => setIsDropDown(false))}
+      onClick={isDropDown ? () => setIsDropDown(false) : undefined}
       className="flex flex-col min-h-screen bg-fh_white "
     >
       <Navbar
