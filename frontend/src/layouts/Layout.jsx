@@ -12,17 +12,17 @@ const Layout = () => {
   const [isDropDown, setIsDropDown] = useState(false);
 
   //prevents background scrolling when modal is open do this for useContext
-  // useEffect(() => {
-  //   if (isNewItemOpen || isLoginOpen) {
-  //     document.body.style.overflow = "hidden";
-  //   } else {
-  //     document.body.style.overflow = "";
-  //   }
+  useEffect(() => {
+    if (isLoginOpen || isSignupOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
-  //   return () => {
-  //     document.body.style.overflow = "";
-  //   };
-  // }, [isNewItemOpen, isLoginOpen]);
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isLoginOpen, isSignupOpen]);
 
   return (
     <div

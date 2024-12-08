@@ -111,20 +111,21 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
         postalcode: postalcodeInput.value,
       },
     };
-    await signup(newUser);
-    if (!error) {
-      console.log("succes");
+    const loginError = await signup(newUser);
+    if (loginError) {
+      alert(loginError);
+    } else {
+      setIsSignupOpen(false);
     }
-    setIsSignupOpen(false);
   };
 
   /****************************** */
   return (
     <section
-      className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center`}
+      className={`fixed z-50 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center ma `}
     >
       {/*Regiter modal*/}
-      <div className="flex flex-col bg-fh_beige-light shadow-lg w-auto h-auto rounded-sm">
+      <div className="flex flex-col bg-fh_beige-light shadow-lg w-auto h-auto rounded-sm max-h-[90vh] overflow-y-auto">
         <div className="flex  bg-fh_lgreen justify-between p-3 rounded-t-sm">
           <h1 className="text-xl ">Rekisteröidy</h1>
           <button
@@ -272,6 +273,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
                       className=" w-8/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light"
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
+                          e.preventDefault();
                           addTag(tag);
                           setTag("");
                         }
@@ -279,6 +281,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
                     ></input>
 
                     <button
+                      type="button"
                       className="  h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
                       onClick={() => {
                         addTag(tag);
