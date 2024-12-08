@@ -146,7 +146,7 @@ const ItemFull = ({ itemData }) => {
                     <div className="min-h-80 align-middle">
                         <img
                             // src={"/src/assets/images/" + itemData.images[currentImage]}
-                            src={itemData.images[currentImage]}
+                            src={itemData.images.length > 0 ? itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} // toimiskohan näin?
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
