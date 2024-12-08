@@ -51,22 +51,30 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
   };
 
   /**************USE LOGIN HERE***************/
-
   const handleLogin = async (e) => {
     e.preventDefault();
-    await login({ userName: userName.value, password: password.value });
-    if (!error) {
-      console.log("succes");
-      setIsAuthenticated(true);
-      setIsLoginOpen(false);
+
+    // Call login and get the error directly
+    const loginError = await login({
+      userName: userName.value,
+      password: password.value,
+    });
+
+    if (loginError) {
+      console.log("Error occurred:", loginError); // Log the error
+      alert(loginError); // Show an alert with the error
+      return; // Stop execution if there's an error
     }
+    // If no error, proceed with authentication
+    setIsAuthenticated(true);
+    setIsLoginOpen(false);
   };
   /******************************************** */
   return (
     <section
       className={`fixed z-10 inset-0 bg-gray-800 bg-opacity-10 backdrop-blur-sm flex items-center justify-center`}
     >
-      <div className="flex flex-col bg-fh_beige-light shadow-lg w-[400px] h-auto rounded-sm">
+      <div className="flex flex-col bg-fh_beige-light shadow-lg w-[400px] max-h-[90vh] overflow-y-auto h-auto rounded-sm">
         <div className="flex rounded-t-sm bg-fh_lgreen justify-between p-3">
           <h1 className="text-xl">Kirjaudu</h1>
           <button
