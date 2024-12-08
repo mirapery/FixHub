@@ -24,6 +24,21 @@ const createUser = async (req, res) => {
     }
 };
 
+// GET /users/:userId
+const getUserById = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const user = await User.findOne({userId});
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ message: "User not found." });
+        }
+    } catch (error) {
+        handleError(res, error, "An error occurred while retrieving user.");
+    }
+};
+
 // GET /users/:userName
 const getUserByUserName = async (req, res) => {
     const { userName } = req.params;
@@ -104,4 +119,4 @@ const signupUser = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserByUserName, createUser, updateUser, deleteUser, loginUser, signupUser };
+module.exports = { getAllUsers, getUserByUserName, getUserById, createUser, updateUser, deleteUser, loginUser, signupUser };

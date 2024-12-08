@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllUsers, createUser, getUserByUserName, updateUser, deleteUser, loginUser, signupUser } = require("../controllers/userController.js");
+const { getAllUsers, createUser, getUserByUserName, getUserById, updateUser, deleteUser, loginUser, signupUser } = require("../controllers/userController.js");
 const validateObjectId = require ("../middleware/validateObjectId.js");
 
 const router = express.Router();
@@ -12,6 +12,9 @@ router.post('/', createUser);
 
 // GET /api/users/:userName
 router.get('/:userName', getUserByUserName);
+
+// GET /api/users/:userId
+router.get('/:userId', getUserById);
 
 // PATCH /api/users/:userId
 router.patch('/:userId', validateObjectId('userId'), updateUser);
