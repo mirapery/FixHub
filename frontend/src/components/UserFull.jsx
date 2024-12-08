@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReviewArea from "./ReviewArea";
 import CardArea from "./CardArea";
 //import { dummyItems, dummyReviews } from "../assets/data"; // nämä korvataa listoilla dummydatasta
 import { useNavigate } from "react-router-dom";
 import MessageWindow from "./MessageWindow";
 import NewReviewWindow from "./NewReviewWindow";
+import AuthContext from "./AuthContext";
 
 const UserFull = ({ userData }) => {
     const [activeTab, setActiveTab] = useState(0);
@@ -12,6 +13,7 @@ const UserFull = ({ userData }) => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
     const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
 
@@ -19,9 +21,9 @@ const UserFull = ({ userData }) => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const itemsResponse = await fetch(`/api/items?userId=${userData.userId}`);
+                const itemsResponse = await fetch(`/api/items?_id=${userData._id}`);
                 const itemsData = await itemsResponse.json();
-                const reviewsResponse = await fetch(`/api/reviews?userId=${userData.userId}`);
+                const reviewsResponse = await fetch(`/api/reviews?_id=${userData._id}`);
                 const reviewsData = await reviewsResponse.json();
 
                 setItems(itemsData);
@@ -34,21 +36,21 @@ const UserFull = ({ userData }) => {
         };
 
         fetchData();
-    }, [userData.userId]);
+    }, []);
 
     const tabs = []
     const tabContent = []
 
     if (userData.isFixer) {
-        tabs.push("Reviews", "Fixed items")
+        tabs.push("Fixer Reviews", "Items Fixed by Me");
         tabContent.push(
-            <ReviewArea reviews={reviews.filter(r => r.fixerId === userData.userId)} />,
-            <CardArea itemsList={items.filter(item => item.fixerId === userData.userId)} />
+            <ReviewArea reviews={reviews.filter(r => r.fixerId === userData._id)} />,
+            <CardArea itemsList={items.filter(item => item.fixerId === userData._id && item.isFixed)} />
         );
     } else {
-        tabs.push("Items")
+        tabs.push("My Items looking for Fixing");
         tabContent.push(
-            <CardArea itemsList={items.filter(item => item.userId === userData.userId)} />
+            <CardArea itemsList={items.filter(item => item.userId === userData._id)} />
         );
     }
 
@@ -181,7 +183,7 @@ const UserFull = ({ userData }) => {
                                     {userData.creationTime}
                                 </p>
                             </div>
-                            {(userData.userName !== loggedInUserName) && <div>
+                            {((userData.userName !== loggedInUserName) && isAuthenticated) && <div>
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendMessage}
@@ -189,7 +191,7 @@ const UserFull = ({ userData }) => {
                                     Send Message
                                 </button>
                             </div>}
-                            {(userData.userName !== loggedInUserName) && <div>
+                            {((userData.userName !== loggedInUserName) && isAuthenticated) && <div>
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={addReview}
@@ -236,13 +238,13 @@ const UserFull = ({ userData }) => {
     } else {
         return (
             <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
-                <MessageWindow // viestin lähetysikkuna
+                {/* <MessageWindow // viestin lähetysikkuna
                     isOpen={isMessageWindowOpen}
                     closeMessageWindow={closeMessageWindow}
                     // itemData={itemData}
                     user={user}
                 // owner={owner}
-                />
+                /> */}
                 <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
                     <div className="flex flex-col items-center my-6">
                         <div className="min-h-80 align-middle">
@@ -291,6 +293,14 @@ const UserFull = ({ userData }) => {
                                     Send Message
                                 </button>
                             </div> */}
+                            {userData.userName === loggedInUserName && <div>
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={editProfile}
+                                >
+                                    Edit Profile
+                                </button>
+                            </div>}
 
 
                         </div>
