@@ -18,7 +18,7 @@ const ItemFull = ({ itemData }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`/api/users/${itemData.userId}`);
+                const response = await fetch(`/api/users/userId/${itemData.userId}`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch user data");
                 }
@@ -30,7 +30,7 @@ const ItemFull = ({ itemData }) => {
             }
         };
         fetchUser();
-    }, []);
+    }, [itemData.userId]);
 
     //check status of logged in user
     const owner = sessionStorage.getItem("userName") === itemData.userId;

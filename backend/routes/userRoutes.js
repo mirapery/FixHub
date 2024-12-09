@@ -10,11 +10,11 @@ router.get('/', getAllUsers);
 // POST /api/users
 router.post('/', createUser);
 
+// GET /api/users/:userId
+router.get('/userId/:userId', getUserById);
+
 // GET /api/users/:userName
 router.get('/:userName', getUserByUserName);
-
-// GET /api/users/:userId
-router.get('/:userId', getUserById);
 
 // PATCH /api/users/:userId
 router.patch('/:userId', validateObjectId('userId'), updateUser);

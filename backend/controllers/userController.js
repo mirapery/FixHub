@@ -28,7 +28,8 @@ const createUser = async (req, res) => {
 const getUserById = async (req, res) => {
     const { userId } = req.params;
     try {
-        const user = await User.findOne({userId});
+        console.log("serach for user with id: ", userId);
+        const user = await User.findOne({_id: userId});
         if (user) {
             res.status(200).json(user);
         } else {
