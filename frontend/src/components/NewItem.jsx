@@ -156,30 +156,58 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       // const imageNames = [];
       // images.forEach((image) => imageNames.push(image.name));
 
-      // luvien muokkaus formDataan
-      const formData = new FormData();
-      images.forEach((image, i) => {
-        formData.append(`image${i}`, image);
-      });
+      const newItem = new FormData();
 
-      const newItem = {
-        userId: user._id,
-        name: name,
-        tags: tags,
-        description: description,
-        category: category,
-        location: {
+      // Append primitive values
+      newItem.append("userId", user._id);
+      newItem.append("name", name);
+      newItem.append("tags", tags);
+      newItem.append("description", description);
+      newItem.append("category", category);
+      
+      // Append nested object (convert to JSON string)
+      newItem.append(
+        "location",
+        JSON.stringify({
           province: province,
           city: city,
           postalcode: postalCode,
-        },
-        priceRange: [priceFrom, priceTo],
+        })
+      );
+      
+      // Append array (convert to JSON string)
+      newItem.append("priceRange", JSON.stringify([priceFrom, priceTo]));
+      
+      // Append images (assuming `formData` is an array of `File` objects)
+      if (Array.isArray(formData)) {
+        formData.forEach((file, index) => {
+          newItem.append(`images[${index}]`, file);
+        });
+      }
+      
+      // Append other fields
+      newItem.append("isFixed", false); // Boolean values will be converted to strings
+      newItem.append("interested", 0); // Numbers will be converted to strings
+      
 
-        images: formData,
+      // const newItem = {
+      //   userId: user._id,
+      //   name: name,
+      //   tags: tags,
+      //   description: description,
+      //   category: category,
+      //   location: {
+      //     province: province,
+      //     city: city,
+      //     postalcode: postalCode,
+      //   },
+      //   priceRange: [priceFrom, priceTo],
 
-        isFixed: false,
-        interested: 0,
-      };
+      //   images: formData,
+
+      //   isFixed: false,
+      //   interested: 0,
+      // };
 
       console.log(newItem);
 
