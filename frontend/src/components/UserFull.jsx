@@ -14,9 +14,9 @@ const UserFull = ({ userData, setUser }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated,user } = useContext(AuthContext);
 
-  const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
+  //const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
 
   useEffect(() => {
     const fetchData = async () => {
