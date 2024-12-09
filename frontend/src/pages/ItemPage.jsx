@@ -45,7 +45,7 @@ const ItemPage = () => {
       } catch (error) { console.error(error); }
     }
     fetchItemData();
-  }, []);
+  }, [itemId]);
 
   // täs ei oo mitään filtteriä viel
   useEffect(() => {
