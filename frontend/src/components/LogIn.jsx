@@ -90,7 +90,7 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
           onSubmit={handleLogin}
         >
           <label className="flex items-center justify-between text-lg mb-2">
-            Käyttäjätunnus:
+            Username
           </label>
           <input
             className="w-full sm:w-3/4 mb-4 p-3 bg-fh_beige rounded-sm"
@@ -100,7 +100,7 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
           />
 
           <label className="flex items-center justify-between text-lg mb-2">
-            Salasana:
+            Password
           </label>
           <input
             className="w-full sm:w-3/4 mb-6 p-3 bg-fh_beige rounded-sm"
@@ -112,22 +112,22 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
               className="flex justify-center px-6 py-2  bg-fh_lgreen rounded-sm hover:bg-fh_lgreen-light"
               type="submit"
             >
-              Kirjaudu
+              Login
             </button>
             <div className="flex mt-4 items-center">
               <input className="mr-2" type="checkbox" />
-              <p className="text-sm ">Muista kirjautumiseni</p>
+              <p className="text-sm ">Remember me</p>
             </div>
           </div>
           <div className="flex flex-col items-center mt-10">
             <p className="text-sm sm:text-base">
-              Eikö sinulla ole käyttäjätunnusta?
+              You dont have an account?
             </p>
             <button
               onClick={openRegistering}
               className="flex justify-center  px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"
             >
-              Rekisteröidy
+              Sign up
             </button>
           </div>
         </form>

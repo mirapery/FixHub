@@ -6,150 +6,152 @@ import { useNavigate } from "react-router-dom";
 import MessageWindow from "./MessageWindow";
 import NewReviewWindow from "./NewReviewWindow";
 import AuthContext from "./AuthContext";
+import EditUser from "./EditUser";
 
-const UserFull = ({ userData }) => {
-    const [activeTab, setActiveTab] = useState(0);
-    const [items, setItems] = useState([]);
-    const [reviews, setReviews] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+const UserFull = ({ userData,setUser }) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [items, setItems] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
-    const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
+  const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const itemsResponse = await fetch(`/api/items?_id=${userData._id}`);
-                const itemsData = await itemsResponse.json();
-                const reviewsResponse = await fetch(`/api/reviews?_id=${userData._id}`);
-                const reviewsData = await reviewsResponse.json();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const itemsResponse = await fetch(`/api/items?_id=${userData._id}`);
+        const itemsData = await itemsResponse.json();
+        const reviewsResponse = await fetch(`/api/reviews?_id=${userData._id}`);
+        const reviewsData = await reviewsResponse.json();
 
-                setItems(itemsData);
-                setReviews(reviewsData);
-            } catch (error) {
-                console.error("Error fetching data", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        setItems(itemsData);
+        setReviews(reviewsData);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-        fetchData();
-    }, []);
+    fetchData();
+  }, []);
 
-    const tabs = []
-    const tabContent = []
+  const tabs = [];
+  const tabContent = [];
 
-    if (userData.isFixer) {
-        tabs.push("Fixer Reviews", "Items Fixed by Me");
-        tabContent.push(
-            <ReviewArea reviews={reviews.filter(r => r.fixerId === userData._id)} />,
-            <CardArea itemsList={items.filter(item => item.fixerId === userData._id && item.isFixed)} />
-        );
-    } else {
-        tabs.push("My Items looking for Fixing");
-        tabContent.push(
-            <CardArea itemsList={items.filter(item => item.userId === userData._id)} />
-        );
-    }
+  if (userData.isFixer) {
+    tabs.push("Fixer Reviews", "Items Fixed by Me");
+    tabContent.push(
+      <ReviewArea
+        reviews={reviews.filter((r) => r.fixerId === userData._id)}
+      />,
+      <CardArea
+        itemsList={items.filter(
+          (item) => item.fixerId === userData._id && item.isFixed
+        )}
+      />
+    );
+  } else {
+    tabs.push("My Items looking for Fixing");
+    tabContent.push(
+      <CardArea
+        itemsList={items.filter((item) => item.userId === userData._id)}
+      />
+    );
+  }
 
-    const [isMessageWindowOpen, setMessageWindowOpen] = useState(false)
-    const openMessageWindow = () => setMessageWindowOpen(true);
-    const closeMessageWindow = () => setMessageWindowOpen(false);
+  const [isMessageWindowOpen, setMessageWindowOpen] = useState(false);
+  const openMessageWindow = () => setMessageWindowOpen(true);
+  const closeMessageWindow = () => setMessageWindowOpen(false);
 
-    const sendMessage = () => {
-        openMessageWindow();
-        console.log("Message sent");
-    }
+  const sendMessage = () => {
+    openMessageWindow();
+    console.log("Message sent");
+  };
 
-    const [isNewReviewWindowOpen, setNewReviewWindowOpen] = useState(false)
-    const openNewReviewWindow = () => setNewReviewWindowOpen(true);
-    const closeNewReviewWindow = () => setNewReviewWindowOpen(false);
+  const [isNewReviewWindowOpen, setNewReviewWindowOpen] = useState(false);
+  const openNewReviewWindow = () => setNewReviewWindowOpen(true);
+  const closeNewReviewWindow = () => setNewReviewWindowOpen(false);
 
-    const addReview = () => {
-        openNewReviewWindow();
-        console.log("Review added");
-    }
+  const addReview = () => {
+    openNewReviewWindow();
+    console.log("Review added");
+  };
 
-    const [isEditProfileWindowOpen, setEditProfileWindowOpen] = useState(false)
-    const openEditProfileWindow = () => setEditProfileWindowOpen(true);
-    const closeEditProfileWindow = () => setEditProfileWindowOpen(false);
+  const [isEditProfileWindowOpen, setEditProfileWindowOpen] = useState(false);
+  const openEditProfileWindow = () => setEditProfileWindowOpen(true);
+  const closeEditProfileWindow = () => setEditProfileWindowOpen(false);
 
-    const editProfile = () => {
-        openEditProfileWindow();
-        console.log("Profile edited");
-    }
+  const imagePath = userData.image
+    ? `/src/assets/images/${userData.image}`
+    : `/src/assets/images/userPlaceholder.jpg`;
 
-    const imagePath = userData.image ? `/src/assets/images/${userData.image}` : `/src/assets/images/userPlaceholder.jpg`;
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+  console.log(userData);
 
-    console.log(userData);
+  const storedUser = JSON.parse(sessionStorage.getItem("user"));
+  const loggedInUserName = storedUser ? storedUser.userName : null;
 
-    const storedUser = JSON.parse(sessionStorage.getItem('user'));
-    const loggedInUserName = storedUser ? storedUser.userName : null;
+  if (userData.isFixer) {
+    // const formattedTags = userData.tags
+    //     .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+    //     .join(", ");
 
-    if (userData.isFixer) {
-        // const formattedTags = userData.tags
-        //     .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
-        //     .join(", ");
+    return (
+      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+        <MessageWindow // viestin lähetysikkuna
+          isOpen={isMessageWindowOpen}
+          closeMessageWindow={closeMessageWindow}
+          sender={user}
+          receiver={userData}
+        />
 
-        return (
-            <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+        <NewReviewWindow // arvostelun lisäysikkuna
+          isOpen={isNewReviewWindowOpen}
+          closeReviewWindow={closeNewReviewWindow}
+          sender={user}
+          receiver={userData}
+        />
+        {isEditProfileWindowOpen && (
+          <EditUser setUser={setUser} userData={userData} closeEditProfileWindow={closeEditProfileWindow} />
+        )}
 
-                <MessageWindow // viestin lähetysikkuna
-                    isOpen={isMessageWindowOpen}
-                    closeMessageWindow={closeMessageWindow}
-                    sender={user}
-                    receiver={userData}
-                />
-
-                <NewReviewWindow // arvostelun lisäysikkuna
-                    isOpen={isNewReviewWindowOpen}
-                    closeReviewWindow={closeNewReviewWindow}
-                    sender={user}
-                    receiver={userData}
-                />
-
-                <div className="my-2 flex flex-row items-center ">
-                    <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
-                        {userData.name}
-                    </h1>
-                    <h1 className="text-fh_dgreen font-bold font-serif text-5xl ml-5 my-2">
-                        {(userData.userName === loggedInUserName) ? " (You)" : ""}
-                    </h1>
-                </div>
-                <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
-                    <div className="flex flex-col items-center my-6">
-                        <div className="min-h-80 align-middle">
-                            <img
-                                src={imagePath}
-                                alt={userData.name}
-                                className='w-80 h-auto m-4 rounded-full'
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col m-8 items-center justify-evenly">
-                        <div>
-                            <h3 className="text-fh_black font-bold font-sans text-md my-2">
-                                Location:
-                            </h3>
-                            <div className="flex flex-row my-2 text-fh_black text-lg">
-                                <i className="fa-solid fa-location-dot mr-2" />
-                                <p className="mr-1">
-                                    {userData.location.province + ", "}
-                                </p>
-                                <p className="mr-1">
-                                    {userData.location.city + ", "}
-                                </p>
-                                <p>
-                                    {userData.location.postalcode}
-                                </p>
-                            </div>
-                            {/* <div>
+        <div className="my-2 flex flex-row items-center ">
+          <h1 className="text-fh_black font-bold font-serif text-6xl my-2">
+            {userData.name}
+          </h1>
+          <h1 className="text-fh_dgreen font-bold font-serif text-5xl ml-5 my-2">
+            {userData.userName === loggedInUserName ? " (You)" : ""}
+          </h1>
+        </div>
+        <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
+          <div className="flex flex-col items-center my-6">
+            <div className="min-h-80 align-middle">
+              <img
+                src={imagePath}
+                alt={userData.name}
+                className="w-80 h-auto m-4 rounded-full"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col m-8 items-center justify-evenly">
+            <div>
+              <h3 className="text-fh_black font-bold font-sans text-md my-2">
+                Location:
+              </h3>
+              <div className="flex flex-row my-2 text-fh_black text-lg">
+                <i className="fa-solid fa-location-dot mr-2" />
+                <p className="mr-1">{userData.location.province + ", "}</p>
+                <p className="mr-1">{userData.location.city + ", "}</p>
+                <p>{userData.location.postalcode}</p>
+              </div>
+              {/* <div>
                                 <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                     Tags:
                                 </h3>
@@ -167,125 +169,123 @@ const UserFull = ({ userData }) => {
                                     ))}
                                 </ul>
                             </div> */}
-                            <div>
-                                <h3 className="text-fh_black font-bold font-sans text-md my-2">
-                                    About me:
-                                </h3>
-                                <p className="my-2 text-fh_black min-h-10">
-                                    {userData.about}
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="text-fh_black font-bold font-sans text-md my-2">
-                                    Member since:
-                                </h3>
-                                <p className="my-2 text-fh_black">
-                                    {userData.creationTime}
-                                </p>
-                            </div>
-                            {((userData.userName !== loggedInUserName) && isAuthenticated) && <div>
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={sendMessage}
-                                >
-                                    Send Message
-                                </button>
-                            </div>}
-                            {((userData.userName !== loggedInUserName) && isAuthenticated) && <div>
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={addReview}
-                                >
-                                    Leave a Review
-                                </button>
-                            </div>}
-                            {userData.userName === loggedInUserName && <div>
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={editProfile}
-                                >
-                                    Edit Profile
-                                </button>
-                            </div>}
-                        </div>
-                    </div>
+              <div>
+                <h3 className="text-fh_black font-bold font-sans text-md my-2">
+                  About me:
+                </h3>
+                <p className="my-2 text-fh_black min-h-10">{userData.about}</p>
+              </div>
+              <div>
+                <h3 className="text-fh_black font-bold font-sans text-md my-2">
+                  Member since:
+                </h3>
+                <p className="my-2 text-fh_black">{userData.creationTime}</p>
+              </div>
+              {userData.userName !== loggedInUserName && isAuthenticated && (
+                <div>
+                  <button
+                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                    onClick={sendMessage}
+                  >
+                    Send Message
+                  </button>
                 </div>
-                <hr className="border-t-2 border-fh_dgreen my-2" />
-                <div className="w-3/4 mx-auto mt-10">
-                    {/* Tab Headers */}
-                    <div className="flex border-b max-w-md">
-                        {tabs.map((tab, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setActiveTab(index)}
-                                className={`flex-1 py-2 text-center ${activeTab === index
-                                    ? "border-b-2 border-fh_dgreen text-fh_dgreen"
-                                    : "text-fh_black hover:text-fh_black-light"
-                                    }`}
-                            >
-                                {tab}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Tab Content */}
-                    <div className="p-4 ">
-                        <div>{tabContent[activeTab]}</div>
-                    </div>
+              )}
+              {userData.userName !== loggedInUserName && isAuthenticated && (
+                <div>
+                  <button
+                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                    onClick={addReview}
+                  >
+                    Leave a Review
+                  </button>
                 </div>
+              )}
+              {userData.userName === loggedInUserName && (
+                <div>
+                  <button
+                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                    onClick={openEditProfileWindow}
+                  >
+                    Edit Profile
+                  </button>
+                </div>
+              )}
             </div>
-        )
-    } else {
-        return (
-            <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
-                {/* <MessageWindow // viestin lähetysikkuna
+          </div>
+        </div>
+        <hr className="border-t-2 border-fh_dgreen my-2" />
+        <div className="w-3/4 mx-auto mt-10">
+          {/* Tab Headers */}
+          <div className="flex border-b max-w-md">
+            {tabs.map((tab, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveTab(index)}
+                className={`flex-1 py-2 text-center ${
+                  activeTab === index
+                    ? "border-b-2 border-fh_dgreen text-fh_dgreen"
+                    : "text-fh_black hover:text-fh_black-light"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab Content */}
+          <div className="p-4 ">
+            <div>{tabContent[activeTab]}</div>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+        {/* <MessageWindow // viestin lähetysikkuna
                     isOpen={isMessageWindowOpen}
                     closeMessageWindow={closeMessageWindow}
                     // itemData={itemData}
                     user={user}
                 // owner={owner}
                 /> */}
-                <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
-                    <div className="flex flex-col items-center my-6">
-                        <div className="min-h-80 align-middle">
-                            <img
-                                src={imagePath}
-                                alt={userData.userName}
-                                className='w-80 h-auto m-4 rounded-full'
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col m-8 items-center justify-evenly">
-                        <div>
-                            <div className="flex flex-row">
-                                <h3 className="text-fh_black font-bold font-sans text-md my-2">
-                                    {userData.userName}
-                                </h3>
-                                <h3 className="text-fh_dgreen font-bold font-sans text-md my-2 ml-2">
-                                    {(userData.userName === loggedInUserName) ? " (You)" : ""}
-                                </h3>
-                            </div>
-                            <div className="flex flex-row my-2 text-fh_black text-lg">
-                                <i className="fa-solid fa-location-dot mr-2" />
-                                <p className="mr-2">
-                                    {userData.location.province},
-                                </p>
-                                <p className="mr-2">
-                                    {userData.location.city},
-                                </p>
-                                <p>
-                                    {userData.location.postalcode}
-                                </p>
-                            </div>
-                            <div>
-                                <h3 className="text-fh_black font-bold font-sans text-md my-2">
-                                    Member since:
-                                </h3>
-                                <p className="my-2 text-fh_black">
-                                    {userData.creationTime}
-                                </p>
-                            </div>
-                            {/* <div>
+        {isEditProfileWindowOpen && (
+          <EditUser setUser={setUser} userData={userData} closeEditProfileWindow={closeEditProfileWindow} />
+        )}
+        <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
+          <div className="flex flex-col items-center my-6">
+            <div className="min-h-80 align-middle">
+              <img
+                src={imagePath}
+                alt={userData.userName}
+                className="w-80 h-auto m-4 rounded-full"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col m-8 items-center justify-evenly">
+            <div>
+              <div className="flex flex-row">
+                <h3 className="text-fh_black font-bold font-sans text-md my-2">
+                  {userData.userName}
+                </h3>
+                <h3 className="text-fh_dgreen font-bold font-sans text-md my-2 ml-2">
+                  {userData.userName === loggedInUserName ? " (You)" : ""}
+                </h3>
+              </div>
+              <div className="flex flex-row my-2 text-fh_black text-lg">
+                <i className="fa-solid fa-location-dot mr-2" />
+                <p className="mr-2">{userData.location.province},</p>
+                <p className="mr-2">{userData.location.city},</p>
+                <p>{userData.location.postalcode}</p>
+              </div>
+              <div>
+                <h3 className="text-fh_black font-bold font-sans text-md my-2">
+                  Member since:
+                </h3>
+                <p className="my-2 text-fh_black">{userData.creationTime}</p>
+              </div>
+              {/* <div>
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendMessage}
@@ -293,44 +293,45 @@ const UserFull = ({ userData }) => {
                                     Send Message
                                 </button>
                             </div> */}
-                            {userData.userName === loggedInUserName && <div>
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={editProfile}
-                                >
-                                    Edit Profile
-                                </button>
-                            </div>}
-
-
-                        </div>
-                    </div>
+              {userData.userName === loggedInUserName && (
+                <div>
+                  <button
+                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                    onClick={openEditProfileWindow}
+                  >
+                    Edit Profile
+                  </button>
                 </div>
-                <hr className="border-t-2 border-fh_dgreen my-2" />
-                <div className="w-3/4 mx-auto mt-10">
-                    <div className="flex border-b max-w-md">
-                        {tabs.map((tab, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setActiveTab(index)}
-                                className={`flex-1 py-2 text-center ${activeTab === index
-                                    ? "border-b-2 border-fh_dgreen text-fh_dgreen"
-                                    : "text-fh_black hover:text-fh_black-light"
-                                    }`}
-                            >
-                                {tab}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Tab Content */}
-                    <div className="p-4 ">
-                        <div>{tabContent[activeTab]}</div>
-                    </div>
-                </div>
+              )}
             </div>
-        )
-    }
-}
+          </div>
+        </div>
+        <hr className="border-t-2 border-fh_dgreen my-2" />
+        <div className="w-3/4 mx-auto mt-10">
+          <div className="flex border-b max-w-md">
+            {tabs.map((tab, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveTab(index)}
+                className={`flex-1 py-2 text-center ${
+                  activeTab === index
+                    ? "border-b-2 border-fh_dgreen text-fh_dgreen"
+                    : "text-fh_black hover:text-fh_black-light"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab Content */}
+          <div className="p-4 ">
+            <div>{tabContent[activeTab]}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+};
 
 export default UserFull;

@@ -3,10 +3,9 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "../hooks/useField";
 import useTags from "../hooks/useTags";
-import { dummyUsers } from "../assets/data";
 import useSignup from "../hooks/useSignup";
 import AuthContext from "./AuthContext";
-const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
+const EditUser = ({ closeEditProfileWindow, userData, setUser }) => {
   const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
 
@@ -24,32 +23,36 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const imageInput = useField("file");
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
-  const { signup, error } = useSignup("/api/users/signup");
+
   const { setIsAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
-    if (isSignupOpen) {
-      nameInputRef.current?.focus();
-    }
-  }, [isSignupOpen]);
-  const handleClose = () => {
-    setIsSignupOpen(false);
-  };
+    nameInput.onChange({ target: { value: userData.name } });
+    userNameInput.onChange({ target: { value: userData.userName } });
+    emailInput.onChange({ target: { value: userData.email } });
+    phoneInput.onChange({ target: { value: userData.phone } });
+    provinceInput.onChange({ target: { value: userData.location.province } });
+    cityInput.onChange({ target: { value: userData.location.city } });
+    postalcodeInput.onChange({
+      target: { value: userData.location.postalcode },
+    });
+    aboutInput.onChange({ target: { value: userData.about } });
+    fixerChoice.onChange({ target: { checked: userData.isFixer } });
+  }, [userData]); // Re-run when userData changes
 
-  /*****SIGN UP FETCH*************'**/
+  /*****Update fetch*************'**/
 
-  const handleSignup = async (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
     if (passwordInput.value !== passwordInput2.value) {
       alert("Password do not match");
       return;
     }
-    const newUser = {
+    const updatedUser = {
       name: nameInput.value,
       userName: userNameInput.value,
       phone: phoneInput.value,
       email: emailInput.value,
-      password: passwordInput.value,
       about: aboutInput.value,
       isFixer: fixerChoice.value,
       location: {
@@ -57,13 +60,32 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
         city: cityInput.value,
         postalcode: postalcodeInput.value,
       },
+      // Conditionally include password if it's not null or empty
+      ...(passwordInput.value && { password: passwordInput.value }),
+      // Conditionally include image if it's not null or empty
+      ...(imageInput.value && { image: imageInput.value }),
     };
+    //päivitetty yhteys databaseen
+    try {
+      const response = await fetch(`/api/users/${userData._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      });
 
-    const loginError = await signup(newUser);
-    if (loginError) {
-      alert(loginError);
-    } else {
-      setIsSignupOpen(false);
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+
+      const updatedData = await response.json();
+      console.log("User updated:", updatedData);
+      setUser(updatedData);
+      closeEditProfileWindow(true);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("Failed to update user");
     }
   };
 
@@ -75,10 +97,10 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
       {/*Regiter modal*/}
       <div className="flex flex-col bg-fh_beige-light shadow-lg w-auto h-auto rounded-sm max-h-[90vh] overflow-y-auto">
         <div className="flex  bg-fh_lgreen justify-between p-3 rounded-t-sm">
-          <h1 className="text-xl ">Sign up</h1>
+          <h1 className="text-xl ">Edit user</h1>
           <button
             type="button"
-            onClick={handleClose}
+            onClick={closeEditProfileWindow}
             className="text-fh_black-dark text-xl hover:text-fh_beige-dark "
           >
             <i className="fa-solid fa-xmark"></i>
@@ -88,7 +110,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
         {/*Form here*/}
         <form
           className="flex p-3 sm:flex-wrap lg:flex-nowrap"
-          onSubmit={handleSignup}
+          onSubmit={handleEdit}
         >
           <section className="text-center flex flex-col">
             {/*Name here*/}
@@ -112,11 +134,9 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
             <h1 className="flex items-center  mt-4 justify-between">
               Password
             </h1>
-
             <input
               className=" p-3 bg-fh_beige rounded-sm"
               {...passwordInput}
-              required
               id="password-input"
             ></input>
             {/*Password here*/}
@@ -136,7 +156,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
               required
             ></input>
             {/*Phone here*/}
-            <h1 className="flex items-center  mt-4 justify-between">Puhelin</h1>
+            <h1 className="flex items-center  mt-4 justify-between">Phone</h1>
             <input
               className=" p-3 bg-fh_beige rounded-sm"
               {...phoneInput}
@@ -179,7 +199,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
             {/*Fixer choice here*/}
 
             <div className="text-center flex my-3">
-              <h1 className="mr-5">Olen korjaaja </h1>
+              <h1 className="mr-5">I am fixer </h1>
               <input {...fixerChoice}></input>
             </div>
             <div className="flex flex-wrap items-center ">
@@ -189,10 +209,6 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
               >
                 Submit
               </button>
-              <div className="flex">
-                <input className=" ml-2" type="checkbox"></input>
-                <p className="ml-2">Muista kirjautumiseni</p>
-              </div>
             </div>
           </section>
 
@@ -213,7 +229,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
                     htmlFor="itemTags"
                     className="text-lg text-fh_black font-bold m-1"
                   >
-                    Add tag:
+                    Add tags:
                   </label>
 
                   <div className="flex flex-row mx-1">
@@ -246,7 +262,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
                     </button>
                     {/*Selected tags here*/}
                   </div>
-                  <div className="w-1/2 flex flex-col items-center">
+                  <div className=" w-1/2 flex flex-col items-center">
                     <label className="text-xl text-fh_black-light m-1">
                       Selected tags:
                     </label>
@@ -278,4 +294,4 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
     </section>
   );
 };
-export default SignUp;
+export default EditUser;
