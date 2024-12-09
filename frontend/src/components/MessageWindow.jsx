@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
-const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
+const MessageWindow = ({  closeMessageWindow, sender, receiver }) => {
 
     const [message, setMessage] = useState("");
 
@@ -43,7 +43,7 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
     }
 
     return (
-        isOpen && (
+   
             <div
                 className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
                 onClick={closeMessageWindow}
@@ -92,7 +92,7 @@ const MessageWindow = ({ isOpen, closeMessageWindow, sender, receiver }) => {
                 </div>
             </div>
         )
-    )
+    
 }
 
 export default MessageWindow;

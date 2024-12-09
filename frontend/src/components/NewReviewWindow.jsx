@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
-const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
+const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
 
     const [message, setMessage] = useState("");
     const [rating, setRating] = useState("");
@@ -70,7 +70,7 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
     }
 
     return (
-        isOpen && (
+   
             <div
                 className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
                 onClick={closeReviewWindow}
@@ -139,7 +139,7 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
                 </div>
             </div>
         )
-    )
+    
 }
 
 export default NewReviewWindow;

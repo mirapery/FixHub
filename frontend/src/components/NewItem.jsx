@@ -544,7 +544,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
                     type="text"
                     name="province"
                     id="province"
-                    value={city}
+                    value={province}
                     onChange={(e) => {
                       setProvince(e.target.value);
                     }}

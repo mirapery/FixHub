@@ -8,7 +8,7 @@ import NewReviewWindow from "./NewReviewWindow";
 import AuthContext from "./AuthContext";
 import EditUser from "./EditUser";
 
-const UserFull = ({ userData,setUser }) => {
+const UserFull = ({ userData, setUser }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [items, setItems] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -107,21 +107,28 @@ const UserFull = ({ userData,setUser }) => {
 
     return (
       <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen">
-        <MessageWindow // viestin lähetysikkuna
-          isOpen={isMessageWindowOpen}
-          closeMessageWindow={closeMessageWindow}
-          sender={user}
-          receiver={userData}
-        />
+        {isMessageWindowOpen && (
+          <MessageWindow // viestin lähetysikkuna
+            closeMessageWindow={closeMessageWindow}
+            sender={user}
+            receiver={userData}
+          />
+        )}
 
-        <NewReviewWindow // arvostelun lisäysikkuna
-          isOpen={isNewReviewWindowOpen}
-          closeReviewWindow={closeNewReviewWindow}
-          sender={user}
-          receiver={userData}
-        />
+        {isNewReviewWindowOpen && (
+          <NewReviewWindow // arvostelun lisäysikkuna
+            closeReviewWindow={closeNewReviewWindow}
+            sender={user}
+            receiver={userData}
+          />
+        )}
+
         {isEditProfileWindowOpen && (
-          <EditUser setUser={setUser} userData={userData} closeEditProfileWindow={closeEditProfileWindow} />
+          <EditUser
+            setUser={setUser}
+            userData={userData}
+            closeEditProfileWindow={closeEditProfileWindow}
+          />
         )}
 
         <div className="my-2 flex flex-row items-center ">
@@ -253,7 +260,11 @@ const UserFull = ({ userData,setUser }) => {
                 // owner={owner}
                 /> */}
         {isEditProfileWindowOpen && (
-          <EditUser setUser={setUser} userData={userData} closeEditProfileWindow={closeEditProfileWindow} />
+          <EditUser
+            setUser={setUser}
+            userData={userData}
+            closeEditProfileWindow={closeEditProfileWindow}
+          />
         )}
         <div className="flex align-middle flex-col md:flex-row justify-center">
           <div className="flex flex-col items-center my-6">

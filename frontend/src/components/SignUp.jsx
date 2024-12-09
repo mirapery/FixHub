@@ -3,9 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "../hooks/useField";
 import useTags from "../hooks/useTags";
-import { dummyUsers } from "../assets/data";
 import useSignup from "../hooks/useSignup";
-import AuthContext from "./AuthContext";
 const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
@@ -25,7 +23,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
   const { signup, error } = useSignup("/api/users/signup");
-  const { setIsAuthenticated } = useContext(AuthContext);
+
 
   useEffect(() => {
     if (isSignupOpen) {
