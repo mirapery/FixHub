@@ -47,7 +47,7 @@ const CardArea = ({ itemsList }) => {
   };
 
   return (
-    <div className="relative w-full h-80">
+    <div className="relative w-full">
 
       <div ref={containerRef}
         style={{ scrollBehavior: "smooth" }}

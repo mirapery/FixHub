@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
 const EditReviewWindow = ({ isOpen, closeReviewWindow, review }) => {
-    const token = sessionStorage.getItem("user", token);
     const [message, setMessage] = useState(review.message);
     const [rating, setRating] = useState(review.score);
 
@@ -40,6 +39,8 @@ const EditReviewWindow = ({ isOpen, closeReviewWindow, review }) => {
             console.log("Message sent");
     
             try {
+                const token = sessionStorage.getItem("user", token);
+
                 const response = await fetch("/api/reviews" + review.reviewId, {
                     method: "PATCH",
                     headers: {

@@ -1,11 +1,27 @@
-import React, { useState } from "react";
-import { dummyUsers } from "../assets/data";
+import React, { useState, useEffect } from "react";
+//import { dummyUsers } from "../assets/data";
 import { Link } from "react-router-dom";
 import EditReviewWindow from "./EditReviewWindow";
 
 const Review = ({ review }) => {
 
-    const user = dummyUsers.find(u => u.userId === review.userId)  // haku tilalle
+    const [user, setUser] = useState({});
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`/api/users/userId/${review.userId}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user data");
+                }
+                const userData = await response.json();
+                console.log("User data fetched:", userData);
+                setUser(userData);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+        fetchUser();
+    }, [review.userId]);
 
     const owner = user.userName === sessionStorage.getItem("userName");
 
