@@ -153,35 +153,42 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       const imageNames = [];
       images.forEach((image) => imageNames.push(image.name));
 
-      let updatedStats = {};
+      const formData = new FormData();
 
-      if (itemData.name !== name)
-        updatedStats = { ...updatedStats, name: name };
-      if (itemData.tags !== tags)
-        updatedStats = { ...updatedStats, tags: tags };
-      if (itemData.description !== description)
-        updatedStats = { ...updatedStats, description: description };
-      if (itemData.category !== category)
-        updatedStats = { ...updatedStats, category: category };
-      if (itemData.location.postalCode !== postalCode)
-        updatedStats = {
-          ...updatedStats,
-          location: { ...itemData.location, postalCode: postalCode },
+      // Helper to append fields if they differ
+      const appendField = (key, newValue, oldValue) => {
+        if (newValue !== oldValue) {
+          formData.append(key, newValue);
+        }
+      };
+      
+      // Append simple fields
+      appendField("name", name, itemData.name);
+      appendField("tags", tags, itemData.tags);
+      appendField("description", description, itemData.description);
+      appendField("category", category, itemData.category);
+      
+      // Append price range if it has changed
+      if (itemData.priceRange[0] !== priceFrom || itemData.priceRange[1] !== priceTo) {
+        formData.append("priceRange", JSON.stringify([priceFrom, priceTo]));
+      }
+      
+      // Append images if they have changed (assuming `imageNames` is an array or string)
+      if (itemData.images !== imageNames) {
+        formData.append("images", JSON.stringify(imageNames));
+      }
+      
+      // Append location fields if they have changed
+      if (itemData.location.postalCode !== postalCode || itemData.location.city !== city) {
+        const updatedLocation = {
+          ...itemData.location,
+          ...(itemData.location.postalCode !== postalCode && { postalCode }),
+          ...(itemData.location.city !== city && { city }),
         };
-      if (itemData.location.city !== city)
-        updatedStats = {
-          ...updatedStats,
-          location: { ...itemData.location, city: city },
-        };
-      if (
-        itemData.priceRange[0] !== priceFrom ||
-        itemData.priceRange[1] !== priceTo
-      )
-        updatedStats = { ...updatedStats, priceRange: [priceFrom, priceTo] };
-      if (itemData.images !== imageNames)
-        updatedStats = { ...updatedStats, images: imageNames };
-
-      console.log(updatedStats);
+        formData.append("location", JSON.stringify(updatedLocation));
+      }
+      
+      console.log([...formData.entries()]); // Debug: Check the appended fields
 
       //päivitetty yhteys databaseen
       try {
@@ -191,7 +198,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
             Authentication: "Bearer " + token,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updatedStats),
+          body: formData,
         });
 
         if (!response.ok) {
