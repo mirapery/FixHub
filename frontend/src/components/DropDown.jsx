@@ -4,25 +4,7 @@ import { useRef, useEffect } from "react";
 const DropDown = ({ setIsNewItemOpen, logOut, user, setIsDropDown }) => {
 
 
-  // const dropDownRef = useRef(null); // useRef to reference the dropdown div
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     // Check if the click is outside the dropdown
-  //     if (dropDownRef.current && !dropDownRef.current.contains(event.target)) {
-  //       setIsDropDown(true); // Close the dropdown if clicked outside
-  //     } else {
-  //       setIsDropDown(false);
-  //     }
-  //   };
 
-  //   // Add event listener for click
-  //   document.addEventListener("click", handleClickOutside);
-
-  //   // Cleanup event listener when component is unmounted
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, []);     ref={dropDownRef}
 
   return (
     <div className="
@@ -31,18 +13,18 @@ const DropDown = ({ setIsNewItemOpen, logOut, user, setIsDropDown }) => {
       <ul className="p-2">
         <Link to={`user/${user.userName}`}>
           <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-            Profiili
+            Profile
           </li>
         </Link>
         <li
           onClick={() => setIsNewItemOpen(true)}
           className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
         >
-          Lisää ilmoitus
+          Add listing
         </li>
         <Link to="lisäätuote">
           <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-            Ilmoitukset
+            My listings
           </li>
         </Link>
 
@@ -50,7 +32,7 @@ const DropDown = ({ setIsNewItemOpen, logOut, user, setIsDropDown }) => {
           onClick={logOut}
           className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
         >
-          Kirjaudu ulos
+          Log out
         </li>
       </ul>
     </div>

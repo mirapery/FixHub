@@ -50,8 +50,45 @@ export const categoryLinks = [
 ];
 
 // dummy itemi
-
 export const faqLinks = [
+  {
+    id: 1,
+    header: "Why did my money disappear?",
+    content: "The reason might be a scam or you might just be poor."
+  },
+  {
+    id: 2,
+    header: "Who owns FixHub?",
+    content:
+      "FixLink is owned by a student group. They have a clear vision for the app and plan to succeed with it."
+  },
+  {
+    id: 3,
+    header: "How do I become a fixer?",
+    content:
+      "Register as a user and activate the 'I am a fixer' field. After that, you will have access to all fixer features."
+  },
+  {
+    id: 4,
+    header: "How do I add a product?",
+    content:
+      "You can find the 'Add Product' section in the top bar. You can add a product only after registering for the service."
+  },
+  {
+    id: 5,
+    header: "How do I register?",
+    content:
+      "You can register for the service by clicking 'Login' and then selecting 'Register for the service'."
+  },
+  {
+    id: 6,
+    header: "Is the service safe?",
+    content:
+      "The service is very safe. You just need to trust another person."
+  }
+];
+
+export const faqLinks2 = [
   {
     id: 1,
     header: "Miksi rahani hävisivät?",
