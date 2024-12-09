@@ -71,7 +71,7 @@ const UserPage = () => {
     return (
         <div className="bg-fh_white">
             <div className=" p-4">
-                <UserFull userData={user} />
+                <UserFull setUser={setUser} userData={user} />
             </div>
         </div>
     )

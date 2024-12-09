@@ -3,17 +3,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const itemSchema = new Schema({
-  itemId: { 
-    type: String, 
-    required: true, 
-    unique: true 
-  },
   userId: { 
-    type: String, 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', 
     required: true 
   },
   fixerId: { 
-    type: String, 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null, 
     required: false 
   },
   name: { 
@@ -21,7 +19,7 @@ const itemSchema = new Schema({
     required: true 
   },
   tags: { 
-    type: Array, 
+    type: [String], 
     required: false 
   },
   description: { 
@@ -37,7 +35,7 @@ const itemSchema = new Schema({
     required: true 
   },
   priceRange: { 
-    type: Array, 
+    type: [Number], 
     required: false 
   },
   dateOfPublish: { 

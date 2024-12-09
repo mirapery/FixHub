@@ -1,9 +1,9 @@
-import aboutImage from "../assets/images/about.jpg";
-import Hero from "./Hero";
-import AboutText from "./AboutText";
-import FaqContents from "./FaqContents";
 
-import ContactUs from "./ContactUs";
+import Hero from "../components/Hero";
+import AboutText from "../components/AboutText";
+import FaqContents from "../components/FaqContents";
+
+import ContactUs from "../components/ContactUs";
 const About = () => {
   return (
     <div>

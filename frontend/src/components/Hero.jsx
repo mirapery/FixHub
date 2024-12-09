@@ -12,13 +12,13 @@ function Hero() {
             className=" flex text-center items-center  bg-fh_dgreen-dark   bg-opacity-30 h-full md:h-auto rounded-md md:m-20 lg:mr-60 md:mr-40  
           "
           >
-        <h1 className="text-4xl text-fh_beige  " >
-            Korjauta tavarasi edullisesti
-            <br />
-            Tai
-            <br />
-            Ansaitse korjaamalla muiden rikkinäisiä tavaroita
-        </h1>
+     <h1 className="text-4xl text-fh_beige">
+    Repair your items affordably
+    <br />
+    Or
+    <br />
+    Earn by fixing others' broken items
+</h1>
           </div>
         <div className="hidden md:flex items-center text-center  ">
         <div className="  w-[30vh] h-[30vh] text-fh_beige bg-fh_dgreen bg-opacity-30 rounded-xl">
