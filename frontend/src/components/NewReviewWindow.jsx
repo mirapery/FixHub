@@ -41,12 +41,12 @@ const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
             console.log("Review sent");
     
             try {
-                const token = sessionStorage.getItem("user", token);
+                const token = JSON.parse(sessionStorage.getItem("user"))?.token;
 
                 const response = await fetch("/api/reviews", {
                     method: "POST",
                     headers: {
-                        Authentication: "Bearer " + token,
+                        Authorization: "Bearer " + token,
                         "Content-Type": "application/json",
                       },
                     body: JSON.stringify({

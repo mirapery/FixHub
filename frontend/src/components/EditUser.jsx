@@ -39,7 +39,7 @@ const EditUser = ({ closeEditProfileWindow}) => {
     });
     aboutInput.onChange({ target: { value: user.about } });
     fixerChoice.onChange({ target: { checked: user.isFixer } });
-  }, [user]); // Re-run when userData changes
+  }, [user]); 
 
   /*****Update fetch*************'**/
 
@@ -68,11 +68,13 @@ const EditUser = ({ closeEditProfileWindow}) => {
     };
     //päivitetty yhteys databaseen
     try {
-      const token = sessionStorage.getItem("user", token);
-      const response = await fetch(`/api/users/${userData._id}`, {
+      const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+      console.log("token",token);
+
+      const response = await fetch(`/api/users/${user._id}`, {
         method: "PATCH",
         headers: {
-          Authentication: "Bearer " + token,
+          Authorization: "Bearer " + token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedUser),

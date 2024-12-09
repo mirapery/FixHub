@@ -192,11 +192,11 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
 
       //päivitetty yhteys databaseen
       try {
-        const token = sessionStorage.getItem("user", token);
+        const token = JSON.parse(sessionStorage.getItem("user"))?.token;
         const response = await fetch(`/api/items/${itemData.itemId}`, {
           method: "PATCH",
           headers: {
-            Authentication: "Bearer " + token,
+            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
           body: formData,

@@ -213,11 +213,11 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       // yhteys databaseen
       try {
-        const token = sessionStorage.getItem("user", token);
+        const token = JSON.parse(sessionStorage.getItem("user"))?.token;
         const response = await fetch("/api/items", {
           method: "POST",
           headers: {
-            Authentication: "Bearer " + token,
+            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(newItem),
