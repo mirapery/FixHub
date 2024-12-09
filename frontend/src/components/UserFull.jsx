@@ -93,6 +93,8 @@ const UserFull = ({ userData,setUser }) => {
     return <div>Loading...</div>;
   }
 
+  const sanitizedDate = userData.creationTime.slice(0, 10);
+
   console.log(userData);
 
   const storedUser = JSON.parse(sessionStorage.getItem("user"));
@@ -179,7 +181,7 @@ const UserFull = ({ userData,setUser }) => {
                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                   Member since:
                 </h3>
-                <p className="my-2 text-fh_black">{userData.creationTime}</p>
+                <p className="my-2 text-fh_black">{sanitizedDate}</p>
               </div>
               {userData.userName !== loggedInUserName && isAuthenticated && (
                 <div>
@@ -283,7 +285,7 @@ const UserFull = ({ userData,setUser }) => {
                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                   Member since:
                 </h3>
-                <p className="my-2 text-fh_black">{userData.creationTime}</p>
+                <p className="my-2 text-fh_black">{sanitizedDate}</p>
               </div>
               {/* <div>
                                 <button

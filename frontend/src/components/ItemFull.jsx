@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import EditItem from "./EditItem";
 import { useNavigate } from "react-router-dom";
-
-//import { dummyUsers } from "../assets/data";
 import OfferWindow from "./OfferWindow";
+import AuthContext from "./AuthContext";
 
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const navigate = useNavigate();
-
     const [user, setUser] = useState(null); // backend version
-    // const user = dummyUsers.find((u) => u.userId === itemData.userId);    // dummy version
-    // const owner = itemData.userId === 1; // Change this to check if user is owner of item
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
     // Käyttäjän tietojen hakeminen backendistä
     useEffect(() => {
@@ -36,8 +33,7 @@ const ItemFull = ({ itemData }) => {
     const owner = sessionStorage.getItem("userName") === itemData.userId;
     const fixer = sessionStorage.getItem("userName") === itemData.fixerId;
 
-
-    // new item modaalin jutut
+    // edit item modaalin jutut
     const [isEditItemOpen, setEditItemOpen] = useState(false)
 
     const openEditItem = () => {
@@ -47,6 +43,7 @@ const ItemFull = ({ itemData }) => {
         setEditItemOpen(false);
     }
 
+    // offer window
     const [isOfferWindowOpen, setOfferWindowOpen] = useState(false)
 
     const openOfferWindow = () => {
@@ -98,7 +95,6 @@ const ItemFull = ({ itemData }) => {
     // muokattu backend-yhteensopivaksi - kesken?
     const completeFix = async () => {
         // tässä pitäisi laittaa itemin status "fixed"
-        // ja lähettää userille ilmoitus
         try {
             const response = await fetch(`/api/items/${itemData.itemId}`, {
                 method: "PATCH",
@@ -261,7 +257,7 @@ const ItemFull = ({ itemData }) => {
                                 </button>
 
                             }
-                            {(!owner && !fixer && !itemData.isFixed) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
+                            {(!owner && !fixer && !itemData.isFixed && isAuthenticated) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendOffer}
