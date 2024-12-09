@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import Alert from "./Alert";
-import AuthContext from "./AuthContext";
+
 
 const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
-    const {user} = useContext(AuthContext);
+
     const [message, setMessage] = useState("");
     const [rating, setRating] = useState("");
 

@@ -9,7 +9,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
   const { user } = useContext(AuthContext);
 
-
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [tag, setTag] = useState("");
@@ -128,7 +127,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       !postalCode ||
       !city ||
       images.length == 0 ||
-      !validatePriceRange
+      !validatePriceRange()
     ) {
       setAlertMessage((prev) => {
         const newMessages = [];
@@ -142,7 +141,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
           newMessages.push("Please add the address info.");
         if (images.length === 0)
           newMessages.push("Please add at least 1 image of the item.");
-        if (!validatePriceRange)
+        if (!validatePriceRange())
           newMessages.push(
             '"To" price must be greater than or equal to "From" price.'
           );
@@ -164,31 +163,23 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       newItem.append("tags", tags);
       newItem.append("description", description);
       newItem.append("category", category);
-      
+
       // Append nested object (convert to JSON string)
-      newItem.append(
-        "location",
-        JSON.stringify({
-          province: province,
-          city: city,
-          postalcode: postalCode,
-        })
-      );
-      
+      newItem.append("location", JSON.stringify({ province, city, postalCode }));
+
       // Append array (convert to JSON string)
       newItem.append("priceRange", JSON.stringify([priceFrom, priceTo]));
-      
+
       // Append images (assuming `formData` is an array of `File` objects)
       if (Array.isArray(newItem.images)) {
         formData.forEach((file, index) => {
           newItem.append(`images[${index}]`, file);
         });
       }
-      
+
       // Append other fields
       newItem.append("isFixed", false); // Boolean values will be converted to strings
       newItem.append("interested", 0); // Numbers will be converted to strings
-      
 
       // const newItem = {
       //   userId: user._id,
@@ -218,9 +209,8 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
           method: "POST",
           headers: {
             Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
           },
-          body: JSON.stringify(newItem),
+          body: newItem,
         });
         if (!response.ok) {
           throw new Error(error);
