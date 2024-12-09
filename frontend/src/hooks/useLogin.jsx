@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import AuthContext from "../components/AuthContext";
 
 export default function useLogin(url) {
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, setUser } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,6 +28,7 @@ export default function useLogin(url) {
     // If no error, proceed with successful login
     sessionStorage.setItem("user", JSON.stringify(user)); // Store user in session
     setIsAuthenticated(true); // Set authentication to true
+    setUser(user);
     console.log(user); // Log user details
     setIsLoading(false); // Stop loading
   };
