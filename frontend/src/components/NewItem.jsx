@@ -179,7 +179,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       newItem.append("priceRange", JSON.stringify([priceFrom, priceTo]));
       
       // Append images (assuming `formData` is an array of `File` objects)
-      if (Array.isArray(formData)) {
+      if (Array.isArray(newItem.images)) {
         formData.forEach((file, index) => {
           newItem.append(`images[${index}]`, file);
         });
