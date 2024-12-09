@@ -152,8 +152,14 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       return;
     } else {
-      const imageNames = [];
-      images.forEach((image) => imageNames.push(image.name));
+      // const imageNames = [];
+      // images.forEach((image) => imageNames.push(image.name));
+
+      // luvien muokkaus formDataan
+      const formData = new FormData();
+      images.forEach((image, i) => {
+          formData.append(`image${i}`, image);
+      });
 
       const newItem = {
         userId: user._id, 
@@ -167,7 +173,9 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
           postalcode: postalCode,
         },
         priceRange: [priceFrom, priceTo],
-        images: imageNames, 
+
+        images: formData,
+
         isFixed: false,
         interested: 0,
       };
@@ -196,13 +204,10 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
         return;
       }
 
-      // Tähän kuvien lisääminen serverille
-
       // tyhjennä formi
-      
-      clearItem();
 
-      //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
+        clearItem();
+      
     }
   };
 
@@ -218,23 +223,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
     setImages([]);
     setCity("");
   };
-
-  // TARVITAAN EHKÄ MYÖHEMMIN !!! kuvien lataaminen
-
-  // const handleSubmit = () => {
-  //     const formData = new FormData();
-  //     images.forEach((image, i) => {
-  //         formData.append(`image${i}`, image);
-  //     });
-
-  //     // Make a POST request to upload images
-  //     fetch('/api/upload-images', {
-  //         method: 'POST',
-  //         body: formData,
-  //     })
-  //         .then((response) => response.json())
-  //         .then((data) => console.log(data))
-  //         .catch((error) => console.error('Error:', error));
 
   return (
     isOpen && (

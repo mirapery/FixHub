@@ -93,6 +93,8 @@ const UserFull = ({ userData,setUser }) => {
     return <div>Loading...</div>;
   }
 
+  const sanitizedDate = userData.creationTime.slice(0, 10);
+
   console.log(userData);
 
   const storedUser = JSON.parse(sessionStorage.getItem("user"));
@@ -104,7 +106,7 @@ const UserFull = ({ userData,setUser }) => {
     //     .join(", ");
 
     return (
-      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen">
         <MessageWindow // viestin lähetysikkuna
           isOpen={isMessageWindowOpen}
           closeMessageWindow={closeMessageWindow}
@@ -130,7 +132,7 @@ const UserFull = ({ userData,setUser }) => {
             {userData.userName === loggedInUserName ? " (You)" : ""}
           </h1>
         </div>
-        <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
+        <div className="flex align-middle flex-col md:flex-row justify-center">
           <div className="flex flex-col items-center my-6">
             <div className="min-h-80 align-middle">
               <img
@@ -179,7 +181,7 @@ const UserFull = ({ userData,setUser }) => {
                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                   Member since:
                 </h3>
-                <p className="my-2 text-fh_black">{userData.creationTime}</p>
+                <p className="my-2 text-fh_black">{sanitizedDate}</p>
               </div>
               {userData.userName !== loggedInUserName && isAuthenticated && (
                 <div>
@@ -242,7 +244,7 @@ const UserFull = ({ userData,setUser }) => {
     );
   } else {
     return (
-      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen">
         {/* <MessageWindow // viestin lähetysikkuna
                     isOpen={isMessageWindowOpen}
                     closeMessageWindow={closeMessageWindow}
@@ -253,7 +255,7 @@ const UserFull = ({ userData,setUser }) => {
         {isEditProfileWindowOpen && (
           <EditUser setUser={setUser} userData={userData} closeEditProfileWindow={closeEditProfileWindow} />
         )}
-        <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
+        <div className="flex align-middle flex-col md:flex-row justify-center">
           <div className="flex flex-col items-center my-6">
             <div className="min-h-80 align-middle">
               <img
@@ -283,7 +285,7 @@ const UserFull = ({ userData,setUser }) => {
                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                   Member since:
                 </h3>
-                <p className="my-2 text-fh_black">{userData.creationTime}</p>
+                <p className="my-2 text-fh_black">{sanitizedDate}</p>
               </div>
               {/* <div>
                                 <button
