@@ -76,14 +76,18 @@ function Home() {
       <Hero />
       <Searchbar />
       <div className="transform scale-90 md:mx-48">
-        <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
-          Featured items:
-        </h1>
-        <CardArea itemsList={items} />
-        <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
-          Featured Fixers:
-        </h1>
-        <CardArea itemsList={users.filter(user => user.isFixer)} />
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
+            Featured items:
+          </h1>
+          <CardArea itemsList={items} />
+        </div>
+        <div>
+          <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
+            Featured Fixers:
+          </h1>
+          <CardArea itemsList={users.filter(user => user.isFixer)} />
+        </div>
       </div>
     </>
   );

@@ -5,40 +5,16 @@ import { dummyUsers } from "../assets/data";
 import useLogin from "../hooks/useLogin";
 import useField from "../hooks/useField";
 import AuthContext from "./AuthContext";
+
 function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
   const navigate = useNavigate();
   const nameInputRef = useRef(null);
   const userName = useField("text");
   const password = useField("password");
-  const { setIsAuthenticated, isAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, isAuthenticated} =
+    useContext(AuthContext);
 
   const { login, error } = useLogin("/api/users/login");
-
-  // //this is for testing purposes
-  // /*************************************************************/
-  // let registeredUsers = dummyUsers;
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-  //   const wrongPassword = registeredUsers.some(
-  //     (user) =>
-  //       user.userName === userName.value && user.password !== password.value
-  //   );
-
-  //   const accesGranted = registeredUsers.some(
-  //     (user) =>
-  //       user.userName === userName.value && user.password === password.value
-  //   );
-
-  //   if (accesGranted) {
-  //     const user = registeredUsers.find(
-  //       (user) => user.userName === userName.value
-  //     );
-  //     setIsAuthenticated(true);
-  //     sessionStorage.setItem("user", JSON.stringify(user));
-  //     setIsLoginOpen(false);
-  //   }
-  // };
-  // /*************************************************************/
 
   useEffect(() => {
     if (isLoginOpen) {
@@ -65,8 +41,7 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
       alert(loginError); // Show an alert with the error
       return; // Stop execution if there's an error
     }
-    // If no error, proceed with authentication
-    setIsAuthenticated(true);
+
     setIsLoginOpen(false);
   };
   /******************************************** */
@@ -120,9 +95,7 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
             </div>
           </div>
           <div className="flex flex-col items-center mt-10">
-            <p className="text-sm sm:text-base">
-              You dont have an account?
-            </p>
+            <p className="text-sm sm:text-base">You dont have an account?</p>
             <button
               onClick={openRegistering}
               className="flex justify-center  px-7 py-2 bg-fh_lgreen rounded-sm mt-2 hover:bg-fh_lgreen-light"

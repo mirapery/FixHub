@@ -1,12 +1,14 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useContext,useState} from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../components/AuthContext";
+
 
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
+  const { user } = useContext(AuthContext);
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -15,6 +17,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const [description, setDescription] = useState("");
   const [priceFrom, setPriceFrom] = useState("");
   const [priceTo, setPriceTo] = useState("");
+  const [province, setProvince] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [city, setCity] = useState("");
   const [images, setImages] = useState([]);
@@ -139,7 +142,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
           newMessages.push("Please add the address info.");
         if (images.length === 0)
           newMessages.push("Please add at least 1 image of the item.");
-        if (validatePriceRange)
+        if (!validatePriceRange)
           newMessages.push(
             '"To" price must be greater than or equal to "From" price.'
           );
@@ -150,25 +153,28 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       return;
     } else {
-      const imageNames = [];
-      images.forEach((image) => imageNames.push(image.name));
+      // const imageNames = [];
+      // images.forEach((image) => imageNames.push(image.name));
+
+      // luvien muokkaus formDataan
+      const formData = new FormData();
+      images.forEach((image, i) => {
+          formData.append(`image${i}`, image);
+      });
 
       const newItem = {
-        itemId: "", // tämä backendistä?
-        userId: "", // tämä kirjautumistiedoista
-        fixerId: "", // tämä oikeastikin tyhjä
+        userId: user._id, // tämä kirjautumistiedoista
         name: name,
         tags: tags,
         description: description,
         category: category,
         location: {
-          province: "", // tästä ei mitään ideaa miten tekisi
+          province: province, // tästä ei mitään ideaa miten tekisi
           city: city, // ei tuu enää automaatilla sit
           postalcode: postalCode,
         },
         priceRange: [priceFrom, priceTo],
-        dateOfPublish: new Date().toString(), // nyt antaa pitkön rimpsun, haluttaisko pilkkoa?
-        images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+        images: formData,
         isFixed: false,
         interested: 0,
       };
@@ -196,14 +202,13 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       } catch (error) {
         console.error("Error adding item:", error);
         alert("Failed to add item");
+        return;
       }
 
-      // Tähän kuvien lisääminen serverille
-
       // tyhjennä formi
-      clearItem();
-
-      //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
+      
+        clearItem();
+      
     }
   };
 
@@ -219,23 +224,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
     setImages([]);
     setCity("");
   };
-
-  // TARVITAAN EHKÄ MYÖHEMMIN !!! kuvien lataaminen
-
-  // const handleSubmit = () => {
-  //     const formData = new FormData();
-  //     images.forEach((image, i) => {
-  //         formData.append(`image${i}`, image);
-  //     });
-
-  //     // Make a POST request to upload images
-  //     fetch('/api/upload-images', {
-  //         method: 'POST',
-  //         body: formData,
-  //     })
-  //         .then((response) => response.json())
-  //         .then((data) => console.log(data))
-  //         .catch((error) => console.error('Error:', error));
 
   return (
     isOpen && (
@@ -545,6 +533,22 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
                     }}
                     placeholder="Postal Code"
                     maxLength={5}
+                    className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
+                    required
+                  />
+
+                  <label className="w-1/5 flex items-center text-xl text-fh_black-light m-2">
+                    Province
+                  </label>
+                  <input
+                    type="text"
+                    name="province"
+                    id="province"
+                    value={city}
+                    onChange={(e) => {
+                      setProvince(e.target.value);
+                    }}
+                    placeholder="City"
                     className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                     required
                   />

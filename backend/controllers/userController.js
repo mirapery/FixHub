@@ -1,5 +1,6 @@
 const User = require("../models/userModel.js");
-const jwt = require('jsonwebtoken')
+const Item = require('../models/itemModel.js');
+const jwt = require('jsonwebtoken');
 const handleError = require("../middleware/handleError.js");
 
 
@@ -79,13 +80,13 @@ const deleteUser = async (req, res) => {
     const { userId } = req.params;
     try {
         const deletedUser = await User.findOneAndDelete({ _id: userId });
-        if (deletedUser) {
-            res.status(200).send({message: "User deleted successfully."});
-        } else {
-            res.status(404).json({ message: "User not found." });
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found." });
         }
+        await Item.deleteMany({ userId });
+        res.status(200).send({message: "User and associated items deleted successfully."});
     } catch (error) {
-        handleError(res, error, "An error occurred while deleting user.");
+        handleError(res, error, "An error occurred while deleting user ans associated items.");
     }
 };
 
