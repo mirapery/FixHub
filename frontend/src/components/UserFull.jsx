@@ -106,7 +106,7 @@ const UserFull = ({ userData,setUser }) => {
     //     .join(", ");
 
     return (
-      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen">
         <MessageWindow // viestin lähetysikkuna
           isOpen={isMessageWindowOpen}
           closeMessageWindow={closeMessageWindow}
@@ -132,7 +132,7 @@ const UserFull = ({ userData,setUser }) => {
             {userData.userName === loggedInUserName ? " (You)" : ""}
           </h1>
         </div>
-        <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
+        <div className="flex align-middle flex-col md:flex-row justify-center">
           <div className="flex flex-col items-center my-6">
             <div className="min-h-80 align-middle">
               <img
@@ -244,7 +244,7 @@ const UserFull = ({ userData,setUser }) => {
     );
   } else {
     return (
-      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
+      <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen">
         {/* <MessageWindow // viestin lähetysikkuna
                     isOpen={isMessageWindowOpen}
                     closeMessageWindow={closeMessageWindow}
@@ -255,7 +255,7 @@ const UserFull = ({ userData,setUser }) => {
         {isEditProfileWindowOpen && (
           <EditUser setUser={setUser} userData={userData} closeEditProfileWindow={closeEditProfileWindow} />
         )}
-        <div className="flex align-middle flex-col md:flex-row w-screen justify-center">
+        <div className="flex align-middle flex-col md:flex-row justify-center">
           <div className="flex flex-col items-center my-6">
             <div className="min-h-80 align-middle">
               <img
