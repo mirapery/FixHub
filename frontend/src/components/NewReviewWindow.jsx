@@ -37,7 +37,7 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
             return
     
         } else {
-            console.log("Message sent");
+            console.log("Review sent");
     
             try {
                 const response = await fetch("/api/reviews", {
