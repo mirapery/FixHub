@@ -15,7 +15,7 @@ router.get('/userId/:userId', getUserById);
 router.get('/:userName', getUserByUserName);
 
 // CREATE USER (POST /api/users)
-router.post('/', requireAuth, createUser);
+router.post('/', createUser);
 
 // EDIT USER (PATCH /api/users/:userId)
 router.patch('/:userId', requireAuth, validateObjectId('userId'), updateUser);
