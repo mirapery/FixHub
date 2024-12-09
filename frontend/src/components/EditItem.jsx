@@ -284,7 +284,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
                         </h2>
                     </div>
 
-                    <div className="flex flex-row m-2">
+                    <div className="flex flex-col-reverse md:flex-row m-2">
 
                         {/* Kuvan lisääminen */}
                         <div className="flex flex-col m-2 w-1/2">
