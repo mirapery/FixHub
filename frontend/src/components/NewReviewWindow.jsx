@@ -5,7 +5,7 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
 
     const [message, setMessage] = useState("");
     const [rating, setRating] = useState("");
-
+    const token = sessionStorage.getItem("user", token);
     const [isAlertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState([]);
 
@@ -43,8 +43,9 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
                 const response = await fetch("/api/reviews", {
                     method: "POST",
                     headers: {
+                        Authentication: "Bearer " + token,
                         "Content-Type": "application/json",
-                    },
+                      },
                     body: JSON.stringify({
                         userId: sender.userId,
                         fixerId: receiver.userId,

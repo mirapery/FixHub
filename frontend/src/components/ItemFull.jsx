@@ -10,7 +10,7 @@ const ItemFull = ({ itemData }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // backend version
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-
+    const token = sessionStorage.getItem("user", token);
     // Käyttäjän tietojen hakeminen backendistä
     useEffect(() => {
         const fetchUser = async () => {
@@ -72,8 +72,9 @@ const ItemFull = ({ itemData }) => {
             const response = await fetch(`/api/offers`, {
                 method: "POST",
                 headers: {
+                    Authentication: "Bearer " + token,
                     "Content-Type": "application/json",
-                },
+                  },
                 body: JSON.stringify({
                     itemId: itemData.itemId,
                     userId: sessionStorage.getItem("userId"),
@@ -99,8 +100,9 @@ const ItemFull = ({ itemData }) => {
             const response = await fetch(`/api/items/${itemData.itemId}`, {
                 method: "PATCH",
                 headers: {
+                    Authentication: "Bearer " + token,
                     "Content-Type": "application/json",
-                },
+                  },
                 body: JSON.stringify({ isFixed: true }),
             });
             if (!response.ok) {

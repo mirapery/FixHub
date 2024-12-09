@@ -8,6 +8,7 @@ import AuthContext from "../components/AuthContext";
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
   const { user } = useContext(AuthContext);
+  const token = sessionStorage.getItem("user", token);
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -158,18 +159,18 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       // luvien muokkaus formDataan
       const formData = new FormData();
       images.forEach((image, i) => {
-          formData.append(`image${i}`, image);
+        formData.append(`image${i}`, image);
       });
 
       const newItem = {
-        userId: user._id, 
+        userId: user._id,
         name: name,
         tags: tags,
         description: description,
         category: category,
         location: {
-          province: province, 
-          city: city, 
+          province: province,
+          city: city,
           postalcode: postalCode,
         },
         priceRange: [priceFrom, priceTo],
@@ -187,6 +188,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
         const response = await fetch("/api/items", {
           method: "POST",
           headers: {
+            Authentication: "Bearer " + token,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(newItem),
@@ -206,8 +208,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       // tyhjennä formi
 
-        clearItem();
-      
+      clearItem();
     }
   };
 

@@ -8,7 +8,7 @@ import AuthContext from "./AuthContext";
 const EditUser = ({ closeEditProfileWindow, userData, setUser }) => {
   const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
-
+  const token = sessionStorage.getItem("user", token);
   const nameInput = useField("text");
   const userNameInput = useField("text");
   const passwordInput = useField("password");
@@ -70,6 +70,7 @@ const EditUser = ({ closeEditProfileWindow, userData, setUser }) => {
       const response = await fetch(`/api/users/${userData._id}`, {
         method: "PATCH",
         headers: {
+          Authentication: "Bearer " + token,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedUser),

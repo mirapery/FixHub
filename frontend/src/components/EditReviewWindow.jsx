@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Alert from "./Alert";
 
 const EditReviewWindow = ({ isOpen, closeReviewWindow, review }) => {
-
+    const token = sessionStorage.getItem("user", token);
     const [message, setMessage] = useState(review.message);
     const [rating, setRating] = useState(review.score);
 
@@ -43,8 +43,9 @@ const EditReviewWindow = ({ isOpen, closeReviewWindow, review }) => {
                 const response = await fetch("/api/reviews" + review.reviewId, {
                     method: "PATCH",
                     headers: {
+                        Authentication: "Bearer " + token,
                         "Content-Type": "application/json",
-                    },
+                      },
                     body: JSON.stringify({
                         score: rating,
                         message: message,
