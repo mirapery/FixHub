@@ -69,11 +69,12 @@ const ItemFull = ({ itemData }) => {
     // muokattu backend-yhteensopivaksi - kesken
     const sendOffer = async () => {
         try {
-            const token = sessionStorage.getItem("user", token);
+            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+
             const response = await fetch(`/api/offers`, {
                 method: "POST",
                 headers: {
-                    Authentication: "Bearer " + token,
+                    Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                   },
                 body: JSON.stringify({

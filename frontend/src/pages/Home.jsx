@@ -8,6 +8,7 @@ import ItemCard from "../components/ItemCard.jsx";
 import CardArea from "../components/CardArea.jsx";
 
 function Home() {
+  
   //testingiin
   // const dummyItemList = [
   //   dummyItems[0],
