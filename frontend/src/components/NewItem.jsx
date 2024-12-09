@@ -1,10 +1,9 @@
-import React, { useContext,useState} from "react";
+import React, { useContext, useState } from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../components/AuthContext";
-
 
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
@@ -157,18 +156,18 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       images.forEach((image) => imageNames.push(image.name));
 
       const newItem = {
-        userId: user._id, // tämä kirjautumistiedoista
+        userId: user._id, 
         name: name,
         tags: tags,
         description: description,
         category: category,
         location: {
-          province: province, // tästä ei mitään ideaa miten tekisi
-          city: city, // ei tuu enää automaatilla sit
+          province: province, 
+          city: city, 
           postalcode: postalCode,
         },
         priceRange: [priceFrom, priceTo],
-        images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+        images: imageNames, 
         isFixed: false,
         interested: 0,
       };
@@ -178,21 +177,19 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       // yhteys databaseen
       try {
         const response = await fetch("/api/items", {
-          // tähän oikee osote
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(newItem),
         });
-
         if (!response.ok) {
-          throw new Error("Failed to add item");
+          throw new Error(error);
         }
 
         const addedItem = await response.json();
         console.log("Item added:", addedItem);
-        navigate(`/item/${addItem.itemId}`);
+        navigate(`/item/${addedItem._id}`);
       } catch (error) {
         console.error("Error adding item:", error);
         alert("Failed to add item");
@@ -203,9 +200,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       // tyhjennä formi
       
-        clearItem();
-      
-      
+      clearItem();
 
       //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
     }

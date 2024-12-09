@@ -41,7 +41,6 @@ const itemSchema = new Schema({
   dateOfPublish: { 
     type: Date, 
     default: Date.now, 
-    required: true 
   },
   images: { 
     type: Array, 

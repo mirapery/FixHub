@@ -90,12 +90,12 @@ const itemSchema = new mongoose.Schema(
     {
         userId: { 
             type: mongoose.Schema.Types.ObjectId, 
-            ref: 'users', 
+            ref: 'User', 
             required: true,
         },
         fixerId: { 
             type: mongoose.Schema.Types.ObjectId, 
-            ref: 'users',
+            ref: 'User',
         },
         name: { 
             type: String, 
@@ -130,10 +130,7 @@ const itemSchema = new mongoose.Schema(
                 message: 'Price range must contain exactly two values: [min, max]',
             },
         },
-        dateOfPublish: { 
-            type: Date, 
-            default: Date.now,
-        },
+    
         images: { 
             type: [String], 
             default: [],
