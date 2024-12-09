@@ -1,10 +1,9 @@
-import React, { useContext,useState} from "react";
+import React, { useContext, useState } from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../components/AuthContext";
-
 
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
@@ -153,22 +152,30 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       return;
     } else {
-      const imageNames = [];
-      images.forEach((image) => imageNames.push(image.name));
+      // const imageNames = [];
+      // images.forEach((image) => imageNames.push(image.name));
+
+      // luvien muokkaus formDataan
+      const formData = new FormData();
+      images.forEach((image, i) => {
+          formData.append(`image${i}`, image);
+      });
 
       const newItem = {
-        userId: user._id, // tämä kirjautumistiedoista
+        userId: user._id, 
         name: name,
         tags: tags,
         description: description,
         category: category,
         location: {
-          province: province, // tästä ei mitään ideaa miten tekisi
-          city: city, // ei tuu enää automaatilla sit
+          province: province, 
+          city: city, 
           postalcode: postalCode,
         },
         priceRange: [priceFrom, priceTo],
-        images: imageNames, // nimienvaihto ja ne vaan tähän? kuvat talteen muuta kautta sit. Jos sais kans uudelleen nimettyä samalla?
+
+        images: formData,
+
         isFixed: false,
         interested: 0,
       };
@@ -178,36 +185,29 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       // yhteys databaseen
       try {
         const response = await fetch("/api/items", {
-          // tähän oikee osote
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(newItem),
         });
-
         if (!response.ok) {
-          throw new Error("Failed to add item");
+          throw new Error(error);
         }
 
         const addedItem = await response.json();
         console.log("Item added:", addedItem);
-        navigate(`/item/${addItem.itemId}`);
+        navigate(`/item/${addedItem._id}`);
       } catch (error) {
         console.error("Error adding item:", error);
         alert("Failed to add item");
         return;
       }
 
-      // Tähän kuvien lisääminen serverille
-
       // tyhjennä formi
-      
+
         clearItem();
       
-      
-
-      //reitti sivulle id:n mukaan, taitaa tulla jo tuolla aiemmin, järjestystä pitää miettiä.
     }
   };
 
@@ -223,23 +223,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
     setImages([]);
     setCity("");
   };
-
-  // TARVITAAN EHKÄ MYÖHEMMIN !!! kuvien lataaminen
-
-  // const handleSubmit = () => {
-  //     const formData = new FormData();
-  //     images.forEach((image, i) => {
-  //         formData.append(`image${i}`, image);
-  //     });
-
-  //     // Make a POST request to upload images
-  //     fetch('/api/upload-images', {
-  //         method: 'POST',
-  //         body: formData,
-  //     })
-  //         .then((response) => response.json())
-  //         .then((data) => console.log(data))
-  //         .catch((error) => console.error('Error:', error));
 
   return (
     isOpen && (

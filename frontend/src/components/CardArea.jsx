@@ -47,7 +47,7 @@ const CardArea = ({ itemsList }) => {
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full h-80">
 
       <div ref={containerRef}
         style={{ scrollBehavior: "smooth" }}
@@ -61,6 +61,11 @@ const CardArea = ({ itemsList }) => {
             className="flex-none w-80"
           />
         })}
+        {itemsList.length === 0 && (
+          <p className="text-center w-full m-4 p-4 items-center rounded-md bg-fh_beige min-w-120">
+            No items to show
+            </p>
+        )}
       </div>
       {/* Left Arrow */}
       {showLeftArrow && (

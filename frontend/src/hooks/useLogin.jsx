@@ -28,7 +28,20 @@ export default function useLogin(url) {
     // If no error, proceed with successful login
     sessionStorage.setItem("user", JSON.stringify(user)); // Store user in session
     setIsAuthenticated(true); // Set authentication to true
-    setUser(user);
+    try {
+      const response = await fetch(`/api/users/${user.userName}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch user data");
+      }
+      const userData = await response.json();
+      //save userdata to useContext
+      setUser(userData);
+      console.log(userData);
+    } catch (error) {
+      setError(error.message);
+    }
+    
+   
     console.log(user); // Log user details
     setIsLoading(false); // Stop loading
   };

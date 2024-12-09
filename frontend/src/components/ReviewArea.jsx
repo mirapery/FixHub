@@ -57,6 +57,12 @@ const ReviewArea = ({ reviews }) => {
                         className="flex-none w-80"
                     />
                 })}
+
+                {reviews.length === 0 && (
+                    <p className="text-center w-full m-4 p-4 items-center rounded-md bg-fh_beige min-w-120">
+                    No reviews to show
+                    </p>
+                )}
             </div>
             {/* Left Arrow */}
             {showLeftArrow && (
