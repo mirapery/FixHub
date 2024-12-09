@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Alert from "./Alert";
+import AuthContext from "./AuthContext";
 
 const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
-
+    const {user} = useContext(AuthContext);
     const [message, setMessage] = useState("");
     const [rating, setRating] = useState("");
-    // const token = sessionStorage.getItem("user", token);
+
     const [isAlertOpen, setAlertOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState([]);
 

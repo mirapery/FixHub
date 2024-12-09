@@ -8,7 +8,7 @@ import AuthContext from "../components/AuthContext";
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
   const { user } = useContext(AuthContext);
-  const token = sessionStorage.getItem("user", token);
+
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -213,6 +213,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       // yhteys databaseen
       try {
+        const token = sessionStorage.getItem("user", token);
         const response = await fetch("/api/items", {
           method: "POST",
           headers: {

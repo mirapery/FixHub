@@ -125,8 +125,6 @@ const UserFull = ({ userData, setUser }) => {
 
         {isEditProfileWindowOpen && (
           <EditUser
-            setUser={setUser}
-            userData={userData}
             closeEditProfileWindow={closeEditProfileWindow}
           />
         )}
@@ -190,7 +188,7 @@ const UserFull = ({ userData, setUser }) => {
                 </h3>
                 <p className="my-2 text-fh_black">{sanitizedDate}</p>
               </div>
-              {(userData.userName !== loggedInUserName && isAuthenticated) && (
+              {userData.userName !== loggedInUserName && isAuthenticated && (
                 <div>
                   <button
                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
@@ -200,7 +198,7 @@ const UserFull = ({ userData, setUser }) => {
                   </button>
                 </div>
               )}
-              {(userData.userName !== loggedInUserName && isAuthenticated) && (
+              {userData.userName !== loggedInUserName && isAuthenticated && (
                 <div>
                   <button
                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const EditItem = ({ isOpen, closeEditItem, itemData }) => {
   const categories = categoryLinks.map((c) => c.text);
-  const token = sessionStorage.getItem("user", token);
+  
   const [name, setName] = useState(itemData.name);
   const [category, setCategory] = useState(itemData.category);
   const [tag, setTag] = useState("");
@@ -192,6 +192,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
 
       //päivitetty yhteys databaseen
       try {
+        const token = sessionStorage.getItem("user", token);
         const response = await fetch(`/api/items/${itemData.itemId}`, {
           method: "PATCH",
           headers: {

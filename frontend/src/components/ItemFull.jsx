@@ -10,7 +10,7 @@ const ItemFull = ({ itemData }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // backend version
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-    const token = sessionStorage.getItem("user", token);
+   
     // Käyttäjän tietojen hakeminen backendistä
     useEffect(() => {
         const fetchUser = async () => {
@@ -69,6 +69,7 @@ const ItemFull = ({ itemData }) => {
     // muokattu backend-yhteensopivaksi - kesken
     const sendOffer = async () => {
         try {
+            const token = sessionStorage.getItem("user", token);
             const response = await fetch(`/api/offers`, {
                 method: "POST",
                 headers: {

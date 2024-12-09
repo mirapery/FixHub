@@ -3,12 +3,13 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useField from "../hooks/useField";
 import useTags from "../hooks/useTags";
-import useSignup from "../hooks/useSignup";
+
 import AuthContext from "./AuthContext";
-const EditUser = ({ closeEditProfileWindow, userData, setUser }) => {
+
+const EditUser = ({ closeEditProfileWindow}) => {
   const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
-  const token = sessionStorage.getItem("user", token);
+  
   const nameInput = useField("text");
   const userNameInput = useField("text");
   const passwordInput = useField("password");
@@ -24,21 +25,21 @@ const EditUser = ({ closeEditProfileWindow, userData, setUser }) => {
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
 
-  const { setIsAuthenticated } = useContext(AuthContext);
+  const { setIsAuthenticated, setUser, user } = useContext(AuthContext);
 
   useEffect(() => {
-    nameInput.onChange({ target: { value: userData.name } });
-    userNameInput.onChange({ target: { value: userData.userName } });
-    emailInput.onChange({ target: { value: userData.email } });
-    phoneInput.onChange({ target: { value: userData.phone } });
-    provinceInput.onChange({ target: { value: userData.location.province } });
-    cityInput.onChange({ target: { value: userData.location.city } });
+    nameInput.onChange({ target: { value: user.name } });
+    userNameInput.onChange({ target: { value: user.userName } });
+    emailInput.onChange({ target: { value: user.email } });
+    phoneInput.onChange({ target: { value: user.phone } });
+    provinceInput.onChange({ target: { value: user.location.province } });
+    cityInput.onChange({ target: { value: user.location.city } });
     postalcodeInput.onChange({
-      target: { value: userData.location.postalcode },
+      target: { value: user.location.postalcode },
     });
-    aboutInput.onChange({ target: { value: userData.about } });
-    fixerChoice.onChange({ target: { checked: userData.isFixer } });
-  }, [userData]); // Re-run when userData changes
+    aboutInput.onChange({ target: { value: user.about } });
+    fixerChoice.onChange({ target: { checked: user.isFixer } });
+  }, [user]); // Re-run when userData changes
 
   /*****Update fetch*************'**/
 
@@ -67,6 +68,7 @@ const EditUser = ({ closeEditProfileWindow, userData, setUser }) => {
     };
     //päivitetty yhteys databaseen
     try {
+      const token = sessionStorage.getItem("user", token);
       const response = await fetch(`/api/users/${userData._id}`, {
         method: "PATCH",
         headers: {
