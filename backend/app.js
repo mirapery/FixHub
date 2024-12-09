@@ -26,6 +26,7 @@ app.use(cors());            // Enable Cross-Origin Resource Sharing
 app.use('/api/items', itemRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/users', userRoutes);
+app.use("/api", fileRoutes);
 
 // Error handling middleware
 app.use(notFound);

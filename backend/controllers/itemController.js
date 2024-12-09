@@ -12,15 +12,28 @@ const getAllItems = async (req, res) => {
 };
 
 // POST /items
+
 const createItem = async (req, res) => {
     try {
-        const newItem = await Item.create(req.body);
+        const images = req.files.map(file => ({
+            filename: file.filename,
+            originalname: file.originalname,
+            contentType: file.mimetype,
+            url: `/api/files/${file.filename}`, // Kuvan URL-osoite (jos haluat käyttää GridFS-streamingia)
+        }));
+
+        const newItem = await Item.create({
+            ...req.body,
+            images,
+        });
+
         res.status(201).json(newItem);
     } catch (error) {
         console.error(error);
         handleError(res, error, "Failed to create item.", 400);
     }
 };
+
 
 // GET /items/:itemId
 const getItemById = async (req, res) => {

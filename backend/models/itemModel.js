@@ -40,8 +40,7 @@ const itemSchema = new Schema({
   },
   dateOfPublish: { 
     type: Date, 
-    default: Date.now, 
-    required: true 
+    default: Date.now,  
   },
   images: { 
     type: Array, 
