@@ -154,7 +154,6 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       
       // Append simple fields
       appendField("name", name, itemData.name);
-      appendField("tags", tags, itemData.tags);
       appendField("description", description, itemData.description);
       appendField("category", category, itemData.category);
       
@@ -166,6 +165,10 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       // Append images if they have changed (assuming `imageNames` is an array or string)
       if (!areArraysEqual(itemData.images, images)) {
         images.forEach((file) => modifiedItem.append("images", file));
+      }
+
+      if (!areArraysEqual(itemData.tags, tags)) {
+        modifiedItem.append("tags", JSON.stringify(tags));
       }
       
       // Append location fields if they have changed
