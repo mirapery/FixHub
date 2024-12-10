@@ -82,7 +82,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
     }
 
     // Update images
-    setImages((prev) => [...prev, ...renamedFiles]);
+    setImages((prev) => [...prev, ...newImages]);
   };
 
   const removeImage = (index) => {
