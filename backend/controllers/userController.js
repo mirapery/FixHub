@@ -17,13 +17,25 @@ const getAllUsers = async (req, res) => {
 // POST /users
 const createUser = async (req, res) => {
     try {
-        const newUser = await User.create(req.body);
-        res.status(201).json(newUser);
+        const { userName, name, phone, email, password, location, isFixer } = req.body;
+        
+        // Extract the uploaded image if any
+        let image = null;
+        if (req.file) {
+            image = req.file.buffer.toString('base64'); // Convert buffer to base64
+        }
+
+        // Create the new user
+        const user = await User.signup(userName, name, phone, email, password, image, location, isFixer);
+
+        // Respond with the created user
+        res.status(201).json(user);
     } catch (error) {
         console.error(error);
         handleError(res, error, "Failed to create user.", 400);
     }
 };
+
 
 // GET /users/:userId
 const getUserById = async (req, res) => {

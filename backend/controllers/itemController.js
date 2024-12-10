@@ -69,18 +69,38 @@ const getItemById = async (req, res) => {
 const updateItem = async (req, res) => {
     const { itemId } = req.params;
     try {
+        const updatedFields = { ...req.body };
+
+        // Jos kuvia ladattiin, käsitellään ne ja lisätään `images`-kenttään
+        if (req.files && req.files.length > 0) {
+            const imageBase64Array = req.files.map(file => {
+                const mimeType = file.mimetype;
+                const base64 = file.buffer.toString('base64');
+                return `data:${mimeType};base64,${base64}`;
+            });
+            updatedFields.images = imageBase64Array;
+        }
+
+        // Muunnetaan tarvittaessa JSON-tyyppiset kentät
+        if (req.body.location) updatedFields.location = JSON.parse(req.body.location);
+        if (req.body.tags) updatedFields.tags = JSON.parse(req.body.tags);
+        if (req.body.priceRange) updatedFields.priceRange = JSON.parse(req.body.priceRange);
+
+        // Päivitetään kohde tietokantaan
         const updatedItem = await Item.findOneAndUpdate(
             { _id: itemId },
-            { ...req.body },
-            { new: true }
+            updatedFields,
+            { new: true } // Palautetaan päivitetty kohde
         );
+
         if (updatedItem) {
-            res.status(200).json(updatedItem);
+            res.status(200).json({ message: 'Item updated successfully', updatedItem });
         } else {
             res.status(404).json({ message: "Item not found." });
         }
     } catch (error) {
-        handleError(res, error, "An error occured while updating item.");
+        console.error('Error updating item:', error);
+        res.status(500).json({ error: 'Failed to update item' });
     }
 };
 

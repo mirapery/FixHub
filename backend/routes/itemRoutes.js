@@ -20,7 +20,7 @@ router.get('/:itemId', validateObjectId('itemId'), getItemById);
 router.get('/:itemId/image/:index', getItemImages);
 
 // EDIT ITEM (PATCH /api/items/:itemId)
-router.patch('/:itemId', requireAuth, validateObjectId('itemId'), updateItem);
+router.patch('/:itemId', requireAuth, validateObjectId('itemId'), upload.array('images', 5), updateItem);
 
 // DELETE ITEM (DELETE /api/items/:itemId)
 router.delete('/:itemId', requireAuth, validateObjectId('itemId'), deleteItem);
