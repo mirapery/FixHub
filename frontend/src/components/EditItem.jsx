@@ -1,20 +1,23 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, {useContext, useState} from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../components/AuthContext";
 
-const EditItem = ({ isOpen, closeEditItem, itemData }) => {
+const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
   const categories = categoryLinks.map((c) => c.text);
+  const { user } = useContext(AuthContext);
   
   const [name, setName] = useState(itemData.name);
   const [category, setCategory] = useState(itemData.category);
   const [tag, setTag] = useState("");
-  const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]); //mitenköhän tää toimii?
+  //const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]); //mitenköhän tää toimii?
+  const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags(itemData.tags || []);
   const [description, setDescription] = useState(itemData.description);
   const [priceFrom, setPriceFrom] = useState(itemData.priceRange[0]);
   const [priceTo, setPriceTo] = useState(itemData.priceRange[1]);
+  const [province, setProvince] = useState(itemData.province);
   const [postalCode, setPostalCode] = useState(itemData.location.postalCode);
   const [city, setCity] = useState(itemData.location.city);
   const [images, setImages] = useState(itemData.images);
@@ -117,7 +120,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
   };
 
   // form submit
-  const addItem = async () => {
+  const editItem = async () => {
     if (
       !name ||
       !category ||
@@ -125,7 +128,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       !postalCode ||
       !city ||
       images.length == 0 ||
-      !validatePriceRange
+      !validatePriceRange()
     ) {
       setAlertMessage((prev) => {
         const newMessages = [];
@@ -150,15 +153,15 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
 
       return;
     } else {
-      const imageNames = [];
-      images.forEach((image) => imageNames.push(image.name));
+      // const imageNames = [];
+      // images.forEach((image) => imageNames.push(image.name));
 
-      const formData = new FormData();
+      const modifiedItem = new FormData();
 
       // Helper to append fields if they differ
       const appendField = (key, newValue, oldValue) => {
         if (newValue !== oldValue) {
-          formData.append(key, newValue);
+          modifiedItem.append(key, newValue);
         }
       };
       
@@ -170,40 +173,40 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       
       // Append price range if it has changed
       if (itemData.priceRange[0] !== priceFrom || itemData.priceRange[1] !== priceTo) {
-        formData.append("priceRange", JSON.stringify([priceFrom, priceTo]));
+        modifiedItem.append("priceRange", JSON.stringify([priceFrom, priceTo]));
       }
       
       // Append images if they have changed (assuming `imageNames` is an array or string)
       if (itemData.images !== imageNames) {
-        formData.append("images", JSON.stringify(imageNames));
+        modifiedItem.append("images", JSON.stringify(imageNames));
       }
       
       // Append location fields if they have changed
-      if (itemData.location.postalCode !== postalCode || itemData.location.city !== city) {
+      if (itemData.location.province !== province || itemData.location.postalCode !== postalCode || itemData.location.city !== city) {
         const updatedLocation = {
           ...itemData.location,
+          ...(itemData.location.province !== province && { province }),
           ...(itemData.location.postalCode !== postalCode && { postalCode }),
           ...(itemData.location.city !== city && { city }),
         };
-        formData.append("location", JSON.stringify(updatedLocation));
+        modifiedItem.append("location", JSON.stringify(updatedLocation));
       }
       
-      console.log([...formData.entries()]); // Debug: Check the appended fields
+      console.log([...modifiedItem.entries()]); // Debug: Check the appended fields
 
-      //päivitetty yhteys databaseen
+      // yhteys databaseen
       try {
         const token = JSON.parse(sessionStorage.getItem("token"));
         const response = await fetch(`/api/items/${itemData.itemId}`, {
           method: "PATCH",
           headers: {
              Authorization: "Bearer " + token,
-            "Content-Type": "application/json",
           },
-          body: formData,
+          body: modifiedItem,
         });
 
         if (!response.ok) {
-          throw new Error("Failed to update item");
+          throw new Error("error");
         }
 
         const updatedItem = await response.json();
@@ -212,6 +215,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       } catch (error) {
         console.error("Error updating item:", error);
         alert("Failed to update item");
+        return;
       }
 
       // Tähän kuvien lisääminen serverille
@@ -269,7 +273,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
     isOpen && (
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
-        onClick={closeEditItem}
+        onClick={() => setIsEditItemOpen(false)}
       >
         <Alert
           isOpen={isAlertOpen}
@@ -282,7 +286,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
         >
           <button
             className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-            onClick={closeEditItem}
+            onClick={() => setIsEditItemOpen(false)}
           >
             <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
           </button>
@@ -396,6 +400,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
                 >
                   Item Name:
                 </label>
+
                 <input
                   type="text"
                   //name="name"
@@ -561,6 +566,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
                 <label className="text-xl text-fh_black font-bold m-1">
                   Item Location:
                 </label>
+
                 <div className="flex flex-row m-2">
                   <label className="w-1/5 flex items-center text-xl text-fh_black-light m-2">
                     Postal Code:
@@ -579,6 +585,23 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
                     className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
                     required
                   />
+
+                  <label className="w-1/5 flex items-center text-xl text-fh_black-light m-2">
+                    Province
+                  </label>
+                  <input
+                    type="text"
+                    name="province"
+                    id="province"
+                    value={province}
+                    onChange={(e) => {
+                      setProvince(e.target.value);
+                    }}
+                    placeholder="City"
+                    className=" w-3/12 h-12 px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white focus:outline-none focus:ring-2 focus:ring-fh_dgreen-light hover:bg-fh_white-light invalid:border-fh_yellow"
+                    required
+                  />
+
                   <label className="w-1/5 flex items-center text-xl text-fh_black-light m-2">
                     City:
                   </label>
@@ -602,7 +625,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
                 <div className=" w-1/5 flex flex-col m-2">
                   <button
                     className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                    onClick={() => addItem()}
+                    onClick={() => editItem()}
                   >
                     Save
                   </button>
@@ -610,7 +633,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
                 <div className="w-1/5 flex flex-col m-2">
                   <button
                     className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                    onClick={() => closeEditItem()}
+                    onClick={() => setIsEditItemOpen()}
                   >
                     Cancel
                   </button>
