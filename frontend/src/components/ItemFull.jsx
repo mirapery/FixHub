@@ -114,7 +114,7 @@ const ItemFull = ({ itemData }) => {
         try {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
-            const formDara = new FormData();
+            const formData = new FormData();
             formData.append("isFixer", true);
 
             const response = await fetch(`/api/items/${itemData._id}`, {
