@@ -16,9 +16,6 @@ router.get('/userId/:userId', getUserById);
 // GET ONE USER BY USERNAME (GET /api/users/:userName)
 router.get('/:userName', getUserByUserName);
 
-// CREATE USER (POST /api/users)
-router.post('/', upload.single('image'), createUser);
-
 // EDIT USER (PATCH /api/users/:userId)
 router.patch('/:userId', requireAuth, validateObjectId('userId'), upload.single('image'), updateUser);
 
@@ -26,7 +23,7 @@ router.patch('/:userId', requireAuth, validateObjectId('userId'), upload.single(
 router.delete('/:userId', requireAuth, validateObjectId('userId'), deleteUser);
 
 // SIGNUP (POST /api/users/signup)
-router.post('/signup', signupUser);
+router.post('/signup',upload.single('image'), signupUser);
 
 // LOGIN (POST /api/users/login)
 router.post('/login', loginUser);

@@ -16,9 +16,7 @@ const Navbar = ({ setIsLoginOpen, isDropDown, setIsDropDown }) => {
   const logOut = () => {
     setIsDropDown(false);
     sessionStorage.removeItem("user");
-    sessionStorage.removeItem("token");
-    setIsAuthenticated(false);
-    setUser(null);
+    sessionStorage.removeItem("token")
     navigate("/");
   };
 
