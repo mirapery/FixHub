@@ -10,40 +10,31 @@ export default function useLogin(url) {
     setIsLoading(true);
     setError(null); // Clear any previous error
 
-    // Make the API call
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(object),
     });
 
-    const user = await response.json();
+    const result = await response.json();
 
     if (!response.ok) {
-      setError(user.error); // Set error if login failed
-      setIsLoading(false); // Stop loading
-      return user.error; // Stop further processing
+      setError(result.error); // Näytä virheviesti
+      setIsLoading(false); // Lopeta lataus
+      return result.error; // Lopeta suoritus
     }
 
-    // If no error, proceed with successful login
-    sessionStorage.setItem("user", JSON.stringify(user)); // Store user in session
-    setIsAuthenticated(true); // Set authentication to true
-    try {
-      const response = await fetch(`/api/users/${user.userName}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch user data");
-      }
-      const userData = await response.json();
-      //save userdata to useContext
-      sessionStorage.setItem("userdata", JSON.stringify(userData));
-      setUser(userData);
-      console.log(userData);
-    } catch (error) {
-      setError(error.message);
-    }
-    
+
+    const userData = result.user; // Erota käyttäjätiedot
+    const token = result.token; // Erota token
+
+    // Tallenna sessionStorageen
+    sessionStorage.setItem("user", JSON.stringify(userData));
+    sessionStorage.setItem("token", JSON.stringify(token));
    
-    console.log(user); // Log user details
+    
+    setUser(userData);
+
     setIsLoading(false); // Stop loading
   };
 

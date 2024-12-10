@@ -1,20 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// ottaa sisään joko itemin tai userin, ja muotoilee sisällön sen mukaan
+
 const ItemCard = ({ itemData }) => {
     let formattedTags;
     let formattedPrice;
 
+
+    // tagien muotoilu
     if ("tags" in itemData) {
         formattedTags = itemData.tags
             .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
             .join(", ");
     }
 
+    // hinta-alueen muotoilu
     if ("priceRange" in itemData) {
         formattedPrice = (String(itemData.priceRange[0]) + " - " + String(itemData.priceRange[1]) + " €")
     }
 
+    // linkki itemille tai userille sisällön mukaan
     const itemLink = () => {
         if (itemData.isFixer) {
             return "/user/" + itemData.userName
@@ -23,12 +29,12 @@ const ItemCard = ({ itemData }) => {
         }
     }
 
-    const imageUrl = itemData.images?.[0] || itemData.image || (itemData.isFixer ? "userPlaceholder.jpg" : "itemPlaceholder.jpg");
+    const imageUrl = itemData.images?.[0] || itemData.image || (itemData.isFixer ? "userPlaceholder.jpg" : "itemPlaceholder.jpg"); // tähän eetulta lopullinen versio
 
     return (
         <Link to={itemLink()} className="flex  flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300">
             <img
-                src={`/src/assets/images/${imageUrl}`}
+                src={`http://localhost:5173/api/items/${itemData.itemId}/image/${imageUrl}`} // tähän eetulta lopullinen versio
                 alt={itemData.name}
                 className="w-32 h-32 object-cover m-4 rounded-md"
             />

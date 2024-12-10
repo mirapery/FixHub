@@ -9,7 +9,7 @@ const resultArea = ({ items, itemCount }) => {
         {itemCount!=="" && <h1 className="text-2xl  ml-4">{itemCount} osumaa </h1>}
       </div>
 
-      <Sort />
+     
       <div className="md:grid md:grid-cols-2 lg:grid lg:grid-cols-3 gap-4">
         {items.map((item, index) => {
           return <ItemCard itemData={item} key={index} />;

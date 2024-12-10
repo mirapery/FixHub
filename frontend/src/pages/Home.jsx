@@ -1,35 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Hero from "../components/Hero.jsx";
-
 import Searchbar from "../components/Searchbar.jsx";
-
 import ItemCard from "../components/ItemCard.jsx";
-// import { dummyUsers, dummyItems } from "../assets/data.js";
 import CardArea from "../components/CardArea.jsx";
 
 function Home() {
   
-  //testingiin
-  // const dummyItemList = [
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  //   dummyItems[0],
-  // ];
-
-  // const dummyUserList = [
-  //   dummyUsers[0],
-  //   dummyUsers[0],
-  //   dummyUsers[0],
-  //   dummyUsers[0],
-  //   dummyUsers[0],
-  //   dummyUsers[0],
-  //   dummyUsers[0],
-  // ];
   const [items, setItems] = useState([]);
   const [users, setUsers] = useState([]);
 

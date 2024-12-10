@@ -4,20 +4,20 @@ import { useState, useEffect, useContext } from "react";
 import AuthContext from "./AuthContext";
 import NewItem from "./NewItem";
 import DropDown from "./DropDown";
+
+//Laytoutista
 const Navbar = ({ setIsLoginOpen, isDropDown, setIsDropDown }) => {
-  const { isAuthenticated, setIsAuthenticated,setUser } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, setUser, user } =
+    useContext(AuthContext);
 
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const navigate = useNavigate();
-  let user = sessionStorage.getItem("user")
-    ? JSON.parse(sessionStorage.getItem("user"))
-    : null;
+
   //logout function
   const logOut = () => {
     setIsDropDown(false);
     sessionStorage.removeItem("user");
-    sessionStorage.removeItem( "storeduser")
-   
+    sessionStorage.removeItem("token");
     setIsAuthenticated(false);
     setUser(null);
     navigate("/");
@@ -53,6 +53,7 @@ const Navbar = ({ setIsLoginOpen, isDropDown, setIsDropDown }) => {
             setIsLoginOpen={setIsLoginOpen}
             isDropDown={isDropDown}
             setIsDropDown={setIsDropDown}
+            user={user}
           />
         </div>
         {isDropDown && (

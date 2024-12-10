@@ -171,7 +171,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
     newItem.append("interested", 0);
   
     try {
-      const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+      const token = JSON.parse(sessionStorage.getItem("token"));
       const response = await fetch("/api/items", {
         method: "POST",
         headers: {

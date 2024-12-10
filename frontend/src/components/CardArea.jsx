@@ -10,8 +10,6 @@ const CardArea = ({ itemsList }) => {
   useEffect(() => {
     const container = containerRef.current;
 
-    console.log("ItemsList: " + itemsList);
-
     const updateArrows = () => {
       if (!container) return;
 

@@ -102,7 +102,7 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
                         {/* itemdata */}
                         <div className="flex flex-col items-center m-2 w-full md:w-1/2">
                             <img
-                                src={`/src/assets/images/${imageUrl}`}
+                                src={ `http://localhost:5173/api/items/${itemData.itemId}/image/${imageUrl}`}
                                 alt={itemData.name}
                                 className="w-32 h-32 object-cover m-4 rounded-md"
                             />
@@ -124,7 +124,7 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
                             <div className="flex flex-row m-2 justify-center items-center">
 
                                 <img
-                                    src={user.image ? `/src/assets/images/${user.image}` : `/src/assets/images/userPlaceholder.jpg`}
+                                    src={user.image ? `http://localhost:5173/api/users/${user._id}/image/0` : `/src/assets/images/userPlaceholder.jpg`}
                                     alt="profile picture"
                                     className="rounded-full w-10 h-auto m-2 shadow"
                                 />

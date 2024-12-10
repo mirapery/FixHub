@@ -9,12 +9,10 @@ const PageLinks = ({
   itemClass,
   setIsLoginOpen,
   isDropDown,
-  setIsDropDown,
+  setIsDropDown,user
 
 }) => {
-  let user = sessionStorage.getItem("user")
-    ? JSON.parse(sessionStorage.getItem("user"))
-    : null;
+  
   const handleClick = () => {
     if (user === null) {
       setIsLoginOpen(true);

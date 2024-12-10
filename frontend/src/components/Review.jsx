@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-//import { dummyUsers } from "../assets/data";
 import { Link } from "react-router-dom";
 import EditReviewWindow from "./EditReviewWindow";
 import AuthContext from "./AuthContext";
 //Reviewarea:sta
 
 const Review = ({ review, receiver }) => {
-  //const user = JSON.parse(sessionStorage.getItem("userdata"));
+
   const { user } = useContext(AuthContext);
 
   const [reviewSender, setReviewSender] = useState({});
@@ -40,7 +39,7 @@ const Review = ({ review, receiver }) => {
 
   const editReview = () => {
     openEditWindow();
-    console.log("Edit review");
+    console.log("Edit review window opened");
   };
 
   return (
@@ -79,7 +78,7 @@ const Review = ({ review, receiver }) => {
               <img
                 src={
                   user.image
-                    ? `/src/assets/images/${user.image}`
+                    ? `http://localhost:5173/api/users/${user._id}/image/0`
                     : `/src/assets/images/userPlaceholder.jpg`
                 }
                 alt="profile picture"

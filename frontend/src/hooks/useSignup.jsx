@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import AuthContext from "../components/AuthContext";
 export default function useSignup(url) {
-  const { setIsAuthenticated, setUser} = useContext(AuthContext);
+  const { setIsAuthenticated, setUser } = useContext(AuthContext);
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
@@ -14,30 +14,23 @@ export default function useSignup(url) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(object),
     });
-    const user = await response.json();
+    const result = await response.json();
     if (!response.ok) {
-      console.log(user.error);
-      setError(user.error);
+      console.log(result.error);
+      setError(result.error);
       setIsLoading(false);
-      return user.error;
+      return result.error;
     }
 
-    sessionStorage.setItem("user", JSON.stringify(user));
+    const userData = result.user; // Erota käyttäjätiedot
+    const token = result.token; // Erota token
 
-    try {
-      const response = await fetch(`/api/users/${user.userName}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch user data");
-      }
-      const userData = await response.json();
-      //save userdata to useContext
-      sessionStorage.setItem("userdata", JSON.stringify(userData));
-      setUser(userData);
-      console.log(userData);
-    } catch (error) {
-      setError(error.message);
-    }
-//set auth
+    // Tallenna sessionStorageen
+    sessionStorage.setItem("user", JSON.stringify(userData));
+    sessionStorage.setItem("token", JSON.stringify(token));
+    setUser(userData);
+
+    //set auth
     setIsAuthenticated(true);
     setIsLoading(false);
   };

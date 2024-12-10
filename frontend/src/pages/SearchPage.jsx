@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Searchbar from "../components/Searchbar.jsx";
 import ResultArea from "../components/ResultArea.jsx";
-//import { dummyItems } from "../assets/data.js";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams(); // Hakee query-parametrit
 
   const query = searchParams.get("q") || ""; // Lukee "query"-parametrin
   // const tag = searchParams.get("tag")|| "";
-  //const [items, setItems] = useState(dummyItems);
   const [items, setItems] = useState([]);
   const [itemCount, setItemCount] = useState("");
 

@@ -9,7 +9,6 @@ const EditReviewWindow = ({ closeReviewWindow, review, receiver }) => {
 const navigate = useNavigate();
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState([]);
-  console.log("revievi",review);
   const openAlert = () => {
     setAlertOpen(true);
     console.log("alert open");
@@ -37,10 +36,10 @@ const navigate = useNavigate();
 
       return;
     } else {
-      console.log("Message sent");
+      console.log("Review sent");
 
       try {
-        const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+        const token = JSON.parse(sessionStorage.getItem("token"));
         
         const response = await fetch(`/api/reviews/${review._id}`, {
           method: "PATCH",
@@ -73,7 +72,7 @@ const navigate = useNavigate();
 
   const deleteReview = async () => {
     try {
-      const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+      const token = JSON.parse(sessionStorage.getItem("token"));
       const response = await fetch(`/api/reviews/${review._id}`, {
         method: "DELETE",
         headers: {

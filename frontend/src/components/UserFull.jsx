@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReviewArea from "./ReviewArea";
 import CardArea from "./CardArea";
-//import { dummyItems, dummyReviews } from "../assets/data"; // nämä korvataa listoilla dummydatasta
 import { useNavigate } from "react-router-dom";
 import MessageWindow from "./MessageWindow";
 import NewReviewWindow from "./NewReviewWindow";
 import AuthContext from "./AuthContext";
 import EditUser from "./EditUser";
-//Userpagesta
+
+//tähän tullaan Userpagesta
+
 const UserFull = ({ userData, setUser }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [items, setItems] = useState([]);
@@ -15,12 +16,9 @@ const UserFull = ({ userData, setUser }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated,user } = useContext(AuthContext);
- // const user = JSON.parse(sessionStorage.getItem("userdata"));
 
 
-
-  //const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
-
+  // haetaan käyttäjän itemit ja arvostelut
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,6 +39,8 @@ const UserFull = ({ userData, setUser }) => {
 
     fetchData();
   }, []);
+
+  // täytetään sivun tabit fixeristatuksen mukaan
 
   const tabs = [];
   const tabContent = [];
@@ -67,39 +67,42 @@ const UserFull = ({ userData, setUser }) => {
     );
   }
 
+  // viesti-ikkunan jutut
   const [isMessageWindowOpen, setMessageWindowOpen] = useState(false);
   const openMessageWindow = () => setMessageWindowOpen(true);
   const closeMessageWindow = () => setMessageWindowOpen(false);
 
   const sendMessage = () => {
     openMessageWindow();
-    console.log("Message sent");
+    console.log("Message window opened");
   };
 
+  // reviewikkunan jutut
   const [isNewReviewWindowOpen, setNewReviewWindowOpen] = useState(false);
   const openNewReviewWindow = () => setNewReviewWindowOpen(true);
   const closeNewReviewWindow = () => setNewReviewWindowOpen(false);
 
   const addReview = () => {
     openNewReviewWindow();
-    console.log("Review added");
+    console.log("Review window opened");
   };
 
+  // profiilin muokkausikkunan jutut
   const [isEditProfileWindowOpen, setEditProfileWindowOpen] = useState(false);
   const openEditProfileWindow = () => setEditProfileWindowOpen(true);
   const closeEditProfileWindow = () => setEditProfileWindowOpen(false);
 
+  // kuvajuttuja, tuleeko muutoksia eetulta?
   const imagePath = userData.image
-    ? `/src/assets/images/${userData.image}`
+    ? `http://localhost:5173/api/users/${userData._id}/image/0`
     : `/src/assets/images/userPlaceholder.jpg`;
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  //daten muotoilu
   const sanitizedDate = userData.creationTime.slice(0, 10);
-
-  //console.log(userData);
 
   const storedUser = JSON.parse(sessionStorage.getItem("user"));
   const loggedInUserName = storedUser ? storedUser.userName : null;
@@ -128,7 +131,7 @@ const UserFull = ({ userData, setUser }) => {
         )}
 
         {isEditProfileWindowOpen && (
-          <EditUser
+          <EditUser // profiilin muokkausikkuna
             closeEditProfileWindow={closeEditProfileWindow}
           />
         )}
@@ -162,8 +165,8 @@ const UserFull = ({ userData, setUser }) => {
                 <p className="mr-1">{userData.location.city + ", "}</p>
                 <p>{userData.location.postalcode}</p>
               </div>
-              {/* <div>
-                                <h3 className="text-fh_black font-bold font-sans text-lg my-2">
+              <div>
+                            <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                     Tags:
                                 </h3>
                                 <ul className="m-1 w-full flex flex-wrap">
@@ -179,7 +182,7 @@ const UserFull = ({ userData, setUser }) => {
                                         </li>
                                     ))}
                                 </ul>
-                            </div> */}
+                            </div>
               <div>
                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                   About me:
@@ -192,6 +195,9 @@ const UserFull = ({ userData, setUser }) => {
                 </h3>
                 <p className="my-2 text-fh_black">{sanitizedDate}</p>
               </div>
+
+              {/* nappialue */}
+
               {userData.userName !== loggedInUserName && isAuthenticated && (
                 <div>
                   <button
@@ -254,13 +260,7 @@ const UserFull = ({ userData, setUser }) => {
   } else {
     return (
       <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen">
-        {/* <MessageWindow // viestin lähetysikkuna
-                    isOpen={isMessageWindowOpen}
-                    closeMessageWindow={closeMessageWindow}
-                    // itemData={itemData}
-                    user={user}
-                // owner={owner}
-                /> */}
+        
         {isEditProfileWindowOpen && (
           <EditUser
             setUser={setUser}
@@ -300,14 +300,6 @@ const UserFull = ({ userData, setUser }) => {
                 </h3>
                 <p className="my-2 text-fh_black">{sanitizedDate}</p>
               </div>
-              {/* <div>
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={sendMessage}
-                                >
-                                    Send Message
-                                </button>
-                            </div> */}
               {userData.userName === loggedInUserName && (
                 <div>
                   <button
