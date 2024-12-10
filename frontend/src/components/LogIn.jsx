@@ -3,15 +3,14 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin";
 import useField from "../hooks/useField";
-import AuthContext from "./AuthContext";
+
 
 function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
-  const navigate = useNavigate();
+
   const nameInputRef = useRef(null);
   const userName = useField("text");
   const password = useField("password");
-  const { setIsAuthenticated, isAuthenticated} =
-    useContext(AuthContext);
+
 
   const { login, error } = useLogin("/api/users/login");
 

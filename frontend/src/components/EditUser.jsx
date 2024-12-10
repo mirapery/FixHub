@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import useField from "../hooks/useField";
 import useTags from "../hooks/useTags";
 
-import AuthContext from "./AuthContext";
+
 
 const EditUser = ({ closeEditProfileWindow }) => {
-  const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
 
   const nameInput = useField("text");
@@ -24,8 +23,8 @@ const EditUser = ({ closeEditProfileWindow }) => {
   const imageInput = useField("file");
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
-  const { setIsAuthenticated, user, setUser } = useContext(AuthContext);
 
   useEffect(() => {
     nameInput.onChange({ target: { value: user.name } });
@@ -87,8 +86,8 @@ const EditUser = ({ closeEditProfileWindow }) => {
       const updatedData = await response.json();
       //console.log("User updated:", updatedData);
       sessionStorage.setItem("user", JSON.stringify(updatedData));
-      const storedUser = JSON.parse(sessionStorage.getItem("user"));
-      setUser(storedUser);
+ 
+   
    
       
       closeEditProfileWindow(true);
@@ -138,6 +137,7 @@ const EditUser = ({ closeEditProfileWindow }) => {
               className=" p-3 bg-fh_beige rounded-sm"
               {...userNameInput}
               required
+              disabled
             ></input>
             {/*Password here*/}
             <h1 className="flex items-center  mt-4 justify-between">

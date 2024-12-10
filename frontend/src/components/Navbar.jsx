@@ -7,9 +7,8 @@ import DropDown from "./DropDown";
 
 //Laytoutista
 const Navbar = ({ setIsLoginOpen, isDropDown, setIsDropDown }) => {
-  const { isAuthenticated, setIsAuthenticated, setUser, user } =
-    useContext(AuthContext);
-
+  const {setIsAuthenticated } = useContext(AuthContext);
+  const user = JSON.parse(sessionStorage.getItem("user"));
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const navigate = useNavigate();
 

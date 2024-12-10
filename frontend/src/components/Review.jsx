@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import EditReviewWindow from "./EditReviewWindow";
-import AuthContext from "./AuthContext";
+
 //Reviewarea:sta
 
 const Review = ({ review, receiver }) => {
 
-  const { user } = useContext(AuthContext);
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   const [reviewSender, setReviewSender] = useState({});
   useEffect(() => {

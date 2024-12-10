@@ -15,7 +15,8 @@ const UserFull = ({ userData, setUser }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated,user } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated,} = useContext(AuthContext);
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
 
   // haetaan käyttäjän itemit ja arvostelut
@@ -165,7 +166,7 @@ const UserFull = ({ userData, setUser }) => {
                 <p className="mr-1">{userData.location.city + ", "}</p>
                 <p>{userData.location.postalcode}</p>
               </div>
-              <div>
+              {/* <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                     Tags:
                                 </h3>
@@ -182,7 +183,7 @@ const UserFull = ({ userData, setUser }) => {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                            </div> */}
               <div>
                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                   About me:

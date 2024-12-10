@@ -9,7 +9,7 @@ const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // backend version
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated, } = useContext(AuthContext);
  
     const storedUser = JSON.parse(sessionStorage.getItem("user"));
     const loggedInUserName = storedUser ? storedUser.userName : null;
