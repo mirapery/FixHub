@@ -186,10 +186,58 @@ const loginUser = async (req, res) => {
 
 // POST /users/signup
 const signupUser = async (req, res) => {
-    const {userName, name, phone, email, password, image, location, isFixer} = req.body;
-
     try {
-        const user = await User.signup(userName, name, phone, email, password, image, location, isFixer);
+        const { userName, name, phone, email, password, location, isFixer } = req.body;
+
+        let image = null;
+        if (req.file) {
+            const mimeType = req.file.mimetype; // Example: "image/png"
+            const base64 = req.file.buffer.toString("base64");
+            image = `data:${mimeType};base64,${base64}`;
+        }
+
+        if (!userName || !name || !phone || !email || !password || !location) {
+            return res.status(400).json({ error: 'All fields must be filled' });
+        }
+
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
+        }
+
+        if (!validator.isStrongPassword(password)) {
+            return res.status(400).json({ error: 'Password is not strong enough' });
+        }
+
+        // Check for duplicate fields
+        const userNameExists = await User.findOne({ userName });
+        if (userNameExists) {
+            return res.status(400).json({ error: 'Username already in use' });
+        }
+
+        const phoneExists = await User.findOne({ phone });
+        if (phoneExists) {
+            return res.status(400).json({ error: 'Phone already in use' });
+        }
+
+        const emailExists = await User.findOne({ email });
+        if (emailExists) {
+            return res.status(400).json({ error: 'Email already in use' });
+        }
+
+        // Encrypt the password
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+
+        const user = await User.create({
+            userName,
+            name,
+            phone,
+            email,
+            password: hash,
+            image,
+            location: JSON.parse(location),
+            isFixer: Boolean(isFixer)
+        });
         const token = createToken(user._id);
         res.status(200).json({user, token});
     } catch (error) {
