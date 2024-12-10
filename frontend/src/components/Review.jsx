@@ -6,7 +6,7 @@ import EditReviewWindow from "./EditReviewWindow";
 
 const Review = ({ review, receiver }) => {
 
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const user = JSON.parse(sessionStorage.getItem("user")) || null;
 
   const [reviewSender, setReviewSender] = useState({});
   useEffect(() => {
@@ -26,7 +26,7 @@ const Review = ({ review, receiver }) => {
     fetchUser();
   }, [review]);
 
-  const owner = reviewSender.userName === user.userName;
+  const owner = reviewSender.userName === user?.userName || false;
 
   const [isEditWindowOpen, setEditWindowOpen] = useState(false);
 
@@ -74,11 +74,11 @@ const Review = ({ review, receiver }) => {
           </button>
         ) : (
           <div>
-            <Link to={`/user/${user.userName}`}>
+            <Link to={`/user/${reviewSender.userName}`}>
               <img
                 src={
-                  user.image
-                    ? `http://localhost:5173/api/users/${user._id}/image/0`
+                  reviewSender.image
+                    ? `http://localhost:5173/api/users/${reviewSender._id}/image/0`
                     : `/src/assets/images/userPlaceholder.jpg`
                 }
                 alt="profile picture"
@@ -86,7 +86,7 @@ const Review = ({ review, receiver }) => {
               />
             </Link>
             <p className="my-2 text-fh_dgreen text-lg underline">
-              <Link to={`/user/${user.userName}`}>{user.userName}</Link>
+              <Link to={`/user/${reviewSender.userName}`}>{reviewSender.userName}</Link>
             </p>
           </div>
         )}
