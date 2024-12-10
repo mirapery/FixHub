@@ -22,17 +22,20 @@ const createItem = async (req, res) => {
         const base64 = file.buffer.toString('base64');
         return `data:${mimeType};base64,${base64}`;
       });
-  
+      const locationObject = JSON.parse(location);
+      const tagsObject = JSON.parse(tags);
+      const priceRangeObject = JSON.parse(priceRange);
+
       const item = new Item({
         userId,
         fixerId,
         name,
-        tags,
+        tags: tagsObject,
         description,
         category,
-        location,
-        priceRange,
-        dateOfPublish,
+        location: locationObject,
+        priceRange: priceRangeObject,
+        dateOfPublish: dateOfPublish || new Date(),
         isFixed,
         interested,
         images: imageBase64Array,
