@@ -62,9 +62,11 @@ const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
     
                 const newReview = await response.json();
                 console.log("New Review: " + newReview);
-                closeReviewWindow();
+                
                 setMessage("")
                 setRating("")
+                closeReviewWindow();
+                window.location.reload();
             } catch (error) {
                 console.error("Error adding review: ", error);
                 alert("Failed to add review")

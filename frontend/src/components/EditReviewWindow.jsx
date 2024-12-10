@@ -59,10 +59,11 @@ const navigate = useNavigate();
 
         const newReview = await response.json();
         console.log("New Review: " + newReview);
-        closeReviewWindow();
         setMessage("");
         setRating("");
-        navigate(`/user/${receiver.userName}`)
+        closeReviewWindow();
+        window.location.reload();
+        //navigate(`/user/${receiver.userName}`)
       } catch (error) {
         console.error("Error adding review: ", error);
         alert("Failed to add review");
@@ -84,6 +85,7 @@ const navigate = useNavigate();
       }
 
       closeReviewWindow();
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting review: ", error);
       alert("Failed to delete review");
