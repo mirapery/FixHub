@@ -2,6 +2,8 @@ const User = require("../models/userModel.js");
 const Item = require("../models/itemModel.js");
 const jwt = require("jsonwebtoken");
 const handleError = require("../middleware/handleError.js");
+const validator = require('validator')
+const bcrypt = require('bcrypt')
 
 // GET /users
 const getAllUsers = async (req, res) => {
@@ -121,11 +123,11 @@ const signupUser = async (req, res) => {
     const { userName, name, phone, email, password, location, isFixer, about } =
       req.body;
 
-    let image = null;
+    let images = null;
     if (req.file) {
       const mimeType = req.file.mimetype; // Example: "image/png"
       const base64 = req.file.buffer.toString("base64");
-      image = `data:${mimeType};base64,${base64}`;
+      images = `data:${mimeType};base64,${base64}`;
     }
 
     if (!userName || !name || !phone || !email || !password || !location) {
@@ -167,7 +169,7 @@ const signupUser = async (req, res) => {
       email,
       about,
       password: hash,
-      image,
+      images,
       location: JSON.parse(location),
       isFixer: Boolean(isFixer),
     });
@@ -181,11 +183,11 @@ const signupUser = async (req, res) => {
 const getUserImage = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-    if (!user || !user.image) {
+    if (!user || !user.images) {
       return res.status(404).json({ error: "Image not found" });
     }
 
-    const base64Image = user.image;
+    const base64Image = user.images;
     const mimeTypeMatch = base64Image.match(/^data:(image\/\w+);base64,/);
 
     if (!mimeTypeMatch) {
