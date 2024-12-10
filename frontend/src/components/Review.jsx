@@ -78,7 +78,7 @@ const Review = ({ review, receiver }) => {
               <img
                 src={
                   user.image
-                    ? `/src/assets/images/${user.image}`
+                    ? `http://localhost:5173/api/users/${user._id}/image/0`
                     : `/src/assets/images/userPlaceholder.jpg`
                 }
                 alt="profile picture"

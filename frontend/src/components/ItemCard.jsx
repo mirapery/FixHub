@@ -34,7 +34,7 @@ const ItemCard = ({ itemData }) => {
     return (
         <Link to={itemLink()} className="flex  flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300">
             <img
-                src={`/src/assets/images/${imageUrl}`} // tähän eetulta lopullinen versio
+                src={`http://localhost:5173/api/items/${itemData.itemId}/image/${imageUrl}`} // tähän eetulta lopullinen versio
                 alt={itemData.name}
                 className="w-32 h-32 object-cover m-4 rounded-md"
             />

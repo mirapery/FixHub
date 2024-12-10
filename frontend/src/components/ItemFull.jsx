@@ -158,7 +158,7 @@ const ItemFull = ({ itemData }) => {
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
-                            src={itemData.images.length > 0 ? "/src/assets/images/" + itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} // tähän odottaa koodia eetulta
+                            src={itemData.images.length > 0 ? `http://localhost:5173/api/items/${itemData.itemId}/image/` + itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} 
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
@@ -170,7 +170,7 @@ const ItemFull = ({ itemData }) => {
                             }
                             return <img
                                 key={index}
-                                src={"/src/assets/images/" + image} // tähän odottaa koodia eetulta
+                                src={`http://localhost:5173/api/items/${itemData.itemId}/image/` + index} 
                                 alt={itemData.name + ' ' + index + '-pic-' + 1}
                                 onClick={() => setCurrentImage(index)}
                                 className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'
@@ -243,7 +243,7 @@ const ItemFull = ({ itemData }) => {
                                     className="flex flex-row items-center"
                                 >
                                     <img
-                                        src={user.image ? user.image : `/src/assets/images/userPlaceholder.jpg`} // tähän odotta koodia eetulta
+                                        src={user.image ?  `http://localhost:5173/api/users/${user._id}/image/0`: `/src/assets/images/userPlaceholder.jpg`} // tähän odotta koodia eetulta
                                         alt="profile picture"
                                         className="rounded-full w-10 h-auto m-2 shadow"
                                     />
