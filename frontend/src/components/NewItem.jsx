@@ -126,109 +126,73 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       !description ||
       !postalCode ||
       !city ||
-      images.length == 0 ||
+      images.length === 0 ||
       !validatePriceRange()
     ) {
       setAlertMessage((prev) => {
         const newMessages = [];
         if (!name) newMessages.push("Item must have a Name!");
         if (!category) newMessages.push("Item must have a Category");
-        if (!description)
-          newMessages.push("Please add a Description of the item.");
-        if (!postalCode)
-          newMessages.push("Please add the location of your item.");
-        if (!city || !postalCode)
-          newMessages.push("Please add the address info.");
-        if (images.length === 0)
-          newMessages.push("Please add at least 1 image of the item.");
+        if (!description) newMessages.push("Please add a Description of the item.");
+        if (!postalCode) newMessages.push("Please add the location of your item.");
+        if (!city || !postalCode) newMessages.push("Please add the address info.");
+        if (images.length === 0) newMessages.push("Please add at least 1 image of the item.");
         if (!validatePriceRange())
-          newMessages.push(
-            '"To" price must be greater than or equal to "From" price.'
-          );
+          newMessages.push('"To" price must be greater than or equal to "From" price.');
         return [...prev, ...newMessages];
       });
-
+  
       openAlert();
-
       return;
-    } else {
-      // const imageNames = [];
-      // images.forEach((image) => imageNames.push(image.name));
-
-      const newItem = new FormData();
-
-      // Append primitive values
-      newItem.append("userId", user._id);
-      newItem.append("name", name);
-      newItem.append("tags", tags);
-      newItem.append("description", description);
-      newItem.append("category", category);
-
-      // Append nested object (convert to JSON string)
-      newItem.append("location", JSON.stringify({ province, city, postalCode }));
-
-      // Append array (convert to JSON string)
-      newItem.append("priceRange", JSON.stringify([priceFrom, priceTo]));
-
-      // Append images (assuming `formData` is an array of `File` objects)
-      if (Array.isArray(newItem.images)) {
-        formData.forEach((file, index) => {
-          newItem.append(`images[${index}]`, file);
-        });
-      }
-
-      // Append other fields
-      newItem.append("isFixed", false); // Boolean values will be converted to strings
-      newItem.append("interested", 0); // Numbers will be converted to strings
-
-      // const newItem = {
-      //   userId: user._id,
-      //   name: name,
-      //   tags: tags,
-      //   description: description,
-      //   category: category,
-      //   location: {
-      //     province: province,
-      //     city: city,
-      //     postalcode: postalCode,
-      //   },
-      //   priceRange: [priceFrom, priceTo],
-
-      //   images: formData,
-
-      //   isFixed: false,
-      //   interested: 0,
-      // };
-
-      console.log(newItem);
-
-      // yhteys databaseen
-      try {
-        const token = JSON.parse(sessionStorage.getItem("token"));
-        const response = await fetch("/api/items", {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-          body: newItem,
-        });
-        if (!response.ok) {
-          throw new Error(error);
-        }
-
-        const addedItem = await response.json();
-        console.log("Item added:", addedItem);
-        navigate(`/item/${addedItem._id}`);
-      } catch (error) {
-        console.error("Error adding item:", error);
-        alert("Failed to add item");
-        return;
-      }
-
-      // tyhjennä formi
-
-      clearItem();
     }
+  
+    const newItem = new FormData();
+  
+    // Append primitive values
+    newItem.append("userId", user._id);
+    newItem.append("name", name);
+    newItem.append("tags", JSON.stringify(tags)); // Convert tags array to JSON string
+    newItem.append("description", description);
+    newItem.append("category", category);
+  
+    // Append nested object
+    newItem.append("location", JSON.stringify({ province, city, postalCode }));
+  
+    // Append array
+    newItem.append("priceRange", JSON.stringify([priceFrom, priceTo]));
+  
+    // Append images
+    images.forEach((file) => {
+      newItem.append("images", file); // Append files under the "images" key
+    });
+  
+    // Append other fields
+    newItem.append("isFixed", false);
+    newItem.append("interested", 0);
+  
+    try {
+      const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+      const response = await fetch("/api/items", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        body: newItem,
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+  
+      const addedItem = await response.json();
+      console.log("Item added:", addedItem);
+      navigate(`/item/${addedItem._id}`);
+    } catch (error) {
+      console.error("Error adding item:", error);
+      alert("Failed to add item");
+    }
+  
+    clearItem();
   };
 
   // clear fields and images
