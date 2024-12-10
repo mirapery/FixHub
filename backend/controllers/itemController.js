@@ -71,14 +71,23 @@ const updateItem = async (req, res) => {
     try {
         const updatedFields = { ...req.body };
 
-        // Jos kuvia ladattiin, käsitellään ne ja lisätään `images`-kenttään
+        // Hae olemassa oleva item tietokannasta
+        const existingItem = await Item.findById(itemId);
+        if (!existingItem) {
+            return res.status(404).json({ message: "Item not found." });
+        }
+
+        // Jos kuvia ladattiin, käsitellään ne ja yhdistetään vanhoihin kuviin
         if (req.files && req.files.length > 0) {
             const imageBase64Array = req.files.map(file => {
                 const mimeType = file.mimetype;
                 const base64 = file.buffer.toString('base64');
                 return `data:${mimeType};base64,${base64}`;
             });
-            updatedFields.images = imageBase64Array;
+            updatedFields.images = [...existingItem.images, ...imageBase64Array];
+        } else {
+            // Säilytä vanhat kuvat, jos uusia ei ladattu
+            updatedFields.images = existingItem.images;
         }
 
         // Muunnetaan tarvittaessa JSON-tyyppiset kentät
@@ -100,10 +109,8 @@ const updateItem = async (req, res) => {
         }
     } catch (error) {
         console.error('Error updating item:', error);
-        res.status(500).json({ error: 'Failed to update item' });
-    }
-};
-
+       
+    }};
 // DELETE /items/:itemId
 const deleteItem = async (req, res) => {
     const { itemId } = req.params;

@@ -328,7 +328,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
                               src={
                                 itemData && itemData.images.length > index
                                   ? `http://localhost:5173/api/items/${itemData._id}/image/` +
-                                    itemData.images[index]
+                                    index
                                   : URL.createObjectURL(image)
                               } // tämä rivi ei toimi jos kuvia kummastakin lähteestä
                               alt={`preview-${index}`}
