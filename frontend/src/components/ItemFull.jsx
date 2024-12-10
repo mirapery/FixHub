@@ -86,7 +86,7 @@ const ItemFull = ({ itemData }) => {
         try {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
-            const formDara = new FormData();
+            const formData = new FormData();
             formData.append("fixerId", storedUser._id);
 
             const response = await fetch(`/api/items/${itemData._id}`, {
@@ -115,15 +115,14 @@ const ItemFull = ({ itemData }) => {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
             const formData = new FormData();
-            formData.append("isFixer", true);
+            formData.append("isFixed", true);
 
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: "Bearer " + token,
-                    "Content-Type": "application/json",
-                  },
-                body: formdata,
+                    },
+                body: formData,
             });
             if (!response.ok) {
                 throw new Error("Failed to mark item as fixed");
@@ -293,7 +292,7 @@ const ItemFull = ({ itemData }) => {
                             }
 
                             {/* kirjautunut käyttäjä, on fixeri, itemiä ei fiksattu, itemi ei fiksauksessa */}
-                            {(storedUser.isFixer && !owner && !itemData.isFixed && isAuthenticated && !itemData.fixerId) && 
+                            {(storedUser?.isFixer && !owner && !itemData.isFixed && isAuthenticated && !itemData.fixerId) && 
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={startFixing}
