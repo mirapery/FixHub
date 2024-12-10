@@ -46,6 +46,7 @@ const ItemFull = ({ itemData }) => {
     const closeEditItem = () => {
         setEditItemOpen(false);
         navigate(`/item/${itemData._id}`);
+        window.location.reload();
     }
 
     // offer window
