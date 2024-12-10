@@ -82,6 +82,7 @@ const ItemFull = ({ itemData }) => {
         openOfferWindow();
     };
 
+    // lisää itemille fixerId:n, eli on työn alla sillä fikserillä
     const startFixing = async () => {
         try {
             const token = JSON.parse(sessionStorage.getItem("user"))?.token;
@@ -106,9 +107,8 @@ const ItemFull = ({ itemData }) => {
         }
     };
 
-    // muokattu backend-yhteensopivaksi - kesken?
+    // asettaa isFixed = true
     const completeFix = async () => {
-        // tässä pitäisi laittaa itemin status "fixed"
         try {
             const token = JSON.parse(sessionStorage.getItem("user"))?.token;
 
@@ -133,7 +133,7 @@ const ItemFull = ({ itemData }) => {
 
     return (
         <div className="bg-fh_beige flex align-middle rounded-md items-center flex-col justify-center min-h-screen w-full">
-            <EditItem // editti-ikkuna
+            <EditItem // itemin editti-ikkuna
                 isOpen={isEditItemOpen}
                 closeEditItem={closeEditItem}
                 itemData={itemData}
@@ -159,8 +159,7 @@ const ItemFull = ({ itemData }) => {
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
-                            // src={"/src/assets/images/" + itemData.images[currentImage]}
-                            src={itemData.images.length > 0 ? "/src/assets/images/" + itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} // toimiskohan näin?
+                            src={itemData.images.length > 0 ? "/src/assets/images/" + itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} // tähän odottaa koodia eetulta
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
@@ -172,8 +171,7 @@ const ItemFull = ({ itemData }) => {
                             }
                             return <img
                                 key={index}
-                                src={"/src/assets/images/" + image}
-                                // src={image}
+                                src={"/src/assets/images/" + image} // tähän odottaa koodia eetulta
                                 alt={itemData.name + ' ' + index + '-pic-' + 1}
                                 onClick={() => setCurrentImage(index)}
                                 className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'
@@ -239,26 +237,29 @@ const ItemFull = ({ itemData }) => {
                             </h3>
                             {user && (
                             <div className="my-2 text-fh_dgreen text-lg underline">
+
+                                {/* käyttäjän profiilikuva ja nimi, linkki userisivulle */}
                                 {user && <Link
                                     to={`/user/${user.userName}`}
                                     className="flex flex-row items-center"
                                 >
                                     <img
-                                        // src={user.image ? `/src/assets/images/${user.image}` : `/src/assets/images/userPlaceholder.jpg`}
-                                        src={user.image ? user.image : `/src/assets/images/userPlaceholder.jpg`}
+                                        src={user.image ? user.image : `/src/assets/images/userPlaceholder.jpg`} // tähän odotta koodia eetulta
                                         alt="profile picture"
                                         className="rounded-full w-10 h-auto m-2 shadow"
                                     />
-
                                     <p className="my-2 text-fh_dgreen text-lg ">
                                         {user.userName}
                                     </p>
-
-                                </Link> }{/* Create link to user's page */}
+                                </Link> }
                                 
                             </div>
                             )}
+
+                            {/* nappiosio */}
                             <div className="flex flex-col">
+
+                                {/* oma itemi, ei fiksattu */}
                             {(owner  && !itemData.isFixed) &&
                                 <div className="flex flex-col">
                                     <button
@@ -276,6 +277,7 @@ const ItemFull = ({ itemData }) => {
                                 </div>
                             }
 
+                            {/* kirjautunut käyttäjä, ei fixeri, itemiä ei fiksattu */}
                             {(!owner && !fixer && !itemData.isFixed && isAuthenticated) &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
@@ -284,6 +286,8 @@ const ItemFull = ({ itemData }) => {
                                     Message item owner
                                 </button>
                             }
+
+                            {/* kirjautunut käyttäjä, on fixeri, itemiä ei fiksattu, itemi ei fiksauksessa */}
                             {(storedUser.isFixer && !owner && !itemData.isFixed && isAuthenticated && !itemData.fixerId) && 
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
@@ -292,6 +296,8 @@ const ItemFull = ({ itemData }) => {
                                     Start Fixing!
                                 </button>
                             }
+
+                            {/* itemi fiksattu */}
                             {itemData.isFixed &&
                                 <div className="p-4 rounded-lg  my-4">
                                     <h3 className="text-fh_dgreen text-3xl font-bold">
@@ -299,6 +305,8 @@ const ItemFull = ({ itemData }) => {
                                     </h3>
                                 </div>
                             }
+
+                            {/* itemi on fiksauksessa */}
                             {(!itemData.isFixed && itemData.fixerId) &&
                                 <div className="p-4 rounded-lg  my-4">
                                     <h3 className="text-fh_dgreen text-3xl font-bold">
