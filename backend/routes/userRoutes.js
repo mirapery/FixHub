@@ -1,5 +1,5 @@
 const express = require("express");
-const { getAllUsers, createUser, getUserByUserName, getUserById, updateUser, deleteUser, loginUser, signupUser } = require("../controllers/userController.js");
+const { getAllUsers, createUser, getUserByUserName, getUserById, updateUser, deleteUser, loginUser, signupUser, getUserImage } = require("../controllers/userController.js");
 const validateObjectId = require("../middleware/validateObjectId.js");
 const requireAuth = require("../middleware/requireAuth.js");
 const multer = require("multer");
@@ -30,5 +30,7 @@ router.post('/signup', signupUser);
 
 // LOGIN (POST /api/users/login)
 router.post('/login', loginUser);
+
+router.get('/:userId/image', getUserImage);
 
 module.exports = router;

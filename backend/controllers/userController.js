@@ -18,23 +18,23 @@ const getAllUsers = async (req, res) => {
 const createUser = async (req, res) => {
     try {
         const { userName, name, phone, email, password, location, isFixer } = req.body;
-        
-        // Extract the uploaded image if any
+
         let image = null;
         if (req.file) {
-            image = req.file.buffer.toString('base64'); // Convert buffer to base64
+            const mimeType = req.file.mimetype; // Esim. "image/png"
+            const base64 = req.file.buffer.toString("base64");
+            image = `data:${mimeType};base64,${base64}`;
         }
 
-        // Create the new user
         const user = await User.signup(userName, name, phone, email, password, image, location, isFixer);
 
-        // Respond with the created user
         res.status(201).json(user);
     } catch (error) {
         console.error(error);
         handleError(res, error, "Failed to create user.", 400);
     }
 };
+
 
 
 // GET /users/:userId
@@ -71,21 +71,32 @@ const getUserByUserName = async (req, res) => {
 // PATCH /users/:userId
 const updateUser = async (req, res) => {
     const { userId } = req.params;
+
     try {
+        const updatedFields = { ...req.body };
+
+        if (req.file) {
+            const mimeType = req.file.mimetype;
+            const base64 = req.file.buffer.toString("base64");
+            updatedFields.image = `data:${mimeType};base64,${base64}`;
+        }
+
         const updatedUser = await User.findOneAndUpdate(
             { _id: userId },
-            { ...req.body },
+            updatedFields,
             { new: true }
         );
+
         if (updatedUser) {
             res.status(200).json(updatedUser);
         } else {
             res.status(404).json({ message: "User not found." });
         }
     } catch (error) {
-        handleError(res, error, "An error occured while updating user.");
+        handleError(res, error, "An error occurred while updating user.");
     }
 };
+
 
 // DELETE /users/:userId
 const deleteUser = async (req, res) => {
@@ -133,4 +144,37 @@ const signupUser = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, getUserByUserName, getUserById, createUser, updateUser, deleteUser, loginUser, signupUser };
+const getUserImage = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user || !user.image) {
+            return res.status(404).json({ error: "Image not found" });
+        }
+
+        const base64Image = user.image;
+        const mimeTypeMatch = base64Image.match(/^data:(image\/\w+);base64,/);
+
+        if (!mimeTypeMatch) {
+            return res.status(400).json({ error: "Invalid image format" });
+        }
+
+        const mimeType = mimeTypeMatch[1];
+        const imageBuffer = Buffer.from(
+            base64Image.replace(/^data:image\/\w+;base64,/, ""),
+            "base64"
+        );
+
+        res.writeHead(200, {
+            "Content-Type": mimeType,
+            "Content-Length": imageBuffer.length,
+        });
+        res.end(imageBuffer);
+    } catch (error) {
+        console.error("Error fetching image:", error);
+        res.status(500).json({ error: "Failed to fetch image" });
+    }
+};
+
+
+
+module.exports = { getAllUsers, getUserByUserName, getUserById, createUser, updateUser, deleteUser, loginUser, signupUser, getUserImage };
