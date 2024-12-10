@@ -4,7 +4,7 @@ import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 
-
+//Itemfull:sta
 const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
   const categories = categoryLinks.map((c) => c.text);
 

@@ -4,7 +4,7 @@ import EditItem from "./EditItem";
 import { useNavigate } from "react-router-dom";
 import OfferWindow from "./OfferWindow";
 import AuthContext from "./AuthContext";
-
+//Itempage:sta
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const navigate = useNavigate();
