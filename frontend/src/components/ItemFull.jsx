@@ -11,10 +11,10 @@ const ItemFull = ({ itemData }) => {
     const [user, setUser] = useState(null); // backend version
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
  
-    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    const storedUser = JSON.parse(sessionStorage.getItem("userdata"));
     const loggedInUserName = storedUser ? storedUser.userName : null;
 
-   
+   console.log(storedUser);
     // Käyttäjän tietojen hakeminen backendistä
     useEffect(() => {
         const fetchUser = async () => {
@@ -102,6 +102,30 @@ const ItemFull = ({ itemData }) => {
             openOfferWindow();
         } catch (error) {
             console.error("Error sending offer:", error);
+        }
+    };
+
+    const startFixing = async () => {
+        try {
+            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+
+            const response = await fetch(`/api/items/${itemData._id}`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                    },
+                body: JSON.stringify({ fixerId: storedUser._id }),
+            });
+            if (!response.ok) {
+                throw new Error("Failed to start fixing");
+            }
+            const updatedItem = await response.json();
+            console.log("Fixing started:", updatedItem);
+            alert("You have started fixing this item!");
+            window.location.reload();
+        } catch (error) {
+            console.error("Error starting fixing:", error);
         }
     };
 
@@ -257,6 +281,7 @@ const ItemFull = ({ itemData }) => {
                                 
                             </div>
                             )}
+                            <div className="flex flex-col">
                             {(owner  && !itemData.isFixed) &&
                                 <div className="flex flex-col">
                                     <button
@@ -273,12 +298,21 @@ const ItemFull = ({ itemData }) => {
                                     </button>
                                 </div>
                             }
-                            {(!owner && !fixer && !itemData.isFixed && isAuthenticated) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
+
+                            {(!owner && !fixer && !itemData.isFixed && isAuthenticated) &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendOffer}
                                 >
                                     Message item owner
+                                </button>
+                            }
+                            {(storedUser.isFixer && !owner && !itemData.isFixed && isAuthenticated && !itemData.fixerId) && 
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={startFixing}
+                                >
+                                    Start Fixing!
                                 </button>
                             }
                             {itemData.isFixed &&
@@ -288,6 +322,14 @@ const ItemFull = ({ itemData }) => {
                                     </h3>
                                 </div>
                             }
+                            {(!itemData.isFixed && itemData.fixerId) &&
+                                <div className="p-4 rounded-lg  my-4">
+                                    <h3 className="text-fh_dgreen text-3xl font-bold">
+                                        Item is being fixed.
+                                    </h3>
+                                </div>
+                            }
+                        </div>
                         </div>
                     </div>
                 </div>
