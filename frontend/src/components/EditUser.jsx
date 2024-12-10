@@ -38,7 +38,7 @@ const EditUser = ({ closeEditProfileWindow }) => {
     });
     aboutInput.onChange({ target: { value: user.about } });
     fixerChoice.onChange({ target: { checked: user.isFixer } });
-  }, [user]);
+  }, []);
 
   /*****Update fetch*************'**/
 
@@ -48,24 +48,36 @@ const EditUser = ({ closeEditProfileWindow }) => {
       alert("Password do not match");
       return;
     }
-    const updatedUser = {
-      name: nameInput.value,
-      userName: userNameInput.value,
-      phone: phoneInput.value,
-      email: emailInput.value,
-      about: aboutInput.value,
-      isFixer: fixerChoice.value,
-      location: {
-        province: provinceInput.value,
-        city: cityInput.value,
-        postalcode: postalcodeInput.value,
-      },
-      // Conditionally include password if it's not null or empty
-      ...(passwordInput.value && { password: passwordInput.value }),
-      // Conditionally include image if it's not null or empty
-      ...(imageInput.value && { image: imageInput.value }),
+    const updatedUser = new FormData();
+
+    // Helper to append fields if they differ
+    const appendField = (key, newValue, oldValue) => {
+      if (newValue !== oldValue) {
+        updatedUser.append(key, newValue);
+      }
     };
-    //päivitetty yhteys databaseen
+
+    const areArraysEqual = (arr1, arr2) =>
+      arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+    
+
+    // Append simple fields
+    appendField("name", nameInput.value, user.name);
+    appendField("phone", phoneInput.value, user.phone);
+    appendField("email", emailInput.value, user.email);
+    appendField("about", aboutInput.value, user.about);
+    appendField("province", provinceInput.value, user.location.province);
+    appendField("city", cityInput.value, user.location.city);
+    appendField("postalcode", postalcodeInput.value, user.location.postalcode);
+
+    appendField("password", passwordInput.value, user.password);
+
+    appendField("image", imageInput.value, user.image);
+    
+    for (const [key, value] of updatedUser.entries()) {
+      console.log(key, value);
+    } // Debug: Check the appended fields
+    
     try {
       const token = JSON.parse(sessionStorage.getItem("token"));
       console.log("token", token);
@@ -74,9 +86,8 @@ const EditUser = ({ closeEditProfileWindow }) => {
         method: "PATCH",
         headers: {
           Authorization: "Bearer " + token,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedUser),
+        body: updatedUser,
       });
 
       if (!response.ok) {
