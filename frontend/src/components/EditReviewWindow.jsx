@@ -40,7 +40,7 @@ const navigate = useNavigate();
       console.log("Message sent");
 
       try {
-        const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+        const token = JSON.parse(sessionStorage.getItem("token"));
         
         const response = await fetch(`/api/reviews/${review._id}`, {
           method: "PATCH",
@@ -73,7 +73,7 @@ const navigate = useNavigate();
 
   const deleteReview = async () => {
     try {
-      const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+      const token = JSON.parse(sessionStorage.getItem("token"));
       const response = await fetch(`/api/reviews/${review._id}`, {
         method: "DELETE",
         headers: {

@@ -15,11 +15,11 @@ const UserFull = ({ userData, setUser }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated,user } = useContext(AuthContext);
- // const user = JSON.parse(sessionStorage.getItem("userdata"));
 
 
 
-  //const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
+
+
 
   useEffect(() => {
     const fetchData = async () => {

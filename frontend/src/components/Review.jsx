@@ -6,7 +6,7 @@ import AuthContext from "./AuthContext";
 //Reviewarea:sta
 
 const Review = ({ review, receiver }) => {
-  //const user = JSON.parse(sessionStorage.getItem("userdata"));
+
   const { user } = useContext(AuthContext);
 
   const [reviewSender, setReviewSender] = useState({});

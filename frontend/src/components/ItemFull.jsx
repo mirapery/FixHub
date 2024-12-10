@@ -74,12 +74,12 @@ const ItemFull = ({ itemData }) => {
         };
     }, [isEditItemOpen, isOfferWindowOpen]);
 
-    console.log(JSON.parse(sessionStorage.getItem("user"))?.token);
+
 
     // muokattu backend-yhteensopivaksi - kesken
     const sendOffer = async () => {
         try {
-            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+            const token = JSON.parse(sessionStorage.getItem("token"));
 
             const response = await fetch(`/api/offers`, {
                 method: "POST",
@@ -89,7 +89,7 @@ const ItemFull = ({ itemData }) => {
                   },
                 body: JSON.stringify({
                     itemId: itemData.itemId,
-                    userId: sessionStorage.getItem("userId"),
+                    userId: sessionStorage.getItem("user")?._id,
                     message: "Offer message",
                     offer: 100 // add the real offer here
                 }),
@@ -109,7 +109,7 @@ const ItemFull = ({ itemData }) => {
     const completeFix = async () => {
         // tässä pitäisi laittaa itemin status "fixed"
         try {
-            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+            const token = JSON.parse(sessionStorage.getItem("token"));
 
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
