@@ -264,8 +264,6 @@ const UserFull = ({ userData, setUser }) => {
         
         {isEditProfileWindowOpen && (
           <EditUser
-            setUser={setUser}
-            userData={userData}
             closeEditProfileWindow={closeEditProfileWindow}
           />
         )}
