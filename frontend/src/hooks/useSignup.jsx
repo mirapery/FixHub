@@ -11,7 +11,7 @@ export default function useSignup(url) {
 
     const response = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+    
       body: object
     });
     const result = await response.json();

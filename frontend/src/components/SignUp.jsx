@@ -74,7 +74,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
     // Update images
     setImages((prev) => [...prev, ...renamedFiles]);
   };
-  
+
   const newUser = new FormData();
   //add data to formData
   newUser.append("name", nameInput.value);
@@ -94,8 +94,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   );
   // Append images
 
-    newUser.append("image", images); // Append files under the "images" key
- 
+  newUser.append("image", images); // Append files under the "images" key
 
   /*****SIGN UP FETCH*************'**/
 
@@ -246,7 +245,7 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
                   className="w-80 h-auto m-4 rounded-md"
                 />
 
-                <button type="button" onClick={() => setImages((prev)=>[])}>
+                <button type="button" onClick={() => setImages((prev) => [])}>
                   Remove
                 </button>
               </div>
