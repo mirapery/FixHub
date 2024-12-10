@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 
 import Review from "./Review";
-
-const ReviewArea = ({ reviews }) => {
+//Userfull
+const ReviewArea = ({ reviews,receiver }) => {
     const containerRef = useRef(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(false);
@@ -52,6 +52,7 @@ const ReviewArea = ({ reviews }) => {
 
                 {reviews.map((item, index) => {
                     return <Review
+                    receiver={receiver}
                         review={item}
                         key={index}
                         className="flex-none w-80"

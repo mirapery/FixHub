@@ -7,7 +7,7 @@ import MessageWindow from "./MessageWindow";
 import NewReviewWindow from "./NewReviewWindow";
 import AuthContext from "./AuthContext";
 import EditUser from "./EditUser";
-
+//Userpagesta
 const UserFull = ({ userData, setUser }) => {
   const [activeTab, setActiveTab] = useState(0);
   const [items, setItems] = useState([]);
@@ -15,6 +15,9 @@ const UserFull = ({ userData, setUser }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated,user } = useContext(AuthContext);
+ // const user = JSON.parse(sessionStorage.getItem("userdata"));
+
+
 
   //const user = JSON.parse(sessionStorage.getItem("user")) || null; // haetaam kirjautunut käyttäjä
 
@@ -46,7 +49,8 @@ const UserFull = ({ userData, setUser }) => {
     tabs.push("Fixer Reviews", "Items Fixed by Me");
     tabContent.push(
       <ReviewArea
-        reviews={reviews.filter((r) => r.fixerId === userData._id)}
+      receiver={userData}  
+      reviews={reviews.filter((r) => r.fixerId === userData._id)}
       />,
       <CardArea
         itemsList={items.filter(
@@ -95,7 +99,7 @@ const UserFull = ({ userData, setUser }) => {
 
   const sanitizedDate = userData.creationTime.slice(0, 10);
 
-  console.log(userData);
+  //console.log(userData);
 
   const storedUser = JSON.parse(sessionStorage.getItem("user"));
   const loggedInUserName = storedUser ? storedUser.userName : null;

@@ -196,7 +196,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
         const response = await fetch(`/api/items/${itemData.itemId}`, {
           method: "PATCH",
           headers: {
-            Authorization: "Bearer " + token,
+             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
           },
           body: formData,

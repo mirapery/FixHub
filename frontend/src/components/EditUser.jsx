@@ -9,6 +9,7 @@ import AuthContext from "./AuthContext";
 const EditUser = ({ closeEditProfileWindow}) => {
   const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
+  //const user = JSON.parse(sessionStorage.getItem("userdata"));
   
   const nameInput = useField("text");
   const userNameInput = useField("text");
@@ -25,7 +26,8 @@ const EditUser = ({ closeEditProfileWindow}) => {
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
 
-  const { setIsAuthenticated, setUser, user } = useContext(AuthContext);
+  const { setIsAuthenticated,user,setUser} = useContext(AuthContext);
+  
 
   useEffect(() => {
     nameInput.onChange({ target: { value: user.name } });
@@ -86,7 +88,8 @@ const EditUser = ({ closeEditProfileWindow}) => {
 
       const updatedData = await response.json();
       console.log("User updated:", updatedData);
-      setUser(updatedData);
+      setUser(updatedData)
+      //sessionStorage.setItem("userdata", JSON.stringify(updatedData));
       closeEditProfileWindow(true);
     } catch (error) {
       console.error("Error updating user:", error);

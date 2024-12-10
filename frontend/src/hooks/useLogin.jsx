@@ -35,6 +35,7 @@ export default function useLogin(url) {
       }
       const userData = await response.json();
       //save userdata to useContext
+      sessionStorage.setItem("userdata", JSON.stringify(userData));
       setUser(userData);
       console.log(userData);
     } catch (error) {

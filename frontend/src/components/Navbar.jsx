@@ -5,7 +5,7 @@ import AuthContext from "./AuthContext";
 import NewItem from "./NewItem";
 import DropDown from "./DropDown";
 const Navbar = ({ setIsLoginOpen, isDropDown, setIsDropDown }) => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated,setUser } = useContext(AuthContext);
 
   const [isNewItemOpen, setIsNewItemOpen] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +16,10 @@ const Navbar = ({ setIsLoginOpen, isDropDown, setIsDropDown }) => {
   const logOut = () => {
     setIsDropDown(false);
     sessionStorage.removeItem("user");
+    sessionStorage.removeItem( "storeduser")
+   
     setIsAuthenticated(false);
+    setUser(null);
     navigate("/");
   };
 

@@ -9,8 +9,10 @@ import ScrollToTop from "./components/ScrollToTop";
 import AuthProvider from "../src/components/AuthProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+
 function App() {
-  //sessionStorage.removeItem("user");
+
+
 
   return (
     <AuthProvider>

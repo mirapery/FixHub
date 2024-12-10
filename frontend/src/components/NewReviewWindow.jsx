@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Alert from "./Alert";
-
+//Userfullista
 
 const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
 
@@ -50,8 +50,8 @@ const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
                         "Content-Type": "application/json",
                       },
                     body: JSON.stringify({
-                        userId: sender.userId,
-                        fixerId: receiver.userId,
+                        userId: sender._id,
+                        fixerId: receiver._id,
                         score: rating,
                         message: message,
                     }),

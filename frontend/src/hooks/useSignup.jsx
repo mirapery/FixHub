@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import AuthContext from "../components/AuthContext";
 export default function useSignup(url) {
-  const { setIsAuthenticated, setUser } = useContext(AuthContext);
+  const { setIsAuthenticated, setUser} = useContext(AuthContext);
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
@@ -31,6 +31,7 @@ export default function useSignup(url) {
       }
       const userData = await response.json();
       //save userdata to useContext
+      sessionStorage.setItem("userdata", JSON.stringify(userData));
       setUser(userData);
       console.log(userData);
     } catch (error) {
