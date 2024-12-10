@@ -84,14 +84,15 @@ const ItemFull = ({ itemData }) => {
         try {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
+            const formDara = new FormData();
+            formData.append("fixerId", storedUser._id);
+
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: "Bearer " + token,
-                    "Content-Type": "application/json",
-
                     },
-                body: JSON.stringify({ fixerId: storedUser._id }),
+                body: formData,
 
             });
             if (!response.ok) {
@@ -111,13 +112,16 @@ const ItemFull = ({ itemData }) => {
         try {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
+            const formDara = new FormData();
+            formData.append("isFixer", true);
+
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                   },
-                body: JSON.stringify({ isFixed: true }),
+                body: formdata,
             });
             if (!response.ok) {
                 throw new Error("Failed to mark item as fixed");
