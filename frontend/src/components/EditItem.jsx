@@ -82,7 +82,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
     }
 
     // Update images
-    setImages((prev) => [...prev, ...renamedFiles]);
+    setImages((prev) => [...prev, ...newImages]);
   };
 
   const removeImage = (index) => {
@@ -211,9 +211,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       }
 
       // Tähän kuvien lisääminen serverille
-
-      // tyhjennä formi
-      clearItem();
+      closeEditItem();
     }
   
 
