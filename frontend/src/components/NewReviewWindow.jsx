@@ -41,7 +41,7 @@ const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
             console.log("Review sent");
     
             try {
-                const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+                const token = JSON.parse(sessionStorage.getItem("token"));
 
                 const response = await fetch("/api/reviews", {
                     method: "POST",

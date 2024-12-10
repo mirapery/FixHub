@@ -6,11 +6,10 @@ import useTags from "../hooks/useTags";
 
 import AuthContext from "./AuthContext";
 
-const EditUser = ({ closeEditProfileWindow}) => {
+const EditUser = ({ closeEditProfileWindow }) => {
   const navigate = useNavigate();
   const { list: tags, addTag, removeTag, resetTags, addTagList } = useTags([]);
-  //const user = JSON.parse(sessionStorage.getItem("userdata"));
-  
+
   const nameInput = useField("text");
   const userNameInput = useField("text");
   const passwordInput = useField("password");
@@ -26,8 +25,7 @@ const EditUser = ({ closeEditProfileWindow}) => {
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
 
-  const { setIsAuthenticated,user,setUser} = useContext(AuthContext);
-  
+  const { setIsAuthenticated, user, setUser } = useContext(AuthContext);
 
   useEffect(() => {
     nameInput.onChange({ target: { value: user.name } });
@@ -41,7 +39,7 @@ const EditUser = ({ closeEditProfileWindow}) => {
     });
     aboutInput.onChange({ target: { value: user.about } });
     fixerChoice.onChange({ target: { checked: user.isFixer } });
-  }, [user]); 
+  }, [user]);
 
   /*****Update fetch*************'**/
 
@@ -70,8 +68,8 @@ const EditUser = ({ closeEditProfileWindow}) => {
     };
     //päivitetty yhteys databaseen
     try {
-      const token = JSON.parse(sessionStorage.getItem("user"))?.token;
-      console.log("token",token);
+      const token = JSON.parse(sessionStorage.getItem("token"));
+      console.log("token", token);
 
       const response = await fetch(`/api/users/${user._id}`, {
         method: "PATCH",
@@ -87,9 +85,12 @@ const EditUser = ({ closeEditProfileWindow}) => {
       }
 
       const updatedData = await response.json();
-      console.log("User updated:", updatedData);
-      setUser(updatedData)
-      //sessionStorage.setItem("userdata", JSON.stringify(updatedData));
+      //console.log("User updated:", updatedData);
+      sessionStorage.setItem("user", JSON.stringify(updatedData));
+      const storedUser = JSON.parse(sessionStorage.getItem("user"));
+      setUser(storedUser);
+   
+      
       closeEditProfileWindow(true);
     } catch (error) {
       console.error("Error updating user:", error);

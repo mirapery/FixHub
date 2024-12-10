@@ -204,7 +204,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
       // yhteys databaseen
       try {
-        const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+        const token = JSON.parse(sessionStorage.getItem("token"));
         const response = await fetch("/api/items", {
           method: "POST",
           headers: {

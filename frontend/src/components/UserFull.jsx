@@ -17,6 +17,7 @@ const UserFull = ({ userData, setUser }) => {
   const navigate = useNavigate();
   const { isAuthenticated, setIsAuthenticated,user } = useContext(AuthContext);
 
+
   // haetaan käyttäjän itemit ja arvostelut
   useEffect(() => {
     const fetchData = async () => {

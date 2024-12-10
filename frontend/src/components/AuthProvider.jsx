@@ -7,15 +7,19 @@ export default function AuthProvider({ children }) {
 
   // Lue käyttäjätiedot sessionStorage:sta ja päivitä tila
   useEffect(() => {
-    const storedUser = JSON.parse(sessionStorage.getItem("userdata"));
-    if (storedUser) {
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    const token = JSON.parse(sessionStorage.getItem("token"));
+    console.log(storedUser, token);
+    if (storedUser && token) {
       setUser(storedUser); // Aseta käyttäjä uudelleen
       setIsAuthenticated(true); // Merkitse käyttäjä autentikoituneeksi
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, setIsAuthenticated, user, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

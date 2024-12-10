@@ -11,7 +11,7 @@ const ItemFull = ({ itemData }) => {
     const [user, setUser] = useState(null); // backend version
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
  
-    const storedUser = JSON.parse(sessionStorage.getItem("userdata"));
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
     const loggedInUserName = storedUser ? storedUser.userName : null;
 
     // Käyttäjän tietojen hakeminen backendistä
@@ -71,6 +71,8 @@ const ItemFull = ({ itemData }) => {
     }, [isEditItemOpen, isOfferWindowOpen]);
 
 
+
+
     // muokattu backend-yhteensopivaksi - kesken
     const sendOffer = () => {
         console.log("Offer window opened");
@@ -80,15 +82,17 @@ const ItemFull = ({ itemData }) => {
     // lisää itemille fixerId:n, eli on työn alla sillä fikserillä
     const startFixing = async () => {
         try {
-            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+            const token = JSON.parse(sessionStorage.getItem("token"));
 
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
+
                     },
                 body: JSON.stringify({ fixerId: storedUser._id }),
+
             });
             if (!response.ok) {
                 throw new Error("Failed to start fixing");
@@ -105,7 +109,7 @@ const ItemFull = ({ itemData }) => {
     // asettaa isFixed = true
     const completeFix = async () => {
         try {
-            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+            const token = JSON.parse(sessionStorage.getItem("token"));
 
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",

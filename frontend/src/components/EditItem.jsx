@@ -196,7 +196,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
 
       // yhteys databaseen
       try {
-        const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+        const token = JSON.parse(sessionStorage.getItem("token"));
         const response = await fetch(`/api/items/${itemData.itemId}`, {
           method: "PATCH",
           headers: {
