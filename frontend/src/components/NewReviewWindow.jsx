@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Alert from "./Alert";
+//Userfullista
 
-const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
+const NewReviewWindow = ({  closeReviewWindow, sender, receiver }) => {
 
     const [message, setMessage] = useState("");
     const [rating, setRating] = useState("");
@@ -40,14 +41,17 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
             console.log("Review sent");
     
             try {
+                const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+
                 const response = await fetch("/api/reviews", {
                     method: "POST",
                     headers: {
+                        Authorization: "Bearer " + token,
                         "Content-Type": "application/json",
-                    },
+                      },
                     body: JSON.stringify({
-                        userId: sender.userId,
-                        fixerId: receiver.userId,
+                        userId: sender._id,
+                        fixerId: receiver._id,
                         score: rating,
                         message: message,
                     }),
@@ -58,9 +62,11 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
     
                 const newReview = await response.json();
                 console.log("New Review: " + newReview);
-                closeReviewWindow();
+                
                 setMessage("")
                 setRating("")
+                closeReviewWindow();
+                window.location.reload();
             } catch (error) {
                 console.error("Error adding review: ", error);
                 alert("Failed to add review")
@@ -69,7 +75,7 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
     }
 
     return (
-        isOpen && (
+   
             <div
                 className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
                 onClick={closeReviewWindow}
@@ -138,7 +144,7 @@ const NewReviewWindow = ({ isOpen, closeReviewWindow, sender, receiver }) => {
                 </div>
             </div>
         )
-    )
+    
 }
 
 export default NewReviewWindow;

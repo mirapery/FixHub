@@ -10,7 +10,11 @@ const ItemFull = ({ itemData }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // backend version
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+ 
+    const storedUser = JSON.parse(sessionStorage.getItem("userdata"));
+    const loggedInUserName = storedUser ? storedUser.userName : null;
 
+   console.log(storedUser);
     // Käyttäjän tietojen hakeminen backendistä
     useEffect(() => {
         const fetchUser = async () => {
@@ -29,9 +33,13 @@ const ItemFull = ({ itemData }) => {
         fetchUser();
     }, [itemData.userId]);
 
+    console.log("userData: ", user);
+
     //check status of logged in user
-    const owner = sessionStorage.getItem("userName") === itemData.userId;
-    const fixer = sessionStorage.getItem("userName") === itemData.fixerId;
+    const owner = user && user.userName === loggedInUserName;
+    const fixer = storedUser && storedUser._id === itemData.fixerId;
+    console.log("owner: ", owner);
+    console.log("fixer: ", fixer);
 
     // edit item modaalin jutut
     const [isEditItemOpen, setEditItemOpen] = useState(false)
@@ -66,29 +74,35 @@ const ItemFull = ({ itemData }) => {
         };
     }, [isEditItemOpen, isOfferWindowOpen]);
 
+    console.log(JSON.parse(sessionStorage.getItem("user"))?.token);
+
     // muokattu backend-yhteensopivaksi - kesken
-    const sendOffer = async () => {
+    const sendOffer = () => {
+        console.log("Offer window opened");
+        openOfferWindow();
+    };
+
+    const startFixing = async () => {
         try {
-            const response = await fetch(`/api/offers`, {
-                method: "POST",
+            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+
+            const response = await fetch(`/api/items/${itemData._id}`, {
+                method: "PATCH",
                 headers: {
+                    Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    itemId: itemData.itemId,
-                    userId: sessionStorage.getItem("userId"),
-                    message: "Offer message",
-                    offer: 100 // add the real offer here
-                }),
+                    },
+                body: JSON.stringify({ fixerId: storedUser._id }),
             });
             if (!response.ok) {
-                throw new Error("Failed to send offer");
+                throw new Error("Failed to start fixing");
             }
-            const result = await response.json();
-            console.log("Offer sent:", result);
-            openOfferWindow();
+            const updatedItem = await response.json();
+            console.log("Fixing started:", updatedItem);
+            alert("You have started fixing this item!");
+            window.location.reload();
         } catch (error) {
-            console.error("Error sending offer:", error);
+            console.error("Error starting fixing:", error);
         }
     };
 
@@ -96,11 +110,14 @@ const ItemFull = ({ itemData }) => {
     const completeFix = async () => {
         // tässä pitäisi laittaa itemin status "fixed"
         try {
-            const response = await fetch(`/api/items/${itemData.itemId}`, {
+            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+
+            const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
+                    Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
-                },
+                  },
                 body: JSON.stringify({ isFixed: true }),
             });
             if (!response.ok) {
@@ -108,6 +125,7 @@ const ItemFull = ({ itemData }) => {
             }
             const updatedItem = await response.json();
             console.log("Item marked as fixed:", updatedItem);
+            window.location.reload();
         } catch (error) {
             console.error("Error marking item as fixed:", error);
         }
@@ -240,29 +258,38 @@ const ItemFull = ({ itemData }) => {
                                 
                             </div>
                             )}
+                            <div className="flex flex-col">
                             {(owner  && !itemData.isFixed) &&
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={openEditItem}
-                                >
-                                    Edit item
-                                </button>
+                                <div className="flex flex-col">
+                                    <button
+                                        className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                        onClick={openEditItem}
+                                    >
+                                        Edit item
+                                    </button>
+                                    <button
+                                        className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                        onClick={completeFix}
+                                    >
+                                        Mark as complete
+                                    </button>
+                                </div>
                             }
-                            {(fixer  && !itemData.isFixed) && 
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={completeFix}
-                                >
-                                    Mark as complete
-                                </button>
 
-                            }
-                            {(!owner && !fixer && !itemData.isFixed && isAuthenticated) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
+                            {(!owner && !fixer && !itemData.isFixed && isAuthenticated) &&
                                 <button
                                     className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
                                     onClick={sendOffer}
                                 >
                                     Message item owner
+                                </button>
+                            }
+                            {(storedUser.isFixer && !owner && !itemData.isFixed && isAuthenticated && !itemData.fixerId) && 
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={startFixing}
+                                >
+                                    Start Fixing!
                                 </button>
                             }
                             {itemData.isFixed &&
@@ -272,6 +299,14 @@ const ItemFull = ({ itemData }) => {
                                     </h3>
                                 </div>
                             }
+                            {(!itemData.isFixed && itemData.fixerId) &&
+                                <div className="p-4 rounded-lg  my-4">
+                                    <h3 className="text-fh_dgreen text-3xl font-bold">
+                                        Item is being fixed.
+                                    </h3>
+                                </div>
+                            }
+                        </div>
                         </div>
                     </div>
                 </div>

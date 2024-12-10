@@ -1,10 +1,9 @@
-import React, { useContext,useState} from "react";
+import React, { useContext, useState } from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../components/AuthContext";
-
 
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
@@ -128,7 +127,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       !postalCode ||
       !city ||
       images.length == 0 ||
-      !validatePriceRange
+      !validatePriceRange()
     ) {
       setAlertMessage((prev) => {
         const newMessages = [];
@@ -142,7 +141,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
           newMessages.push("Please add the address info.");
         if (images.length === 0)
           newMessages.push("Please add at least 1 image of the item.");
-        if (!validatePriceRange)
+        if (!validatePriceRange())
           newMessages.push(
             '"To" price must be greater than or equal to "From" price.'
           );
@@ -156,49 +155,70 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       // const imageNames = [];
       // images.forEach((image) => imageNames.push(image.name));
 
-      // luvien muokkaus formDataan
-      const formData = new FormData();
-      images.forEach((image, i) => {
-          formData.append(`image${i}`, image);
-      });
+      const newItem = new FormData();
 
-      const newItem = {
-        userId: user._id, // tämä kirjautumistiedoista
-        name: name,
-        tags: tags,
-        description: description,
-        category: category,
-        location: {
-          province: province, // tästä ei mitään ideaa miten tekisi
-          city: city, // ei tuu enää automaatilla sit
-          postalcode: postalCode,
-        },
-        priceRange: [priceFrom, priceTo],
-        images: formData,
-        isFixed: false,
-        interested: 0,
-      };
+      // Append primitive values
+      newItem.append("userId", user._id);
+      newItem.append("name", name);
+      newItem.append("tags", tags);
+      newItem.append("description", description);
+      newItem.append("category", category);
+
+      // Append nested object (convert to JSON string)
+      newItem.append("location", JSON.stringify({ province, city, postalCode }));
+
+      // Append array (convert to JSON string)
+      newItem.append("priceRange", JSON.stringify([priceFrom, priceTo]));
+
+      // Append images (assuming `formData` is an array of `File` objects)
+      if (Array.isArray(newItem.images)) {
+        formData.forEach((file, index) => {
+          newItem.append(`images[${index}]`, file);
+        });
+      }
+
+      // Append other fields
+      newItem.append("isFixed", false); // Boolean values will be converted to strings
+      newItem.append("interested", 0); // Numbers will be converted to strings
+
+      // const newItem = {
+      //   userId: user._id,
+      //   name: name,
+      //   tags: tags,
+      //   description: description,
+      //   category: category,
+      //   location: {
+      //     province: province,
+      //     city: city,
+      //     postalcode: postalCode,
+      //   },
+      //   priceRange: [priceFrom, priceTo],
+
+      //   images: formData,
+
+      //   isFixed: false,
+      //   interested: 0,
+      // };
 
       console.log(newItem);
 
       // yhteys databaseen
       try {
+        const token = JSON.parse(sessionStorage.getItem("user"))?.token;
         const response = await fetch("/api/items", {
-          // tähän oikee osote
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
           },
-          body: JSON.stringify(newItem),
+          body: newItem,
         });
-
         if (!response.ok) {
-          throw new Error("Failed to add item");
+          throw new Error(error);
         }
 
         const addedItem = await response.json();
         console.log("Item added:", addedItem);
-        navigate(`/item/${addItem.itemId}`);
+        navigate(`/item/${addedItem._id}`);
       } catch (error) {
         console.error("Error adding item:", error);
         alert("Failed to add item");
@@ -206,9 +226,8 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       }
 
       // tyhjennä formi
-      
-        clearItem();
-      
+
+      clearItem();
     }
   };
 
@@ -544,7 +563,7 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
                     type="text"
                     name="province"
                     id="province"
-                    value={city}
+                    value={province}
                     onChange={(e) => {
                       setProvince(e.target.value);
                     }}
