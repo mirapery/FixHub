@@ -290,7 +290,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
                       <img
                         src={
                           itemData
-                            ? "/src/assets/images/" + itemData.images[0]
+                            ? `http://localhost:5173/api/items/${itemData.itemId}/image/0`
                             : URL.createObjectURL(images[0])
                         }
                         alt={`preview-main`}
@@ -320,7 +320,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
                             <img
                               src={
                                 itemData && itemData.images.length > index
-                                  ? "/src/assets/images/" +
+                                  ? `http://localhost:5173/api/items/${itemData.itemId}/image/` +
                                     itemData.images[index]
                                   : URL.createObjectURL(image)
                               } // tämä rivi ei toimi jos kuvia kummastakin lähteestä
