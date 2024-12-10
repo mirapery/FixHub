@@ -102,7 +102,7 @@ const OfferWindow = ({ isOpen, closeOfferWindow, itemData, user, owner }) => {
                         {/* itemdata */}
                         <div className="flex flex-col items-center m-2 w-full md:w-1/2">
                             <img
-                                src={ `http://localhost:5173/api/items/${itemData.itemId}/image/${imageUrl}`}
+                                src={ `http://localhost:5173/api/items/${itemData._id}/image/${imageUrl}`}
                                 alt={itemData.name}
                                 className="w-32 h-32 object-cover m-4 rounded-md"
                             />

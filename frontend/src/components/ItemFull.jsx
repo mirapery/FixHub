@@ -4,7 +4,7 @@ import EditItem from "./EditItem";
 import { useNavigate } from "react-router-dom";
 import OfferWindow from "./OfferWindow";
 import AuthContext from "./AuthContext";
-
+//Itempage:sta
 const ItemFull = ({ itemData }) => {
     const [currentImage, setCurrentImage] = useState(0);
     const navigate = useNavigate();
@@ -84,14 +84,15 @@ const ItemFull = ({ itemData }) => {
         try {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
+            const formDara = new FormData();
+            formData.append("fixerId", storedUser._id);
+
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: "Bearer " + token,
-                    "Content-Type": "application/json",
-
                     },
-                body: JSON.stringify({ fixerId: storedUser._id }),
+                body: formData,
 
             });
             if (!response.ok) {
@@ -111,13 +112,16 @@ const ItemFull = ({ itemData }) => {
         try {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
+            const formDara = new FormData();
+            formData.append("isFixer", true);
+
             const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                   },
-                body: JSON.stringify({ isFixed: true }),
+                body: formdata,
             });
             if (!response.ok) {
                 throw new Error("Failed to mark item as fixed");
@@ -158,7 +162,7 @@ const ItemFull = ({ itemData }) => {
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
-                            src={itemData.images.length > 0 ? `http://localhost:5173/api/items/${itemData.itemId}/image/` + itemData.images[currentImage] : "/src/assets/images/itemPlaceholder.jpg"} 
+                            src={itemData.images.length > 0 ? `http://localhost:5173/api/items/${itemData._id}/image/0`  : "/src/assets/images/itemPlaceholder.jpg"} 
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
@@ -170,7 +174,7 @@ const ItemFull = ({ itemData }) => {
                             }
                             return <img
                                 key={index}
-                                src={`http://localhost:5173/api/items/${itemData.itemId}/image/` + index} 
+                                src={`http://localhost:5173/api/items/${itemData._id}/image/0` + index} 
                                 alt={itemData.name + ' ' + index + '-pic-' + 1}
                                 onClick={() => setCurrentImage(index)}
                                 className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'

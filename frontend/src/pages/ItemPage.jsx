@@ -15,9 +15,6 @@ const ItemPage = () => {
       try {
         const response = await fetch(`/api/items/${itemId}`, {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
         });
 
         if (!response.ok) {

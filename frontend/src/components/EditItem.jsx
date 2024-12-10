@@ -5,7 +5,7 @@ import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
 
 
-const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
+const EditItem = ({ isOpen, closeEditItem, itemData }) => {
   const categories = categoryLinks.map((c) => c.text);
 
   
@@ -118,6 +118,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
       !city ||
       !validatePriceRange()
     ) {
+      
       setAlertMessage((prev) => {
         const newMessages = [];
         if (!name) newMessages.push("Item must have a Name!");
@@ -128,10 +129,9 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
           newMessages.push("Please add the location of your item.");
         if (!city || !postalCode)
           newMessages.push("Please add the address info.");
-        if (validatePriceRange)
-          newMessages.push(
-            '"To" price must be greater than or equal to "From" price.'
-          );
+        if (!validatePriceRange()) {
+          newMessages.push('"To" price must be greater than or equal to "From" price.');
+        }
         return [...prev, ...newMessages];
       });
 
@@ -147,6 +147,10 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
           modifiedItem.append(key, newValue);
         }
       };
+
+      const areArraysEqual = (arr1, arr2) =>
+        arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+      
       
       // Append simple fields
       appendField("name", name, itemData.name);
@@ -160,7 +164,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
       }
       
       // Append images if they have changed (assuming `imageNames` is an array or string)
-      if (itemData.images !== images) {
+      if (!areArraysEqual(itemData.images, images)) {
         images.forEach((file) => modifiedItem.append("images", file));
       }
       
@@ -175,12 +179,14 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
         modifiedItem.append("location", JSON.stringify(updatedLocation));
       }
       
-      console.log([...modifiedItem.entries()]); // Debug: Check the appended fields
+      for (const [key, value] of modifiedItem.entries()) {
+        console.log(key, value);
+      } // Debug: Check the appended fields
 
       // yhteys databaseen
       try {
         const token = JSON.parse(sessionStorage.getItem("token"));
-        const response = await fetch(`/api/items/${itemData.itemId}`, {
+        const response = await fetch(`/api/items/${itemData._id}`, {
           method: "PATCH",
           headers: {
              Authorization: "Bearer " + token,
@@ -225,7 +231,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
     isOpen && (
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-fh_black bg-opacity-50 backdrop-blur-sm"
-        onClick={() => setIsEditItemOpen(false)}
+        onClick={() => closeEditItem()}
       >
         <Alert
           isOpen={isAlertOpen}
@@ -238,7 +244,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
         >
           <button
             className="absolute top-0 right-0 m-4 bg-fh_white rounded-full border border-fh_black px-2 hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-            onClick={() => setIsEditItemOpen(false)}
+            onClick={() => closeEditItem()}
           >
             <i className="fa-solid fa-xmark text-3xl text-fh_black"></i>
           </button>
@@ -290,7 +296,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
                       <img
                         src={
                           itemData
-                            ? `http://localhost:5173/api/items/${itemData.itemId}/image/0`
+                            ? `http://localhost:5173/api/items/${itemData._id}/image/0`
                             : URL.createObjectURL(images[0])
                         }
                         alt={`preview-main`}
@@ -320,7 +326,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
                             <img
                               src={
                                 itemData && itemData.images.length > index
-                                  ? `http://localhost:5173/api/items/${itemData.itemId}/image/` +
+                                  ? `http://localhost:5173/api/items/${itemData._id}/image/` +
                                     itemData.images[index]
                                   : URL.createObjectURL(image)
                               } // tämä rivi ei toimi jos kuvia kummastakin lähteestä
@@ -585,7 +591,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
                 <div className="w-1/5 flex flex-col m-2">
                   <button
                     className=" w-full px-4 py-2 border border-fh_dgreen m-1 rounded-lg text-xl bg-fh_white hover:bg-fh_white-light hover:scale-105 hover:shadow-md active:scale-95"
-                    onClick={() => setIsEditItemOpen()}
+                    onClick={() => closeEditItem()}
                   >
                     Cancel
                   </button>
