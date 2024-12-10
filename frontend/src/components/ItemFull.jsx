@@ -77,32 +77,9 @@ const ItemFull = ({ itemData }) => {
     console.log(JSON.parse(sessionStorage.getItem("user"))?.token);
 
     // muokattu backend-yhteensopivaksi - kesken
-    const sendOffer = async () => {
-        try {
-            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
-
-            const response = await fetch(`/api/offers`, {
-                method: "POST",
-                headers: {
-                    Authorization: "Bearer " + token,
-                    "Content-Type": "application/json",
-                  },
-                body: JSON.stringify({
-                    itemId: itemData.itemId,
-                    userId: sessionStorage.getItem("userId"),
-                    message: "Offer message",
-                    offer: 100 // add the real offer here
-                }),
-            });
-            if (!response.ok) {
-                throw new Error("Failed to send offer");
-            }
-            const result = await response.json();
-            console.log("Offer sent:", result);
-            openOfferWindow();
-        } catch (error) {
-            console.error("Error sending offer:", error);
-        }
+    const sendOffer = () => {
+        console.log("Offer window opened");
+        openOfferWindow();
     };
 
     const startFixing = async () => {
