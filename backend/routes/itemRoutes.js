@@ -1,8 +1,9 @@
 const express = require('express');
-const { getAllItems, getItemById, createItem, updateItem, deleteItem } = require('../controllers/itemController.js');
+const { getAllItems, getItemById, createItem, updateItem, deleteItem, getItemImages } = require('../controllers/itemController.js');
 const validateObjectId = require("../middleware/validateObjectId.js");
-const upload = require('../middleware/upload.js');
 const requireAuth = require('../middleware/requireAuth.js');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
 
@@ -10,13 +11,13 @@ const router = express.Router();
 router.get('/', getAllItems);
 
 // POST /api/items
-router.post('/', upload.array('images', 5), createItem);
+router.post('/', requireAuth, upload.array('images', 5), createItem);
 
 // GET /api/items/:itemId
 router.get('/:itemId', validateObjectId('itemId'), getItemById);
 
-// CREATE ITEM (POST /api/items)
-router.post('/', requireAuth, createItem);
+// GET ITEM IMAGES (GET /api/items/:item/:id/image/:index)
+router.get('/:itemId/image/:index', getItemImages);
 
 // EDIT ITEM (PATCH /api/items/:itemId)
 router.patch('/:itemId', requireAuth, validateObjectId('itemId'), updateItem);
@@ -24,21 +25,5 @@ router.patch('/:itemId', requireAuth, validateObjectId('itemId'), updateItem);
 // DELETE ITEM (DELETE /api/items/:itemId)
 router.delete('/:itemId', requireAuth, validateObjectId('itemId'), deleteItem);
 
-router.get("/files/:filename", (req, res) => {
-    const { filename } = req.params;
-
-    gfs.files.findOne({ filename }, (err, file) => {
-        if (!file || file.length === 0) {
-            return res.status(404).json({ message: "File not found" });
-        }
-
-        if (file.contentType === "image/jpeg" || file.contentType === "image/png" || file.contentType === "image/jpg") {
-            const readStream = gfs.createReadStream(file.filename);
-            readStream.pipe(res);
-        } else {
-            res.status(404).json({ message: "Not a valid image file" });
-        }
-    });
-});
 
 module.exports = router;

@@ -7,7 +7,6 @@ const cors = require('cors');
 const userRoutes = require('./routes/userRoutes.js');
 const itemRoutes = require('./routes/itemRoutes.js');
 const reviewRoutes = require('./routes/reviewRoutes.js');
-const fileRoutes = require('./routes/fileRoutes.js'); 
 const logger = require('./middleware/logger.js');
 const notFound = require('./middleware/handleNotFound.js');
 const handleError = require('./middleware/handleError.js');
@@ -27,7 +26,6 @@ app.use(cors());            // Enable Cross-Origin Resource Sharing
 app.use('/api/items', itemRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/users', userRoutes);
-app.use("/api", fileRoutes);
 
 // Error handling middleware
 app.use(notFound);

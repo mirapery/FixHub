@@ -35,7 +35,7 @@ const itemSchema = new Schema({
     required: true 
   },
   priceRange: { 
-    type: [Number], 
+    type: [String], 
     required: false 
   },
   dateOfPublish: { 
@@ -43,7 +43,7 @@ const itemSchema = new Schema({
     default: Date.now, 
   },
   images: { 
-    type: Array, 
+    type: [String], 
     required: false 
   },
   isFixed: { 

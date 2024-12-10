@@ -12,31 +12,40 @@ const getAllItems = async (req, res) => {
 };
 
 // POST /items
-
 const createItem = async (req, res) => {
     try {
-        let images = [];
-        if (req.files && req.files.length > 0) {
-            images = req.files.map(file => ({
-                filename: file.filename,
-                originalname: file.originalname,
-                contentType: file.mimetype,
-                url: `/api/files/${file.filename}`, // Kuvan URL-osoite (jos haluat käyttää GridFS-streamingia)
-            }));
-        }
-
-        const newItem = await Item.create({
-            ...req.body,
-            images,
-        });
-
-        res.status(201).json(newItem);
+      const { userId, fixerId, name, tags, description, category, location, priceRange, dateOfPublish, isFixed, interested } = req.body;
+  
+      // Muunna Base64:ksi ja lisää oikea MIME-tyyppi
+      const imageBase64Array = req.files.map(file => {
+        const mimeType = file.mimetype;
+        const base64 = file.buffer.toString('base64');
+        return `data:${mimeType};base64,${base64}`;
+      });
+  
+      const item = new Item({
+        userId,
+        fixerId,
+        name,
+        tags,
+        description,
+        category,
+        location,
+        priceRange,
+        dateOfPublish,
+        isFixed,
+        interested,
+        images: imageBase64Array,
+      });
+      
+      await item.save();
+      res.status(201).json({ message: 'Item saved successfully', item });
     } catch (error) {
-        console.error(error);
-        handleError(res, error, "Failed to create item.", 400);
+      console.error('Error saving item:', error);
+      res.status(500).json({ error: 'Failed to save item' });
     }
+      
 };
-
 
 // GET /items/:itemId
 const getItemById = async (req, res) => {
@@ -87,4 +96,34 @@ const deleteItem = async (req, res) => {
     }
 };
 
-module.exports = { getAllItems, getItemById, createItem, updateItem, deleteItem };
+const getItemImages = async (req, res) => {
+    try {
+      // Hae item tietokannasta
+      const item = await Item.findById(req.params.itemId);
+      if (!item || !Array.isArray(item.images) || !item.images[req.params.index]) {
+        return res.status(404).json({ error: 'Image not found' });
+      }
+  
+      // Palauta Base64-kuva suoraan
+      const base64Image = item.images[req.params.index];
+      const mimeType = base64Image.match(/^data:(image\/\w+);base64,/)[1]; // Esim. "image/png"
+  
+      const imageBuffer = Buffer.from(
+        base64Image.replace(/^data:image\/\w+;base64,/, ''),
+        'base64'
+      );
+  
+      res.writeHead(200, {
+        'Content-Type': mimeType,
+        'Content-Length': imageBuffer.length,
+      });
+      res.end(imageBuffer);
+    } catch (error) {
+      console.error('Error fetching image:', error);
+      res.status(500).json({ error: 'Failed to fetch image' });
+    }
+  };
+  
+  
+
+module.exports = { getAllItems, getItemById, createItem, updateItem, deleteItem, getItemImages };
