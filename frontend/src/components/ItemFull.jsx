@@ -14,7 +14,6 @@ const ItemFull = ({ itemData }) => {
     const storedUser = JSON.parse(sessionStorage.getItem("userdata"));
     const loggedInUserName = storedUser ? storedUser.userName : null;
 
-   console.log(storedUser);
     // Käyttäjän tietojen hakeminen backendistä
     useEffect(() => {
         const fetchUser = async () => {
@@ -33,13 +32,10 @@ const ItemFull = ({ itemData }) => {
         fetchUser();
     }, [itemData.userId]);
 
-    console.log("userData: ", user);
-
     //check status of logged in user
     const owner = user && user.userName === loggedInUserName;
     const fixer = storedUser && storedUser._id === itemData.fixerId;
-    console.log("owner: ", owner);
-    console.log("fixer: ", fixer);
+
 
     // edit item modaalin jutut
     const [isEditItemOpen, setEditItemOpen] = useState(false)
@@ -74,7 +70,6 @@ const ItemFull = ({ itemData }) => {
         };
     }, [isEditItemOpen, isOfferWindowOpen]);
 
-    console.log(JSON.parse(sessionStorage.getItem("user"))?.token);
 
     // muokattu backend-yhteensopivaksi - kesken
     const sendOffer = () => {

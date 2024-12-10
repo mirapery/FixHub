@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import UserFull from "../components/UserFull.jsx"
-//import { dummyUsers } from "../assets/data.js";
 import { useParams } from "react-router-dom";
 
 
 
 const UserPage = () => {
     const { userName } = useParams();
-    //const user = dummyUsers.find((u) => u.userName === userName);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

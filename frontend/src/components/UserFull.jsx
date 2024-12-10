@@ -73,7 +73,7 @@ const UserFull = ({ userData, setUser }) => {
 
   const sendMessage = () => {
     openMessageWindow();
-    console.log("Message sent");
+    console.log("Message window opened");
   };
 
   // reviewikkunan jutut
@@ -83,7 +83,7 @@ const UserFull = ({ userData, setUser }) => {
 
   const addReview = () => {
     openNewReviewWindow();
-    console.log("Review added");
+    console.log("Review window opened");
   };
 
   // profiilin muokkausikkunan jutut

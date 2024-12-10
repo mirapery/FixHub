@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { dummyUsers } from "../assets/data";
 import useLogin from "../hooks/useLogin";
 import useField from "../hooks/useField";
 import AuthContext from "./AuthContext";

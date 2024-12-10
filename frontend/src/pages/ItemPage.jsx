@@ -1,29 +1,14 @@
 import React from "react";
 import ItemFull from "../components/ItemFull.jsx";
 import CardArea from "../components/CardArea.jsx";
-// import { dummyItems } from "../assets/data.js";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-//tähän sit logiikka miten saadaan tietyn esineen data databasesta ajettua tohon. Nyt mennään mockidatalla
-
-//testingiin
-// const dummyItemsList = [
-//   dummyItems[0],
-//   dummyItems[0],
-//   dummyItems[0],
-//   dummyItems[0],
-//   dummyItems[0],
-//   dummyItems[0],
-//   dummyItems[0],
-//   dummyItems[0],
-// ];
 
 const ItemPage = () => {
   const { itemId } = useParams(); // Get itemId from URL
   const [itemData, setItemData] = useState(null);
   const [similar, setSimilar] = useState([]);
-  // const item = dummyItems.find((i) => i.itemId === itemId); // Find item by id
 
   useEffect(() => {
     const fetchItemData = async () => {
@@ -38,7 +23,6 @@ const ItemPage = () => {
         if (!response.ok) {
           throw new Error("Failed to fecth item");
         }
-        console.log(response);
         const data = await response.json();
         console.log(data);
         setItemData(data);
@@ -61,7 +45,6 @@ const ItemPage = () => {
         if (!response.ok) {
           throw new Error("Failed to fecth similar items");
         }
-        console.log(response);
         const data = await response.json();
         console.log(data);
         setSimilar(data);

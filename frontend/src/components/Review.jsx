@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-//import { dummyUsers } from "../assets/data";
 import { Link } from "react-router-dom";
 import EditReviewWindow from "./EditReviewWindow";
 import AuthContext from "./AuthContext";
@@ -40,7 +39,7 @@ const Review = ({ review, receiver }) => {
 
   const editReview = () => {
     openEditWindow();
-    console.log("Edit review");
+    console.log("Edit review window opened");
   };
 
   return (
