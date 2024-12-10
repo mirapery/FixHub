@@ -265,20 +265,21 @@ const ItemFull = ({ itemData }) => {
 
                                 {/* oma itemi, ei fiksattu */}
                             {(owner  && !itemData.isFixed) &&
-                                <div className="flex flex-col">
-                                    <button
-                                        className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                        onClick={openEditItem}
-                                    >
-                                        Edit item
-                                    </button>
-                                    <button
-                                        className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                        onClick={completeFix}
-                                    >
-                                        Mark as complete
-                                    </button>
-                                </div>
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={openEditItem}
+                                >
+                                    Edit item
+                                </button>
+                            }
+
+                            {(owner && itemData.fixerId) &&
+                                <button
+                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                    onClick={completeFix}
+                                >
+                                    Mark as complete
+                                </button>
                             }
 
                             {/* kirjautunut käyttäjä, ei fixeri, itemiä ei fiksattu */}
