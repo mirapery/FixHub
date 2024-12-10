@@ -15,12 +15,15 @@ const getAllItems = async (req, res) => {
 
 const createItem = async (req, res) => {
     try {
-        const images = req.files.map(file => ({
-            filename: file.filename,
-            originalname: file.originalname,
-            contentType: file.mimetype,
-            url: `/api/files/${file.filename}`, // Kuvan URL-osoite (jos haluat käyttää GridFS-streamingia)
-        }));
+        let images = [];
+        if (req.files && req.files.length > 0) {
+            images = req.files.map(file => ({
+                filename: file.filename,
+                originalname: file.originalname,
+                contentType: file.mimetype,
+                url: `/api/files/${file.filename}`, // Kuvan URL-osoite (jos haluat käyttää GridFS-streamingia)
+            }));
+        }
 
         const newItem = await Item.create({
             ...req.body,
