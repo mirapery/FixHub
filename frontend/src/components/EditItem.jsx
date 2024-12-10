@@ -3,11 +3,11 @@ import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../components/AuthContext";
+
 
 const EditItem = ({ isOpen, closeEditItem, itemData }) => {
   const categories = categoryLinks.map((c) => c.text);
-  const { user } = useContext(AuthContext);
+
   
   const [name, setName] = useState(itemData.name);
   const [category, setCategory] = useState(itemData.category);

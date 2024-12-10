@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../components/AuthContext";
+
 
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
-  const { user } = useContext(AuthContext);
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");

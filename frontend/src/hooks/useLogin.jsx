@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import AuthContext from "../components/AuthContext";
+
 
 export default function useLogin(url) {
-  const { setIsAuthenticated, setUser } = useContext(AuthContext);
+
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,9 +31,10 @@ export default function useLogin(url) {
     // Tallenna sessionStorageen
     sessionStorage.setItem("user", JSON.stringify(userData));
     sessionStorage.setItem("token", JSON.stringify(token));
+
    
     
-    setUser(userData);
+
 
     setIsLoading(false); // Stop loading
   };
