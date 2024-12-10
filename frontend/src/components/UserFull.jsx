@@ -95,7 +95,7 @@ const UserFull = ({ userData, setUser }) => {
 
   // kuvajuttuja, tuleeko muutoksia eetulta?
   const imagePath = userData.image
-    ? `http://localhost:5173/api/users/${userData._id}/image/0`
+    ? `http://localhost:5173/api/users/${userData._id}/image`
     : `/src/assets/images/userPlaceholder.jpg`;
 
   if (loading) {

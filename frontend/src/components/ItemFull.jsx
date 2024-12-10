@@ -174,7 +174,7 @@ const ItemFull = ({ itemData }) => {
                             }
                             return <img
                                 key={index}
-                                src={`http://localhost:5173/api/items/${itemData._id}/image/0`} 
+                                src={`http://localhost:5173/api/items/${itemData._id}/image/` + index} 
                                 alt={itemData.name + ' ' + index + '-pic-' + 1}
                                 onClick={() => setCurrentImage(index)}
                                 className='w-32 h-auto hover:brightness-75 hover:cursor-pointer transition duration-300 rounded-md m-2'
