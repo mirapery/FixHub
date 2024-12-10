@@ -45,6 +45,8 @@ const ItemFull = ({ itemData }) => {
     }
     const closeEditItem = () => {
         setEditItemOpen(false);
+        navigate(`/item/${itemData._id}`);
+        window.location.reload();
     }
 
     // offer window
@@ -112,7 +114,7 @@ const ItemFull = ({ itemData }) => {
         try {
             const token = JSON.parse(sessionStorage.getItem("token"));
 
-            const formDara = new FormData();
+            const formData = new FormData();
             formData.append("isFixer", true);
 
             const response = await fetch(`/api/items/${itemData._id}`, {
@@ -162,14 +164,14 @@ const ItemFull = ({ itemData }) => {
                 <div className="flex flex-col items-center my-6">
                     <div className="min-h-80 align-middle">
                         <img
-                            src={itemData.images.length > 0 ? `http://localhost:5173/api/items/${itemData._id}/image/0`  : "/src/assets/images/itemPlaceholder.jpg"} 
+                            src={itemData.images.length > 0 ? `http://localhost:5173/api/items/${itemData._id}/image/` + currentImage  : "/src/assets/images/itemPlaceholder.jpg"} 
                             alt={itemData.name}
                             className='w-80 h-auto m-4 rounded-md'
                         />
                     </div>
                     <div className="flex m-2">
                         {itemData.images.map((image, index) => {
-                            if (index === 0) {
+                            if (index === currentImage) {
                                 return;
                             }
                             return <img

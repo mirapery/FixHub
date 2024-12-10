@@ -20,10 +20,10 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const aboutInput = useField("text");
   const fixerChoice = useField("checkbox");
   const imageInput = useField("file");
+  const [images, setImages] = useState([]);
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
   const { signup, error } = useSignup("/api/users/signup");
-
 
   useEffect(() => {
     if (isSignupOpen) {
@@ -33,6 +33,69 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   const handleClose = () => {
     setIsSignupOpen(false);
   };
+  // check image type
+  const handleFileChange = (e) => {
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
+    const files = Array.from(e.target.files);
+
+    const validFiles = files.filter((file) => {
+      if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+        setError("Only JPG and PNG images are allowed.");
+        return false;
+      }
+
+      if (file.size > maxSizeInBytes) {
+        setError(
+          `File size should not exceed ${maxSizeInBytes / (1024 * 1024)} MB.`
+        );
+        return false;
+      }
+
+      return true;
+    });
+
+    if (validFiles.length === 0) return; // Stop if no valid files
+
+    // Limit the number of images
+    const newImages = validFiles.slice(0, 4 - images.length);
+    if (newImages.length < validFiles.length) {
+      setError(`You can upload up to 4 images only.`);
+    }
+
+    // Rename images
+    const renamedFiles = newImages.map((file, index) => {
+      const timestamp = Date.now();
+      const newFileName = `image_${timestamp}_${index + 1}.${file.name
+        .split(".")
+        .pop()}`; //tähän alkuun vielä itemin id sit jostain
+      return new File([file], newFileName, { type: file.type });
+    });
+
+    // Update images
+    setImages((prev) => [...prev, ...renamedFiles]);
+  };
+  
+  const newUser = new FormData();
+  //add data to formData
+  newUser.append("name", nameInput.value);
+  newUser.append("userName", userNameInput.value);
+  newUser.append("phone", phoneInput.value);
+  newUser.append("email", emailInput.value);
+  newUser.append("password", passwordInput.value);
+  newUser.append("about", aboutInput.value);
+  newUser.append("isFixer", fixerChoice.value);
+  newUser.append(
+    "location",
+    JSON.stringify({
+      province: provinceInput.value,
+      city: cityInput.value,
+      postalCode: postalcodeInput.value,
+    })
+  );
+  // Append images
+
+    newUser.append("image", images); // Append files under the "images" key
+ 
 
   /*****SIGN UP FETCH*************'**/
 
@@ -42,20 +105,20 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
       alert("Password do not match");
       return;
     }
-    const newUser = {
-      name: nameInput.value,
-      userName: userNameInput.value,
-      phone: phoneInput.value,
-      email: emailInput.value,
-      password: passwordInput.value,
-      about: aboutInput.value,
-      isFixer: fixerChoice.value,
-      location: {
-        province: provinceInput.value,
-        city: cityInput.value,
-        postalcode: postalcodeInput.value,
-      },
-    };
+    // const newUser = {
+    //   name: nameInput.value,
+    //   userName: userNameInput.value,
+    //   phone: phoneInput.value,
+    //   email: emailInput.value,
+    //   password: passwordInput.value,
+    //   about: aboutInput.value,
+    //   isFixer: fixerChoice.value,
+    //   location: {
+    //     province: provinceInput.value,
+    //     city: cityInput.value,
+    //     postalcode: postalcodeInput.value,
+    //   },
+    // };
 
     const loginError = await signup(newUser);
     if (loginError) {
@@ -171,9 +234,23 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
             </h1>
             <input
               className=" p-3 bg-fh_beige rounded-sm"
-              {...imageInput}
+              type="file"
               accept="image/*"
+              onChange={handleFileChange}
             ></input>
+            {images[0] && (
+              <div className="min-h-80 align-middle">
+                <img
+                  src={URL.createObjectURL(images[0])}
+                  alt={`preview-main`}
+                  className="w-80 h-auto m-4 rounded-md"
+                />
+
+                <button type="button" onClick={() => setImages((prev)=>[])}>
+                  Remove
+                </button>
+              </div>
+            )}
             {/*Fixer choice here*/}
 
             <div className="text-center flex my-3">
@@ -187,10 +264,6 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
               >
                 Submit
               </button>
-              <div className="flex">
-                <input className=" ml-2" type="checkbox"></input>
-                <p className="ml-2">Muista kirjautumiseni</p>
-              </div>
             </div>
           </section>
 
