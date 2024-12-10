@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import useTags from "../hooks/useTags";
 import { categoryLinks } from "../assets/data";
 import Alert from "./Alert";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../components/AuthContext";
+
 
 const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   const categories = categoryLinks.map((c) => c.text);
-  const { user } = useContext(AuthContext);
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -126,7 +126,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       !description ||
       !postalCode ||
       !city ||
-      images.length === 0 ||
       !validatePriceRange()
     ) {
       setAlertMessage((prev) => {
@@ -136,7 +135,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
         if (!description) newMessages.push("Please add a Description of the item.");
         if (!postalCode) newMessages.push("Please add the location of your item.");
         if (!city || !postalCode) newMessages.push("Please add the address info.");
-        if (images.length === 0) newMessages.push("Please add at least 1 image of the item.");
         if (!validatePriceRange())
           newMessages.push('"To" price must be greater than or equal to "From" price.');
         return [...prev, ...newMessages];
