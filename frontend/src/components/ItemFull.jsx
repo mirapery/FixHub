@@ -10,6 +10,10 @@ const ItemFull = ({ itemData }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null); // backend version
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+ 
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
+    const loggedInUserName = storedUser ? storedUser.userName : null;
+
    
     // Käyttäjän tietojen hakeminen backendistä
     useEffect(() => {
@@ -29,9 +33,13 @@ const ItemFull = ({ itemData }) => {
         fetchUser();
     }, [itemData.userId]);
 
+    console.log("userData: ", user);
+
     //check status of logged in user
-    const owner = sessionStorage.getItem("userName") === itemData.userId;
-    const fixer = sessionStorage.getItem("userName") === itemData.fixerId;
+    const owner = user && user.userName === loggedInUserName;
+    const fixer = storedUser && storedUser._id === itemData.fixerId;
+    console.log("owner: ", owner);
+    console.log("fixer: ", fixer);
 
     // edit item modaalin jutut
     const [isEditItemOpen, setEditItemOpen] = useState(false)
@@ -66,6 +74,8 @@ const ItemFull = ({ itemData }) => {
         };
     }, [isEditItemOpen, isOfferWindowOpen]);
 
+    console.log(JSON.parse(sessionStorage.getItem("user"))?.token);
+
     // muokattu backend-yhteensopivaksi - kesken
     const sendOffer = async () => {
         try {
@@ -99,10 +109,12 @@ const ItemFull = ({ itemData }) => {
     const completeFix = async () => {
         // tässä pitäisi laittaa itemin status "fixed"
         try {
-            const response = await fetch(`/api/items/${itemData.itemId}`, {
+            const token = JSON.parse(sessionStorage.getItem("user"))?.token;
+
+            const response = await fetch(`/api/items/${itemData._id}`, {
                 method: "PATCH",
                 headers: {
-                    Authentication: "Bearer " + token,
+                    Authorization: "Bearer " + token,
                     "Content-Type": "application/json",
                   },
                 body: JSON.stringify({ isFixed: true }),
@@ -112,6 +124,7 @@ const ItemFull = ({ itemData }) => {
             }
             const updatedItem = await response.json();
             console.log("Item marked as fixed:", updatedItem);
+            window.location.reload();
         } catch (error) {
             console.error("Error marking item as fixed:", error);
         }
@@ -245,21 +258,20 @@ const ItemFull = ({ itemData }) => {
                             </div>
                             )}
                             {(owner  && !itemData.isFixed) &&
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={openEditItem}
-                                >
-                                    Edit item
-                                </button>
-                            }
-                            {(fixer  && !itemData.isFixed) && 
-                                <button
-                                    className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
-                                    onClick={completeFix}
-                                >
-                                    Mark as complete
-                                </button>
-
+                                <div className="flex flex-col">
+                                    <button
+                                        className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                        onClick={openEditItem}
+                                    >
+                                        Edit item
+                                    </button>
+                                    <button
+                                        className="bg-fh_yellow p-4 rounded-lg border-fh_yellow-dark hover:bg-fh_yellow-light hover:scale-105 drop-shadow-md my-4"
+                                        onClick={completeFix}
+                                    >
+                                        Mark as complete
+                                    </button>
+                                </div>
                             }
                             {(!owner && !fixer && !itemData.isFixed && isAuthenticated) && // tähän tarvii viel varmistuksen et on kirjautunu sisään
                                 <button
