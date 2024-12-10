@@ -21,17 +21,70 @@ const createUser = async (req, res) => {
 
         let image = null;
         if (req.file) {
-            const mimeType = req.file.mimetype; // Esim. "image/png"
+            const mimeType = req.file.mimetype; // Example: "image/png"
             const base64 = req.file.buffer.toString("base64");
             image = `data:${mimeType};base64,${base64}`;
         }
 
-        const user = await User.signup(userName, name, phone, email, password, image, location, isFixer);
+        if (!userName || !name || !phone || !email || !password || !location) {
+            return res.status(400).json({ error: 'All fields must be filled' });
+        }
 
-        res.status(201).json(user);
+        if (!validator.isEmail(email)) {
+            return res.status(400).json({ error: 'Invalid email format' });
+        }
+
+        if (!validator.isStrongPassword(password)) {
+            return res.status(400).json({ error: 'Password is not strong enough' });
+        }
+
+        // Check for duplicate fields
+        const userNameExists = await User.findOne({ userName });
+        if (userNameExists) {
+            return res.status(400).json({ error: 'Username already in use' });
+        }
+
+        const phoneExists = await User.findOne({ phone });
+        if (phoneExists) {
+            return res.status(400).json({ error: 'Phone already in use' });
+        }
+
+        const emailExists = await User.findOne({ email });
+        if (emailExists) {
+            return res.status(400).json({ error: 'Email already in use' });
+        }
+
+        // Encrypt the password
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+
+        const user = await User.create({
+            userName,
+            name,
+            phone,
+            email,
+            password: hash,
+            image,
+            location: JSON.parse(location),
+            isFixer: Boolean(isFixer)
+        });
+
+        res.status(201).json({
+            message: 'User created successfully',
+            user: {
+                id: user._id,
+                userName: user.userName,
+                name: user.name,
+                phone: user.phone,
+                email: user.email,
+                image: user.image,
+                location: user.location,
+                isFixer: user.isFixer
+            }
+        });
     } catch (error) {
-        console.error(error);
-        handleError(res, error, "Failed to create user.", 400);
+        console.error('Error creating user:', error);
+        res.status(500).json({ error: 'Failed to create user' });
     }
 };
 
