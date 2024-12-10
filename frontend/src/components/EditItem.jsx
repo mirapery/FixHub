@@ -211,9 +211,7 @@ const EditItem = ({ isOpen, closeEditItem, itemData }) => {
       }
 
       // Tähän kuvien lisääminen serverille
-
-      // tyhjennä formi
-      clearItem();
+      closeEditItem();
     }
   
 
