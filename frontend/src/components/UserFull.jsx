@@ -165,7 +165,7 @@ const UserFull = ({ userData, setUser }) => {
                 <p className="mr-1">{userData.location.city + ", "}</p>
                 <p>{userData.location.postalcode}</p>
               </div>
-              <div>
+              {/* <div>
                             <h3 className="text-fh_black font-bold font-sans text-lg my-2">
                                     Tags:
                                 </h3>
@@ -182,7 +182,7 @@ const UserFull = ({ userData, setUser }) => {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
+                            </div> */}
               <div>
                 <h3 className="text-fh_black font-bold font-sans text-md my-2">
                   About me:

@@ -17,9 +17,9 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
   const [description, setDescription] = useState(itemData.description);
   const [priceFrom, setPriceFrom] = useState(itemData.priceRange[0]);
   const [priceTo, setPriceTo] = useState(itemData.priceRange[1]);
-  const [province, setProvince] = useState(itemData.province);
   const [postalCode, setPostalCode] = useState(itemData.location.postalCode);
   const [city, setCity] = useState(itemData.location.city);
+  const [province, setProvince] = useState(itemData.location.province);
   const [images, setImages] = useState(itemData.images);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState([]);
@@ -54,23 +54,22 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
     return true;
   };
 
-  // check image type
+  // Check image type and handle file change
   const handleFileChange = (e) => {
     const maxSizeInBytes = 5 * 1024 * 1024; // 5 MB
     const files = Array.from(e.target.files);
 
     const validFiles = files.filter((file) => {
       if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
-        setError("Only JPG and PNG images are allowed.");
-        return false;
+          setError("Only JPG and PNG images are allowed.");
+          return false;
       }
 
       if (file.size > maxSizeInBytes) {
-        setError(
-          `File size should not exceed ${maxSizeInBytes / (1024 * 1024)} MB.`
-        );
-        return false;
+          setError(`File size should not exceed ${maxSizeInBytes / (1024 * 1024)} MB.`);
+          return false;
       }
+
       return true;
     });
 
@@ -82,15 +81,6 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
       setError(`You can upload up to 4 images only.`);
     }
 
-    // Rename images
-    const renamedFiles = newImages.map((file, index) => {
-      const timestamp = Date.now();
-      const newFileName = `image_${timestamp}_${index + 1}.${file.name
-        .split(".")
-        .pop()}`; //tähän alkuun vielä itemin id sit jostain
-      return new File([file], newFileName, { type: file.type });
-    });
-
     // Update images
     setImages((prev) => [...prev, ...renamedFiles]);
   };
@@ -101,12 +91,11 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
 
   // for selecting main image
   const moveImageToFirst = (index) => {
-    // itemdata modaus
     setImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      const [selectedImage] = updatedImages.splice(index, 1);
-      updatedImages.unshift(selectedImage);
-      return updatedImages;
+        const updatedImages = [...prevImages];
+        const [selectedImage] = updatedImages.splice(index, 1);
+        updatedImages.unshift(selectedImage);
+        return updatedImages;
     });
   };
 
@@ -127,7 +116,6 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
       !description ||
       !postalCode ||
       !city ||
-      images.length == 0 ||
       !validatePriceRange()
     ) {
       setAlertMessage((prev) => {
@@ -140,8 +128,6 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
           newMessages.push("Please add the location of your item.");
         if (!city || !postalCode)
           newMessages.push("Please add the address info.");
-        if (images.length === 0)
-          newMessages.push("Please add at least 1 image of the item.");
         if (validatePriceRange)
           newMessages.push(
             '"To" price must be greater than or equal to "From" price.'
@@ -150,11 +136,8 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
       });
 
       openAlert();
-
       return;
-    } else {
-      // const imageNames = [];
-      // images.forEach((image) => imageNames.push(image.name));
+    } 
 
       const modifiedItem = new FormData();
 
@@ -177,8 +160,8 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
       }
       
       // Append images if they have changed (assuming `imageNames` is an array or string)
-      if (itemData.images !== imageNames) {
-        modifiedItem.append("images", JSON.stringify(imageNames));
+      if (itemData.images !== images) {
+        images.forEach((file) => modifiedItem.append("images", file));
       }
       
       // Append location fields if they have changed
@@ -223,7 +206,7 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
       // tyhjennä formi
       clearItem();
     }
-  };
+  
 
   // clear fields and images
   const clearItem = () => {
@@ -237,37 +220,6 @@ const EditItem = ({ isOpen, setIsEditItemOpen, itemData }) => {
     setImages([]);
     setCity("");
   };
-
-  // useEffect(() => {  // en tiiä tarvitaanko enää
-  //     if (itemData) {
-  //         setName(itemData.name);
-  //         setCategory(itemData.category);
-  //         addTagList(itemData.tags);
-  //         setDescription(itemData.description);
-  //         setPriceFrom(itemData.priceRange[0]);
-  //         setPriceTo(itemData.priceRange[1]);
-  //         setPostalCode(itemData.location.postalcode);
-  //         setCity(itemData.location.city);
-  //         setImages(itemData.images);
-  //     }
-  // }, [itemData]);
-
-  // TARVITAAN EHKÄ MYÖHEMMIN !!! kuvien lataaminen
-
-  // const handleSubmit = () => {
-  //     const formData = new FormData();
-  //     images.forEach((image, i) => {
-  //         formData.append(`image${i}`, image);
-  //     });
-
-  //     // Make a POST request to upload images
-  //     fetch('/api/upload-images', {
-  //         method: 'POST',
-  //         body: formData,
-  //     })
-  //         .then((response) => response.json())
-  //         .then((data) => console.log(data))
-  //         .catch((error) => console.error('Error:', error));
 
   return (
     isOpen && (

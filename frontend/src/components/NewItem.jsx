@@ -126,7 +126,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
       !description ||
       !postalCode ||
       !city ||
-      images.length === 0 ||
       !validatePriceRange()
     ) {
       setAlertMessage((prev) => {
@@ -136,7 +135,6 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
         if (!description) newMessages.push("Please add a Description of the item.");
         if (!postalCode) newMessages.push("Please add the location of your item.");
         if (!city || !postalCode) newMessages.push("Please add the address info.");
-        if (images.length === 0) newMessages.push("Please add at least 1 image of the item.");
         if (!validatePriceRange())
           newMessages.push('"To" price must be greater than or equal to "From" price.');
         return [...prev, ...newMessages];
