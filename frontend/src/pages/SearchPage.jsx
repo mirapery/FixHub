@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import Searchbar from "../components/Searchbar.jsx";
 import ResultArea from "../components/ResultArea.jsx";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams(); // Hakee query-parametrit
-
   const query = searchParams.get("q") || ""; // Lukee "query"-parametrin
   // const tag = searchParams.get("tag")|| "";
   const [items, setItems] = useState([]);
@@ -14,19 +12,17 @@ const SearchPage = () => {
 
   //Function gets item from inventory
   const handleSearch = async (searchTerm) => { // , tag
+    const response = await fetch(`/api/items`);
+    if (!response.ok) throw new Error("Failed to fetch items");
+
+    const allItems = await response.json();
+    if (allItems.length === 0) setItemCount(0);
+
     if (!searchTerm) {
       console.warn("Search term is empty");
-      return [];
-    }
-
-    if (searchTerm) {
-
-      const response = await fetch(`/api/items`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch items");
-      }
-      const allItems = await response.json();
-
+      setItems(allItems);
+      setItemCount(allItems.length);
+    } else {
       const results = allItems.filter(
         (item) =>
           item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,12 +32,8 @@ const SearchPage = () => {
               tag.toLowerCase().includes(searchTerm.toLowerCase())
             ))
       );
-
       setItems(results);
       setItemCount(results.length);
-    } else {
-      setItems([]);
-      setItemCount(0);
     }
   };
 
