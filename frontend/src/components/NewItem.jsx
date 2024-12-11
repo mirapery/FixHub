@@ -25,6 +25,8 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
 
   const [error, setError] = useState("");
 
+  setIsNewItemOpen(true);
+
   const navigate = useNavigate();
 
   const openAlert = () => {
@@ -184,13 +186,23 @@ const NewItem = ({ isOpen, setIsNewItemOpen }) => {
   
       const addedItem = await response.json();
       console.log("Item added:", addedItem);
-      navigate(`/item/${addedItem._id}`);
+
+      const user = JSON.parse(sessionStorage.getItem("user"));
+
+      if (user && user.userName) {
+        navigate(`/user/${user.userName}`);
+      } else {
+        console.error("User data is missing");
+        alert("Failed to retrieve user data");
+      }
+
     } catch (error) {
       console.error("Error adding item:", error);
       alert("Failed to add item");
     }
   
     clearItem();
+    setIsNewItemOpen(false);
   };
 
   // clear fields and images
