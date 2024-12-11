@@ -23,6 +23,7 @@ app.use(morgan("dev"));     // HTTP request logging
 app.use(express.json());
 app.use(logger);
 app.use(cors());            // Enable Cross-Origin Resource Sharing
+app.use(express.static('view')); // Serve static assets
 
 // Swagger UI reitti
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // Dokumentaatio
