@@ -25,6 +25,7 @@ const EditUser = ({ closeEditProfileWindow }) => {
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
   const user = JSON.parse(sessionStorage.getItem("user"));
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -116,15 +117,13 @@ const EditUser = ({ closeEditProfileWindow }) => {
       const updatedData = await response.json();
       //console.log("User updated:", updatedData);
       sessionStorage.setItem("user", JSON.stringify(updatedData));
- 
-   
-   
-      
-      closeEditProfileWindow(true);
+      //navigate(`/user/${updatedData.userName}`);
+      window.location.reload();
     } catch (error) {
       console.error("Error updating user:", error);
       alert("Failed to update user");
     }
+    closeEditProfileWindow(true);
   };
 
   /****************************** */
