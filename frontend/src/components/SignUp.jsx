@@ -77,13 +77,14 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
 
   const newUser = new FormData();
   //add data to formData
+
+  newUser.append("isFixer", fixerChoice.value);
   newUser.append("name", nameInput.value);
   newUser.append("userName", userNameInput.value);
   newUser.append("phone", phoneInput.value);
   newUser.append("email", emailInput.value);
   newUser.append("password", passwordInput.value);
   newUser.append("about", aboutInput.value);
-  newUser.append("isFixer", fixerChoice.value);
   newUser.append(
     "location",
     JSON.stringify({
@@ -94,7 +95,10 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   );
   // Append images
 
-  newUser.append("image", images); // Append files under the "images" key
+  images.forEach((image) => {
+    newUser.append("images", image); // Lisää jokainen tiedosto
+  });
+   // Append files under the "images" key
 
   /*****SIGN UP FETCH*************'**/
 

@@ -10,10 +10,12 @@ const reviewRoutes = require('./routes/reviewRoutes.js');
 const logger = require('./middleware/logger.js');
 const notFound = require('./middleware/handleNotFound.js');
 const handleError = require('./middleware/handleError.js');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swaggerOptions.js'); // Swagger-dokumentaation määrittely
 
 const app = express();
 
-// Connect to database
+// Connect to the database
 connectDB();
 
 // Middleware
@@ -21,6 +23,10 @@ app.use(morgan("dev"));     // HTTP request logging
 app.use(express.json());
 app.use(logger);
 app.use(cors());            // Enable Cross-Origin Resource Sharing
+app.use(express.static('view')); // Serve static assets
+
+// Swagger UI reitti
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // Dokumentaatio
 
 // API Routes
 app.use('/api/items', itemRoutes);

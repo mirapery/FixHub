@@ -87,10 +87,6 @@ function Login({ setIsLoginOpen, isLoginOpen, setIsSignupOpen }) {
             >
               Login
             </button>
-            <div className="flex mt-4 items-center">
-              <input className="mr-2" type="checkbox" />
-              <p className="text-sm ">Remember me</p>
-            </div>
           </div>
           <div className="flex flex-col items-center mt-10">
             <p className="text-sm sm:text-base">You dont have an account?</p>

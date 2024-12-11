@@ -94,7 +94,8 @@ const UserFull = ({ userData, setUser }) => {
   const closeEditProfileWindow = () => setEditProfileWindowOpen(false);
 
   // kuvajuttuja, tuleeko muutoksia eetulta?
-  const imagePath = userData.image
+
+  const imagePath = userData.images
     ? `http://localhost:5173/api/users/${userData._id}/image`
     : `/src/assets/images/userPlaceholder.jpg`;
 
