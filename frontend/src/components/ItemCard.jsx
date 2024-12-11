@@ -40,6 +40,7 @@ const ItemCard = ({ itemData }) => {
     >
       <img
         src={
+          itemData.image ? `http://localhost:5173/api/users/${itemData._id}/image/0`:
           itemData.images
             ? `http://localhost:5173/api/items/${itemData._id}/image/0`
             : "/src/assets/images/itemPlaceholder.jpg"
