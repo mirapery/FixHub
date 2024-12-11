@@ -75,6 +75,12 @@ const updateUser = async (req, res) => {
         const base64 = req.file.buffer.toString("base64");
         updatedFields.images = `data:${mimeType};base64,${base64}`;
       }
+
+          // Handle password update if provided
+        if (req.body.password) {
+            const salt = await bcrypt.genSalt(10);
+            updatedFields.password = await bcrypt.hash(req.body.password, salt);
+        }
   
       // Perform the update
       const updatedUser = await User.findByIdAndUpdate(

@@ -45,8 +45,8 @@ const EditUser = ({ closeEditProfileWindow }) => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    if (passwordInput.value !== passwordInput2.value) {
-      alert("Password do not match");
+    if (passwordInput.value && passwordInput.value !== passwordInput2.value) {
+      alert("Passwords do not match");
       return;
     }
     const updatedUser = new FormData();
@@ -57,6 +57,11 @@ const EditUser = ({ closeEditProfileWindow }) => {
         updatedUser.append(key, newValue);
       }
     };
+
+      // Only append password if provided
+  if (passwordInput.value) {
+    updatedUser.append("password", passwordInput.value);
+  }
 
     const areArraysEqual = (arr1, arr2) =>
       arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
@@ -71,13 +76,13 @@ const EditUser = ({ closeEditProfileWindow }) => {
     appendField("city", cityInput.value, user.location.city);
     appendField("postalCode", postalcodeInput.value, user.location.postalCode);
 
-    appendField("password", passwordInput.value, user.password);
 
     if (image) {
       updatedUser.append("image", image);
     } else {
       console.error("No image file selected");
     }
+
     const locationChanged =
     provinceInput.value !== user.location.province ||
     cityInput.value !== user.location.city ||
