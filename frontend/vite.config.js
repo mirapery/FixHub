@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://fixhub-be.onrender.com/',
+        target: 'https://fixhub-be.onrender.com',
         changeOrigin: true,
         secure: false,
       },
