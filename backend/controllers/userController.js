@@ -197,7 +197,7 @@ const signupUser = async (req, res) => {
         password: hash,
         images,
         location: JSON.parse(location),
-        isFixer: Boolean(isFixer),
+        isFixer: isFixer === "true" || isFixer === true,
       });
     const token = createToken(user._id);
     res.status(200).json({ user, token });

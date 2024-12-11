@@ -77,13 +77,14 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
 
   const newUser = new FormData();
   //add data to formData
+
+  newUser.append("isFixer", fixerChoice.value === "on" ? true : false);
   newUser.append("name", nameInput.value);
   newUser.append("userName", userNameInput.value);
   newUser.append("phone", phoneInput.value);
   newUser.append("email", emailInput.value);
   newUser.append("password", passwordInput.value);
   newUser.append("about", aboutInput.value);
-  newUser.append("isFixer", fixerChoice.value);
   newUser.append(
     "location",
     JSON.stringify({
