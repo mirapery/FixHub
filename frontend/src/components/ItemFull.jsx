@@ -248,7 +248,7 @@ const ItemFull = ({ itemData }) => {
                                     className="flex flex-row items-center"
                                 >
                                     <img
-                                        src={user.image ?  `http://localhost:5173/api/users/${user._id}/image/0`: `/src/assets/images/userPlaceholder.jpg`} // tähän odotta koodia eetulta
+                                        src={user.image ?  `http://localhost:5173/api/users/${user._id}/images`: `/src/assets/images/userPlaceholder.jpg`} // tähän odotta koodia eetulta
                                         alt="profile picture"
                                         className="rounded-full w-10 h-auto m-2 shadow"
                                     />

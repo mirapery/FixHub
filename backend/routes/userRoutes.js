@@ -23,7 +23,7 @@ router.patch('/:userId', requireAuth, validateObjectId('userId'), upload.single(
 router.delete('/:userId', requireAuth, validateObjectId('userId'), deleteUser);
 
 // SIGNUP (POST /api/users/signup)
-router.post('/signup',upload.single('image'), signupUser);
+router.post('/signup',upload.single('images'), signupUser);
 
 // LOGIN (POST /api/users/login)
 router.post('/login', loginUser);
