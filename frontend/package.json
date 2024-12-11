@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "proxy": "https://fixhub-be.onrender.com/",
+  
   "version": "0.0.1",
   "private": true,
   "scripts": {
