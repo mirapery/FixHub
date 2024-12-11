@@ -7,10 +7,10 @@ import CardArea from "../components/CardArea.jsx";
 function Home() {
   
   const [items, setItems] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [fixers, setFixers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchFixers = async () => {
       try {
         const response = await fetch("/api/users", {
           method: "GET",
@@ -22,13 +22,23 @@ function Home() {
         if (!response.ok) {
           throw new Error("Failed to fecth users");
         }
+
         console.log(response);
-        const data = await response.json();
-        console.log(data);
-        setUsers(data);
+        const users = await response.json();
+        console.log(users);
+
+
+        // Suodata fixerit
+
+        const fixers = users.filter(
+          (user) =>
+            user.isFixer === true
+        );
+
+        setFixers(fixers);
       } catch (error) { console.error(error); }
     }
-    fetchUsers();
+    fetchFixers();
   }, []);
 
   useEffect(() => {
@@ -63,7 +73,7 @@ function Home() {
           <h1 className="text-4xl font-bold text-center text-fh_dgreen m-3">
             Featured Fixers:
           </h1>
-          <CardArea itemsList={users.filter(user => user.isFixer)} />
+          <CardArea itemsList={fixers} />
         </div>
       </div>
     </>

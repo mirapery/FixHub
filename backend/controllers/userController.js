@@ -49,32 +49,56 @@ const getUserByUserName = async (req, res) => {
 
 // PATCH /users/:userId
 const updateUser = async (req, res) => {
-  const { userId } = req.params;
+    const { userId } = req.params;
+  
+    try {
+      const user = await User.findById(userId);
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+  
+      const updatedFields = { ...req.body };
+  
+      // Overwrite location fields if provided
+      if (req.body.province || req.body.city || req.body.postalCode) {
+        updatedFields.location = {
+          province: req.body.province || user.location.province || "",
+          city: req.body.city || user.location.city || "",
+          postalCode: req.body.postalCode || user.location.postalCode || "",
+        };
+      }
+  
+      // Handle image update
+      if (req.file) {
+        const mimeType = req.file.mimetype;
+        const base64 = req.file.buffer.toString("base64");
+        updatedFields.images = `data:${mimeType};base64,${base64}`;
+      }
 
-  try {
-    const updatedFields = { ...req.body };
-
-    if (req.file) {
-      const mimeType = req.file.mimetype;
-      const base64 = req.file.buffer.toString("base64");
-      updatedFields.image = `data:${mimeType};base64,${base64}`;
+          // Handle password update if provided
+        if (req.body.password) {
+            const salt = await bcrypt.genSalt(10);
+            updatedFields.password = await bcrypt.hash(req.body.password, salt);
+        }
+  
+      // Perform the update
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $set: updatedFields },
+        { new: true }
+      );
+  
+      if (updatedUser) {
+        res.status(200).json(updatedUser);
+      } else {
+        res.status(404).json({ message: "User not found." });
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ error: "An error occurred while updating user." });
     }
-
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: userId },
-      updatedFields,
-      { new: true }
-    );
-
-    if (updatedUser) {
-      res.status(200).json(updatedUser);
-    } else {
-      res.status(404).json({ message: "User not found." });
-    }
-  } catch (error) {
-    handleError(res, error, "An error occurred while updating user.");
-  }
-};
+  };
 
 // DELETE /users/:userId
 const deleteUser = async (req, res) => {
@@ -125,10 +149,12 @@ const signupUser = async (req, res) => {
 
     let images = null;
     if (req.file) {
-      const mimeType = req.file.mimetype; // Example: "image/png"
-      const base64 = req.file.buffer.toString("base64");
-      images = `data:${mimeType};base64,${base64}`;
-    }
+        console.log("File received:", req.file);
+        const mimeType = req.file.mimetype;
+        const base64 = req.file.buffer.toString("base64");
+        images = `data:${mimeType};base64,${base64}`;
+        console.log("Base64 Image:", images);
+      }
 
     if (!userName || !name || !phone || !email || !password || !location) {
       return res.status(400).json({ error: "All fields must be filled" });
@@ -163,16 +189,16 @@ const signupUser = async (req, res) => {
     const hash = await bcrypt.hash(password, salt);
 
     const user = await User.create({
-      userName,
-      name,
-      phone,
-      email,
-      about,
-      password: hash,
-      images,
-      location: JSON.parse(location),
-      isFixer: Boolean(isFixer),
-    });
+        userName,
+        name,
+        phone,
+        email,
+        about,
+        password: hash,
+        images,
+        location: JSON.parse(location),
+        isFixer: isFixer === "true" || isFixer === true,
+      });
     const token = createToken(user._id);
     res.status(200).json({ user, token });
   } catch (error) {

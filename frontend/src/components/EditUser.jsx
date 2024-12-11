@@ -21,9 +21,11 @@ const EditUser = ({ closeEditProfileWindow }) => {
   const aboutInput = useField("text");
   const fixerChoice = useField("checkbox");
   const imageInput = useField("file");
+  const [image, setImage] = useState(null);
   const nameInputRef = useRef(null);
   const [tag, setTag] = useState("");
   const user = JSON.parse(sessionStorage.getItem("user"));
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const EditUser = ({ closeEditProfileWindow }) => {
     provinceInput.onChange({ target: { value: user.location.province } });
     cityInput.onChange({ target: { value: user.location.city } });
     postalcodeInput.onChange({
-      target: { value: user.location.postalcode },
+      target: { value: user.location.postalCode },
     });
     aboutInput.onChange({ target: { value: user.about } });
     fixerChoice.onChange({ target: { checked: user.isFixer } });
@@ -44,8 +46,8 @@ const EditUser = ({ closeEditProfileWindow }) => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    if (passwordInput.value !== passwordInput2.value) {
-      alert("Password do not match");
+    if (passwordInput.value && passwordInput.value !== passwordInput2.value) {
+      alert("Passwords do not match");
       return;
     }
     const updatedUser = new FormData();
@@ -56,6 +58,11 @@ const EditUser = ({ closeEditProfileWindow }) => {
         updatedUser.append(key, newValue);
       }
     };
+
+      // Only append password if provided
+  if (passwordInput.value) {
+    updatedUser.append("password", passwordInput.value);
+  }
 
     const areArraysEqual = (arr1, arr2) =>
       arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
@@ -68,12 +75,30 @@ const EditUser = ({ closeEditProfileWindow }) => {
     appendField("about", aboutInput.value, user.about);
     appendField("province", provinceInput.value, user.location.province);
     appendField("city", cityInput.value, user.location.city);
-    appendField("postalcode", postalcodeInput.value, user.location.postalcode);
+    appendField("postalCode", postalcodeInput.value, user.location.postalCode);
 
-    appendField("password", passwordInput.value, user.password);
 
-    appendField("image", imageInput.value, user.image);
-    
+    if (image) {
+      updatedUser.append("image", image);
+    } else {
+      console.error("No image file selected");
+    }
+
+    const locationChanged =
+    provinceInput.value !== user.location.province ||
+    cityInput.value !== user.location.city ||
+    postalcodeInput.value !== user.location.postalCode;
+
+  if (locationChanged) {
+    updatedUser.append(
+      "location",
+      JSON.stringify({
+        province: provinceInput.value,
+        city: cityInput.value,
+        postalCode: postalcodeInput.value,
+      })
+    );
+  }
     for (const [key, value] of updatedUser.entries()) {
       console.log(key, value);
     } // Debug: Check the appended fields
@@ -97,15 +122,13 @@ const EditUser = ({ closeEditProfileWindow }) => {
       const updatedData = await response.json();
       //console.log("User updated:", updatedData);
       sessionStorage.setItem("user", JSON.stringify(updatedData));
- 
-   
-   
-      
-      closeEditProfileWindow(true);
+      //navigate(`/user/${updatedData.userName}`);
+      window.location.reload();
     } catch (error) {
       console.error("Error updating user:", error);
       alert("Failed to update user");
     }
+    closeEditProfileWindow(true);
   };
 
   /****************************** */
@@ -212,10 +235,10 @@ const EditUser = ({ closeEditProfileWindow }) => {
               Profile pic
             </h1>
             <input
-              className=" p-3 bg-fh_beige rounded-sm"
-              {...imageInput}
-              accept="image/*"
-            ></input>
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+            />
             {/*Fixer choice here*/}
 
             <div className="text-center flex my-3">
