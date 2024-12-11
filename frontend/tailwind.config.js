@@ -1,4 +1,5 @@
 // ./tailwind.config.js
+import require from 'tailwindcss/require.js';
 
 export default {
   content: [

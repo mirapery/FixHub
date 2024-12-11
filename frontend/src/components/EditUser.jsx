@@ -69,6 +69,7 @@ const EditUser = ({ closeEditProfileWindow }) => {
     
 
     // Append simple fields
+
     appendField("name", nameInput.value, user.name);
     appendField("phone", phoneInput.value, user.phone);
     appendField("email", emailInput.value, user.email);
@@ -77,6 +78,7 @@ const EditUser = ({ closeEditProfileWindow }) => {
     appendField("city", cityInput.value, user.location.city);
     appendField("postalCode", postalcodeInput.value, user.location.postalCode);
 
+    updatedUser.append("isFixer", fixerChoice.value);
 
     if (image) {
       updatedUser.append("image", image);
