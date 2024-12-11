@@ -33,17 +33,21 @@ const ItemCard = ({ itemData }) => {
     }
   };
 
+  const imageURL = itemData.isFixer
+    ? (itemData.images
+        ? `http://localhost:5173/api/users/${itemData._id}/image`
+        : "/src/assets/images/userPlaceholder.jpg")
+    : (itemData.images
+        ? `http://localhost:5173/api/items/${itemData._id}/image/0`
+        : "/src/assets/images/itemPlaceholder.jpg");
+
   return (
     <Link
       to={itemLink()}
       className="flex  flex-none flex-col m-4 p-4 items-center rounded-md bg-fh_beige min-w-120 active:scale-95 hover:brightness-75 hover:cursor-pointer hover:shadow-lg hover:scale-105 transition duration-300"
     >
       <img
-        src={
-          itemData.images
-            ? `http://localhost:5173/api/items/${itemData._id}/image/0`
-            : "/src/assets/images/itemPlaceholder.jpg"
-        } // tähän eetulta lopullinen versio
+        src={imageURL} // tähän eetulta lopullinen versio
         alt={itemData.name}
         className="w-32 h-32 object-cover m-4 rounded-md"
       />
