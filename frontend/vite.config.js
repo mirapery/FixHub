@@ -10,6 +10,11 @@ export default defineConfig({
         target: 'https://fixhub-be.onrender.com',
         changeOrigin: true,
         secure: false,
+        configure: (proxy, options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            console.log('Proxying request:', req.url);
+          });
+        },
       },
     },
   },
