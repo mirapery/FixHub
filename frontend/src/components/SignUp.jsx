@@ -94,7 +94,10 @@ const SignUp = ({ setIsSignupOpen, isSignupOpen }) => {
   );
   // Append images
 
-  newUser.append("image", images); // Append files under the "images" key
+  images.forEach((image) => {
+    newUser.append("images", image); // Lisää jokainen tiedosto
+  });
+   // Append files under the "images" key
 
   /*****SIGN UP FETCH*************'**/
 
