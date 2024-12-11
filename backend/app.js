@@ -21,6 +21,7 @@ app.use(morgan("dev"));     // HTTP request logging
 app.use(express.json());
 app.use(logger);
 app.use(cors());            // Enable Cross-Origin Resource Sharing
+app.use(express.static('view')); // Serve static assets
 
 // API Routes
 app.use('/api/items', itemRoutes);
